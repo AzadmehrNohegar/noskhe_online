@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    font-family: dana, sans-serif;
+    -moz-font-feature-settings: "ss02";
+    -webkit-font-feature-settings: "ss02";
+    font-feature-settings: "ss02";
+  }
+
+  *::-webkit-scrollbar {
+    @apply w-1 h-1;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-200;
+  }
+
+  *::-webkit-scrollbar-track {
+    @apply bg-gray-100 rounded-md;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    @apply bg-blue-600 rounded-md;
+  }
+}
+
+@layer components {
+  .input {
+    @apply rounded-md disabled:bg-gray-100 disabled:border-gray-200;
+  }
+
+  .input-bordered,
+  .textarea-bordered {
+    @apply border-gray-200 border-opacity-100;
+  }
+
+  .btn-link {
+    @apply decoration-transparent;
+  }
+
+  .btn-primary:not(:disabled) {
+    @apply text-white;
+  }
+
+  .btn-ghost.btn-primary {
+    @apply text-primary hover:bg-blue-100;
+  }
+
+  th {
+    font-weight: 500;
+  }
+
+  .checkbox:indeterminate {
+    background-image: none;
+    background-color: transparent;
+  }
+}
+
+@layer utilities {
+  .ltr {
+    direction: ltr;
+  }
+
+  .rtl {
+    direction: rtl;
+  }
+
+  .btn-custom {
+    @apply h-10 min-h-10 py-0;
+  }
+
+  .chip {
+    @apply px-4 py-1.5 inline-block min-w-max rounded-md text-sm;
+  }
+
+  .chip-accent {
+    @apply bg-gray-50 text-gray-600;
+  }
+
+  .plaintext {
+    unicode-bidi: plaintext;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    @apply w-0 h-0;
+  }
+
+  @media screen and (max-width: 1023px) {
+    .btn:not(.btn-xs, .btn-sm, .btn-md, .btn-lg, .btn-xl, .btn-square) {
+      @apply btn-custom;
+    }
+
+    .btn-square {
+      @apply w-10 h-10 min-h-10;
+    }
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
