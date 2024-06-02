@@ -44,7 +44,7 @@ function Toast({ toast }: IToastProps) {
     >
       <div
         className={clsx(
-          "border-r-8 p-4 rounded-xl flex flex-col justify-start gap-y-4",
+          "border-r-8 p-4 text-white rounded-xl flex flex-col justify-start gap-y-4",
           type === "primary" && "bg-primary border-r-gray-100",
           type === "secondary" && "bg-secondary border-r-secondary-200",
           type === "info" && "bg-info border-r-info-200",
@@ -53,7 +53,7 @@ function Toast({ toast }: IToastProps) {
         )}
       >
         <div className="flex items-center w-full justify-between max-w-toast">
-          <h6 className="w-full flex items-center gap-x-2 text-sm lg:text-base font-bold truncate text-white">
+          <h6 className="w-full flex items-center gap-x-2 text-sm lg:text-base font-bold truncate">
             {title}
           </h6>
         </div>
