@@ -53,16 +53,7 @@ function Toast({ toast }: IToastProps) {
         )}
       >
         <div className="flex items-center w-full justify-between max-w-toast">
-          <h6
-            className={clsx(
-              "w-full flex items-center gap-x-2 text-sm lg:text-base font-bold truncate",
-              type === "primary" && "text-primary-600",
-              type === "secondary" && "text-secondary-600",
-              type === "info" && "text-info-600",
-              type === "error" && "text-red-600-600",
-              type === "success" && "text-success-600"
-            )}
-          >
+          <h6 className="w-full flex items-center gap-x-2 text-sm lg:text-base font-bold truncate text-white">
             {title}
           </h6>
         </div>
