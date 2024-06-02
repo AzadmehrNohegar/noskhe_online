@@ -44,12 +44,12 @@ function Toast({ toast }: IToastProps) {
     >
       <div
         className={clsx(
-          "border-r-8 p-4 text-white rounded-xl flex flex-col justify-start gap-y-4",
-          type === "primary" && "bg-primary border-r-gray-100",
-          type === "secondary" && "bg-secondary border-r-secondary-200",
-          type === "info" && "bg-info border-r-info-200",
-          type === "error" && "bg-error border-r-danger-200",
-          type === "success" && "bg-success border-r-success-200"
+          "p-4 text-white rounded-xl flex flex-col justify-start gap-y-4",
+          type === "primary" && "bg-primary",
+          type === "secondary" && "bg-secondary",
+          type === "info" && "bg-info",
+          type === "error" && "bg-error",
+          type === "success" && "bg-success"
         )}
       >
         <div className="flex items-center w-full justify-between max-w-toast">
