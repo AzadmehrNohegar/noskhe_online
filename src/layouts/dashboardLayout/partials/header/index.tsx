@@ -7,7 +7,7 @@ import { MobileSlideover } from "@/shared/mobileSlideover";
 import { useMediaQuery } from "usehooks-ts";
 import { Breadcrumbs } from "@/shared/breadcrumbs";
 import { useQuery } from "react-query";
-import { getUserProfile } from "@/api/membership";
+import { getUserProfile } from "@/api/user";
 import { useAuthStore } from "@/store/auth";
 import Skeleton from "react-loading-skeleton";
 import { useToastStore } from "@/store/toast";

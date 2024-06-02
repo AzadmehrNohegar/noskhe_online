@@ -109,3 +109,47 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.mapboxgl-canvas {
+  position: relative !important;
+}
+
+.mapboxgl-ctrl {
+  display: block !important;
+}
+
+a.mapboxgl-ctrl-logo.mapboxgl-compact {
+  width: 80px !important;
+}
+.mapboxgl-ctrl.mapboxgl-ctrl-attrib.mapboxgl-attrib-empty:nth-child(2) {
+  display: none !important;
+}
+
+.mapboxgl-compact {
+  display: block;
+}
+
+.mapboxgl-compact:nth-child(2) {
+  display: none;
+}
+
+.mapboxgl-ctrl-attrib-inner:after {
+  content: "© Map © Openstreetmap";
+}
+
+a.mapboxgl-ctrl-logo {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.85;
+  bottom: 5px;
+  position: relative;
+  margin: 0 0 -3px -3px !important;
+  display: block;
+  cursor: pointer;
+  background-image: url(https://map.ir/css/images/mapir-logo.svg) !important;
+}
+
+.mapboxgl-ctrl-bottom-left {
+  display: none;
+}

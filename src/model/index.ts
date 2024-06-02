@@ -1,7 +1,33 @@
 import { AxiosResponse } from "axios";
+import { FieldError } from "react-hook-form";
 
 export interface IDictionary<T> {
   [Key: string]: T;
+}
+export interface IInputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  error?: FieldError;
+  containerClassName?: string;
+  label?: string;
+  elementEnd?: React.ReactNode;
+  block?: boolean;
+  isLabelAbsolute?: boolean;
+  astrisk?: boolean;
+  iconClassName?: string;
+  deleteAction?: () => void;
+}
+
+export interface ITextareaProps
+  extends React.InputHTMLAttributes<HTMLTextAreaElement> {
+  error?: FieldError;
+  containerClassName?: string;
+  label?: string;
+  elementEnd?: React.ReactNode;
+  block?: boolean;
+  isLabelAbsolute?: boolean;
+  astrisk?: boolean;
+  iconClassName?: string;
+  deleteAction?: () => void;
 }
 
 export type ITypedDictionary<T extends string | number | symbol, K> = {
@@ -113,6 +139,17 @@ export type invoice_used_for =
   | "credit_invoice"
   | "";
 
+export type add_address_form = {
+  lat: number;
+  lng: number;
+  address: string;
+  province: string;
+  city: string;
+  myself: boolean;
+  fullName: string;
+  phone: string;
+};
+
 export type otc = {
   drugName: string;
   type: string;
@@ -136,6 +173,44 @@ export type user = {
   nationalCode: "0024373028";
   mobile: "09129098256";
   walletBalance: 0;
+};
+
+export type mapir_reserve = {
+  address: string;
+  postal_address: string;
+  address_compact: string;
+  primary: string;
+  name: string;
+  poi: string;
+  penult: string;
+  country: string;
+  province: string;
+  county: string;
+  district: string;
+  rural_district: string;
+  city: string;
+  village: string;
+  region: string;
+  neighbourhood: string;
+  last: string;
+  plaque: string;
+  postal_code: string;
+  geom: geom;
+};
+
+export type geom = {
+  type: string;
+  coordinates: string[];
+};
+
+export type address = {
+  _id: string;
+  province: string;
+  city: string;
+  address: string;
+  coordinate: number[];
+  fullName: string;
+  mobile: string;
 };
 
 export const ICON_SIZE: IDictionary<string> = {

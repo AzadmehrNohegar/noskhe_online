@@ -1,6 +1,6 @@
 // import { postAccountAuthRefreshToken } from "@/api/account";
 // import { AxiosResponse } from "axios";
-import { postUserAuthRefreshToken } from "@/api/membership";
+import { postUserAuthRefreshToken } from "@/api/user";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -35,9 +35,14 @@ const useAuthStore = create<IAuthStore>()(
           },
         })
           .then((res) => {
-            const { token } = res?.data.data;
-            set({ access: token.accessToken, isAuthenticated: true });
-            resolve();
+            if (res?.data) {
+              const { token } = res.data.data;
+              set({
+                access: token.accessToken,
+                isAuthenticated: true,
+              });
+              resolve();
+            }
           })
           .catch(() => {
             set({ access: "", refresh: "", isAuthenticated: false });

@@ -1,4 +1,4 @@
-import { postUserAuthRegisterSendOtp } from "@/api/membership";
+import { postUserAuthRegisterSendOtp } from "@/api/user";
 import { Divider } from "@/components/divider";
 import { Input } from "@/components/input";
 import { MOBILE_FORMAT } from "@/constants/variables";

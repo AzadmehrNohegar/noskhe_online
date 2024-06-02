@@ -1,11 +1,11 @@
-import { IInputProps } from "@/model";
+import { ITextareaProps } from "@/model";
 import { IconWrapper } from "@/shared/iconWrapper";
 import { Transition } from "@headlessui/react";
 import clsx from "clsx";
 import React, { forwardRef, useId } from "react";
 
-const Input = forwardRef(
-  (props: IInputProps, ref: React.ForwardedRef<HTMLInputElement>) => {
+const Textarea = forwardRef(
+  (props: ITextareaProps, ref: React.ForwardedRef<HTMLTextAreaElement>) => {
     const {
       error,
       className,
@@ -22,7 +22,7 @@ const Input = forwardRef(
       ...rest
     } = props;
 
-    const inputId = useId();
+    const textareaId = useId();
 
     return (
       <div
@@ -33,13 +33,13 @@ const Input = forwardRef(
         )}
       >
         {label ? (
-          <label htmlFor={id || inputId} className="label label-text">
+          <label htmlFor={id || textareaId} className="label label-text">
             <span className="text-gray-600 text-xs">{label}</span>
           </label>
         ) : null}
         <div className={clsx("flex items-center relative", block && " w-full")}>
-          <input
-            id={id || inputId}
+          <textarea
+            id={id || textareaId}
             ref={ref}
             className={clsx(
               className,
@@ -98,4 +98,4 @@ const Input = forwardRef(
   }
 );
 
-export { Input };
+export { Textarea };

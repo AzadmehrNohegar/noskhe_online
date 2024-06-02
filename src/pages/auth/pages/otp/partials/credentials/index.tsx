@@ -1,4 +1,4 @@
-import { postUserAuthSendOtp } from "@/api/membership";
+import { postUserAuthSendOtp } from "@/api/user";
 import { Divider } from "@/components/divider";
 import { Input } from "@/components/input";
 import { authOtpForm } from "@/model";
@@ -38,7 +38,6 @@ function AuthOtpCredentials({ setNextStep }: IAuthOtpCredentialsProps) {
             type: "success",
           },
         });
-        searchParams.set("persist", res.data.data.mobile);
         setSearchParams(searchParams);
         setNextStep();
       }

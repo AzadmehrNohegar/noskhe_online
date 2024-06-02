@@ -1,6 +1,5 @@
 import {
   apiCustomResponse,
-  login_response,
   otp_response,
   login_success_response,
   user,
@@ -11,19 +10,16 @@ export const getUserProfile = async () => {
   return await http.get<{ user: user[] }>("/user/profile");
 };
 
-export const getMembershipApiUserRecoverPassword = async ({
+export const getUserAddressList = async ({
   params,
 }: AxiosCustomRequestConfig) => {
-  return await http.get("/membership/api/users/recover-password/", { params });
+  return await http.get("/user/address/list", { params });
 };
 
-export const postMembershipApiLogin = async ({
+export const postUserAddressAdd = async ({
   body,
 }: AxiosCustomRequestConfig) => {
-  return await http.post<unknown, apiCustomResponse<login_response>>(
-    "/membership/api/login/",
-    body
-  );
+  return await http.post("/user/address/add", body);
 };
 
 export const postUserAuthSendOtp = async ({
@@ -62,15 +58,11 @@ export const postUserAuthCheckOtp = async ({
   );
 };
 
-export const postUserAuthRefreshToken = async ({}) => {
-  return await http.post<unknown, apiCustomResponse<login_success_response>>(
-    "/user/auth/refresh-token"
-  );
-};
-
-export const patchMembershipApiUsersRenewPasswordById = async ({
-  id,
+export const postUserAuthRefreshToken = async ({
   body,
 }: AxiosCustomRequestConfig) => {
-  return await http.patch(`/membership/api/users/${id}/renew-password/`, body);
+  return await http.post<unknown, apiCustomResponse<login_success_response>>(
+    "/user/auth/refresh-token",
+    body
+  );
 };

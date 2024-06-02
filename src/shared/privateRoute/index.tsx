@@ -1,4 +1,4 @@
-import { getUserProfile } from "@/api/membership";
+import { getUserProfile } from "@/api/user";
 import { useAuthStore } from "@/store/auth";
 import { useQuery } from "react-query";
 import { Navigate, Outlet } from "react-router-dom";

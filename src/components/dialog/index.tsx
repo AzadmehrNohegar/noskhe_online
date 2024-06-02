@@ -55,7 +55,7 @@ function Dialog({
             >
               <HeadlessDialog.Panel
                 className={clsx(
-                  "w-full transform rounded-1.5lg bg-transparent text-left align-middle transition-all border border-gray-200",
+                  "w-full transform rounded-1.5lg bg-transparent text-left align-middle transition-all border bg-white border-gray-200",
                   size === "standard" && "max-w-2xl",
                   size === "fit" && "max-w-fit"
                 )}

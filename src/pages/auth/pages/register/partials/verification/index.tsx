@@ -1,4 +1,4 @@
-import { postUserAuthRegisterCheckOtp } from "@/api/membership";
+import { postUserAuthRegisterCheckOtp } from "@/api/user";
 import { Divider } from "@/components/divider";
 import { authRegisterForm } from "@/model";
 import { IconWrapper } from "@/shared/iconWrapper";
