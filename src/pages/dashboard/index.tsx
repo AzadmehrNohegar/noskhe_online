@@ -73,7 +73,7 @@ function Dashboard() {
       >
         <div className="w-full lg:w-3/12 lg:h-full">
           <div className="h-full max-h-container-custom flex flex-col gap-4">
-            <div className="flex flex-row lg:flex-col pb-1 lg:pb-0 overflow-auto gap-4">
+            <div className="flex flex-row lg:flex-col pb-1 lg:pb-0 overflow-auto lg:overflow-hidden gap-4">
               <button
                 type="button"
                 className="btn btn-success h-fit justify-start flex gap-4 items-center p-4"
