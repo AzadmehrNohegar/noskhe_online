@@ -45,11 +45,11 @@ function Toast({ toast }: IToastProps) {
       <div
         className={clsx(
           "border-r-8 p-4 rounded-xl flex flex-col justify-start gap-y-4",
-          type === "primary" && "bg-gray-50 border-r-gray-100",
-          type === "secondary" && "bg-secondary-50 border-r-secondary-200",
-          type === "info" && "bg-info-50 border-r-info-200",
-          type === "error" && "bg-danger-50 border-r-danger-200",
-          type === "success" && "bg-success-50 border-r-success-200"
+          type === "primary" && "bg-primary border-r-gray-100",
+          type === "secondary" && "bg-secondary border-r-secondary-200",
+          type === "info" && "bg-info border-r-info-200",
+          type === "error" && "bg-error border-r-danger-200",
+          type === "success" && "bg-success border-r-success-200"
         )}
       >
         <div className="flex items-center w-full justify-between max-w-toast">
