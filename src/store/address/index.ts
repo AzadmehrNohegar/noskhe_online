@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware";
 
 interface IAddressStore {
   address: address | null;
-  setAddress: (a: address) => void;
+  setAddress: (a: address | null) => void;
 }
 
 const useAddressStore = create<IAddressStore>()(

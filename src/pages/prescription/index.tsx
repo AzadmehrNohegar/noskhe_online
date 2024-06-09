@@ -1,5 +1,5 @@
-function Perscription() {
-  return <div>Perscription</div>;
+function Prescription() {
+  return <div>Prescription</div>;
 }
 
-export default Perscription;
+export default Prescription;

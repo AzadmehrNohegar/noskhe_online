@@ -77,6 +77,10 @@ export type login_success_response = {
   };
 };
 
+export type order_create_response = {
+  orderId: string;
+};
+
 export type otp_response = {
   mobile: string;
 };
@@ -157,11 +161,11 @@ export type otc = {
   image: FileList | null;
 };
 
-export type uploadPerscription = {
+export type uploadPrescription = {
   image: FileList | null;
 };
 
-export type elecPerscription = {
+export type elecPrescription = {
   trackingCode: string;
   nationalCode: string;
   typeOfInsurance: string;
@@ -221,6 +225,7 @@ export const ICON_SIZE: IDictionary<string> = {
 
 export const BREADCRUMBS_LABEL: IDictionary<string> = {
   "": "پیشخوان",
+  order: "سفارشات",
   prescription: "نسخه",
   line: "لیست خط‌های من",
   support: "ارتباط با پشتیبان",
@@ -231,4 +236,20 @@ export const BREADCRUMBS_LABEL: IDictionary<string> = {
   bundle: "بسته‌های اعتباری",
   profile: "حساب کاربری",
   wallet: "کیف پول",
+};
+
+export const INSURANCE_LABEL: IDictionary<string> = {
+  TAMIN: "بیمه تامین اجتماعی",
+  SALAMAT: "بیمه سلامت",
+};
+
+export const TYPE_LABEL: IDictionary<string> = {
+  CAPSULE: "کپسول - ورق",
+  TAB: "قرص - ورق",
+  CAPSULE_PACKAGE: "کپسول - بسته",
+  TAB_PACKAGE: "قرص - بسته",
+  DROPLET: "قطره",
+  OINTMENT: "پماد",
+  DRINK: "شربت",
+  OTHER: "سایر",
 };

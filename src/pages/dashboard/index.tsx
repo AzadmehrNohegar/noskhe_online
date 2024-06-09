@@ -1,24 +1,45 @@
 import { Input } from "@/components/input";
-import { elecPerscription, otc, uploadPerscription } from "@/model";
+import {
+  elecPrescription,
+  INSURANCE_LABEL,
+  otc,
+  TYPE_LABEL,
+  uploadPrescription,
+} from "@/model";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
 import { Fragment, useState } from "react";
 import { SelectAddressDialog } from "@/shared/selectAddress";
-import { Textarea } from "@/components/textarea";
 import { useAddressStore } from "@/store/address";
+import { useMutation } from "react-query";
+import {
+  postUserOrderAddOTC,
+  postUserOrderCreate,
+  postUserOrderElecPrescription,
+  postUserOrderUploadPrescription,
+} from "@/api/user";
+import { Textarea } from "@/components/textarea";
+import { usePersianConvert } from "@/utils/usePersianConvert";
+import { useNavigate } from "react-router-dom";
+import { useToastStore } from "@/store/toast";
+import { StatelessSelect } from "@/components/statelessSelect";
 
 interface IDashboardForm {
   description: string;
   otc: otc[];
-  uploadPerscription: uploadPerscription[];
-  elecPerscription: elecPerscription[];
+  uploadPrescription: uploadPrescription[];
+  elecPrescription: elecPrescription[];
 }
 
 function Dashboard() {
   const [isSelectAddressDialogOpen, setIsSelectAddressDialogOpen] =
     useState(false);
 
+  const navigate = useNavigate();
+
+  const { stackToast } = useToastStore();
   const { address } = useAddressStore();
+  const { convertPersian2English } = usePersianConvert();
 
   const {
     control,
@@ -30,8 +51,8 @@ function Dashboard() {
   } = useForm<IDashboardForm>({
     defaultValues: {
       otc: [],
-      uploadPerscription: [],
-      elecPerscription: [],
+      uploadPrescription: [],
+      elecPrescription: [],
     },
     mode: "all",
   });
@@ -51,7 +72,7 @@ function Dashboard() {
     remove: uploadRemove,
   } = useFieldArray({
     control,
-    name: "uploadPerscription",
+    name: "uploadPrescription",
   });
 
   const {
@@ -60,10 +81,83 @@ function Dashboard() {
     remove: elecRemove,
   } = useFieldArray({
     control,
-    name: "elecPerscription",
+    name: "elecPrescription",
   });
 
-  const onSubmit = (values: IDashboardForm) => console.log(values);
+  const createOrder = useMutation(postUserOrderCreate);
+  const addOTC = useMutation(postUserOrderAddOTC);
+  const uploadPrescription = useMutation(postUserOrderUploadPrescription);
+  const elecPrescription = useMutation(postUserOrderElecPrescription);
+
+  const onSubmit = (values: IDashboardForm) => {
+    createOrder
+      .mutateAsync({
+        body: {
+          addressId: address!._id,
+          description: values.description,
+        },
+      })
+      .then(async (res) => {
+        await Promise.all(
+          values.otc.map((el) => {
+            if (el.image) {
+              const formData = new FormData();
+              formData.append("orderId", res.data.data.orderId);
+              formData.append("count", convertPersian2English(el.count));
+              formData.append("image", el.image[0]);
+              formData.append("type", el.type);
+              addOTC.mutate({
+                body: formData,
+                headers: { "Content-Type": "multipart/form-data" },
+              });
+              return;
+            }
+            addOTC.mutate({
+              body: {
+                orderId: res.data.data.orderId,
+                drugName: el.drugName,
+                count: +convertPersian2English(el.count),
+                type: el.type,
+              },
+            });
+          })
+        );
+        await Promise.all(
+          values.uploadPrescription.map((el) => {
+            if (el.image) {
+              const formData = new FormData();
+              formData.append("orderId", res.data.data.orderId);
+              formData.append("image", el.image[0]);
+              uploadPrescription.mutate({
+                body: formData,
+                headers: { "Content-Type": "multipart/form-data" },
+              });
+              return;
+            }
+          })
+        );
+        await Promise.all(
+          values.elecPrescription.map((el) => {
+            elecPrescription.mutate({
+              body: {
+                orderId: res.data.data.orderId,
+                trackingCode: +convertPersian2English(el.trackingCode),
+                nationalCode: +convertPersian2English(el.nationalCode),
+                typeOfInsurance: el.typeOfInsurance,
+                doctorName: el.doctorName,
+              },
+            });
+          })
+        );
+        stackToast({
+          title: "سفارش با موفقیت ایجاد شد.",
+          options: {
+            type: "success",
+          },
+        });
+        navigate(`/order/${res.data.data.orderId}`);
+      });
+  };
 
   return (
     <Fragment>
@@ -164,39 +258,12 @@ function Dashboard() {
                 </svg>
                 <span>نسخه بیمه</span>
               </button>
-              <button
-                type="button"
-                className="btn btn-ghost text-grey-800 h-fit justify-start flex gap-4 items-center p-4"
-                onClick={() => setIsSelectAddressDialogOpen(true)}
-              >
-                <svg
-                  fill="currentColor"
-                  height="20px"
-                  width="20px"
-                  version="1.1"
-                  id="Capa_1"
-                  viewBox="0 0 297 297"
-                >
-                  <g>
-                    <path d="M148.5,0C87.43,0,37.747,49.703,37.747,110.797c0,91.026,99.729,179.905,103.976,183.645   c1.936,1.705,4.356,2.559,6.777,2.559c2.421,0,4.841-0.853,6.778-2.559c4.245-3.739,103.975-92.618,103.975-183.645   C259.253,49.703,209.57,0,148.5,0z M148.5,272.689c-22.049-21.366-90.243-93.029-90.243-161.892   c0-49.784,40.483-90.287,90.243-90.287s90.243,40.503,90.243,90.287C238.743,179.659,170.549,251.322,148.5,272.689z" />
-                    <path d="M148.5,59.183c-28.273,0-51.274,23.154-51.274,51.614c0,28.461,23.001,51.614,51.274,51.614   c28.273,0,51.274-23.153,51.274-51.614C199.774,82.337,176.773,59.183,148.5,59.183z M148.5,141.901   c-16.964,0-30.765-13.953-30.765-31.104c0-17.15,13.801-31.104,30.765-31.104c16.964,0,30.765,13.953,30.765,31.104   C179.265,127.948,165.464,141.901,148.5,141.901z" />
-                  </g>
-                </svg>
-                <span>تغییر آدرس</span>
-              </button>
             </div>
-            {address ? (
-              <strong className="line-clamp-1 lg:line-clamp-none">
-                <span className="font-light">آدرس: </span>
-                {address.address}
-              </strong>
-            ) : null}
             <Textarea
               label="توضیحات"
               className="textarea textarea-bordered resize-none w-full min-h-24"
               {...register("description")}
             />
-
             <button
               className="btn btn-primary mt-0 lg:mt-auto"
               disabled={!isValid || !isDirty}
@@ -258,12 +325,31 @@ function Dashboard() {
                     required: true,
                   })}
                 />
-                <Input
-                  className="input input-bordered w-full"
-                  placeholder="نوع دارو"
-                  {...register(`otc.${index}.type`, {
+                <Controller
+                  control={control}
+                  name={`otc.${index}.type`}
+                  rules={{
                     required: true,
-                  })}
+                  }}
+                  render={({ field: { value, onChange } }) => (
+                    <StatelessSelect
+                      containerClassName="w-full"
+                      placeholder="نوع دارو"
+                      options={[
+                        "CAPSULE",
+                        "TAB",
+                        "CAPSULE_PACKAGE",
+                        "TAB_PACKAGE",
+                        "DROPLET",
+                        "OINTMENT",
+                        "DRINK",
+                        "OTHER",
+                      ]}
+                      optionDictionary={TYPE_LABEL}
+                      selected={value}
+                      setSelected={onChange}
+                    />
+                  )}
                 />
                 <Controller
                   control={control}
@@ -319,7 +405,7 @@ function Dashboard() {
                     <input
                       type="file"
                       className="hidden"
-                      {...register(`uploadPerscription.${index}.image`, {
+                      {...register(`uploadPrescription.${index}.image`, {
                         required: true,
                       })}
                     />
@@ -345,11 +431,11 @@ function Dashboard() {
                   </button>
                 </div>
 
-                {watch(`uploadPerscription.${index}.image`) ? (
+                {watch(`uploadPrescription.${index}.image`) ? (
                   <div className="flex w-fit p-4 rounded-md items-center gap-3 border border-secondary">
                     <img
                       src={URL.createObjectURL(
-                        watch(`uploadPerscription.${index}.image`)?.[0] ||
+                        watch(`uploadPrescription.${index}.image`)?.[0] ||
                           new Blob()
                       )}
                       className="w-14 h-14 min-w-14 object-contain"
@@ -359,7 +445,7 @@ function Dashboard() {
                       type="button"
                       className="btn btn-error btn-square btn-sm text-white"
                       onClick={() =>
-                        setValue(`uploadPerscription.${index}.image`, null)
+                        setValue(`uploadPrescription.${index}.image`, null)
                       }
                     >
                       <span className="icon-Close-16 text-lg"></span>
@@ -385,32 +471,44 @@ function Dashboard() {
                 </div>
 
                 <Input
+                  type="number"
                   placeholder="کد پیگیری"
                   className="input input-bordered w-full"
-                  {...register(`elecPerscription.${index}.trackingCode`, {
+                  {...register(`elecPrescription.${index}.trackingCode`, {
                     required: true,
                   })}
                 />
                 <Input
+                  type="number"
                   placeholder="کد ملی"
                   className="input input-bordered w-full"
-                  {...register(`elecPerscription.${index}.nationalCode`, {
+                  {...register(`elecPrescription.${index}.nationalCode`, {
                     required: true,
                   })}
                 />
                 <Input
                   placeholder="نام دکتر"
                   className="input input-bordered w-full"
-                  {...register(`elecPerscription.${index}.doctorName`, {
+                  {...register(`elecPrescription.${index}.doctorName`, {
                     required: true,
                   })}
                 />
-                <Input
-                  placeholder="نوع بیمه"
-                  className="input input-bordered w-full"
-                  {...register(`elecPerscription.${index}.typeOfInsurance`, {
+                <Controller
+                  control={control}
+                  name={`elecPrescription.${index}.typeOfInsurance`}
+                  rules={{
                     required: true,
-                  })}
+                  }}
+                  render={({ field: { value, onChange } }) => (
+                    <StatelessSelect
+                      containerClassName="w-full"
+                      placeholder="نوع بیمه"
+                      options={["TAMIN", "SALAMAT"]}
+                      optionDictionary={INSURANCE_LABEL}
+                      selected={value}
+                      setSelected={onChange}
+                    />
+                  )}
                 />
               </div>
             ))}

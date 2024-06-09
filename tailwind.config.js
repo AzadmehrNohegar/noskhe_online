@@ -14,7 +14,7 @@ export default {
       },
       maxHeight: {
         "container-custom": "calc(100vh - 131px)",
-        "container-custom-mobile": "calc(100vh - 397px)",
+        "container-custom-mobile": "calc(100vh - 357px)",
       },
       borderRadius: {
         "1.5lg": "0.625rem",

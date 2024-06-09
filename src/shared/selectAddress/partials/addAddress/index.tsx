@@ -14,7 +14,7 @@ function AddAddressStep(props: IExtendedDialogProps) {
       fullName: "",
       lat: 0,
       lng: 0,
-      myself: true,
+      myself: false,
       phone: "",
     },
   });

@@ -58,7 +58,7 @@ function Toast({ toast }: IToastProps) {
           </h6>
         </div>
         {message ? (
-          <p className="text-justify text-gray-600 text-xs lg:text-sm line-clamp-1">
+          <p className="text-justify text-xs lg:text-sm line-clamp-1">
             {message}
           </p>
         ) : null}

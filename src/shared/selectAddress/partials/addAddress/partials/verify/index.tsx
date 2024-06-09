@@ -1,4 +1,4 @@
-import { postUserAddressAdd } from "@/api/user";
+import { getUserProfile, postUserAddressAdd } from "@/api/user";
 import { Checkbox } from "@/components/checkbox";
 import { Dialog } from "@/components/dialog";
 import { Input } from "@/components/input";
@@ -10,7 +10,8 @@ import { useToastStore } from "@/store/toast";
 import { useDebouncedSearchParams } from "@/utils/useDebouncedSearchParams";
 import { usePersianConvert } from "@/utils/usePersianConvert";
 import { Controller, useFormContext } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { Fragment } from "react";
 
 interface IAddAddressVerifyProps extends IExtendedDialogProps {
   handleStep: (step: "map" | "verify") => void;
@@ -24,6 +25,7 @@ function AddAddressVerify({ handleStep }: IAddAddressVerifyProps) {
     handleSubmit,
     formState: { isValid, isDirty },
   } = useFormContext<add_address_form>();
+  const { data: userData } = useQuery("user-profile", () => getUserProfile());
 
   const [searchParams, setSearchParams] = useDebouncedSearchParams();
   const queryClient = useQueryClient();
@@ -49,13 +51,27 @@ function AddAddressVerify({ handleStep }: IAddAddressVerifyProps) {
     },
   });
 
-  const onSubmit = (values: add_address_form) =>
+  const onSubmit = (values: add_address_form) => {
+    if (values.myself) {
+      createAddress.mutate({
+        body: {
+          ...values,
+          phone: convertPersian2English(
+            userData?.data.data.user[0].mobile || ""
+          ),
+          fullName: userData?.data.data.user[0].fullName,
+        },
+      });
+      return;
+    }
+
     createAddress.mutate({
       body: {
         ...values,
         phone: convertPersian2English(values.phone),
       },
     });
+  };
 
   return (
     <Dialog.Panel
@@ -95,7 +111,7 @@ function AddAddressVerify({ handleStep }: IAddAddressVerifyProps) {
       <Input
         label="آدرس کامل"
         placeholder="آدرس کامل را وارد کنید."
-        containerClassName="basis-modified2"
+        containerClassName="basis-full"
         className="input input-bordered w-full"
         {...register("address", {
           required: true,
@@ -104,7 +120,7 @@ function AddAddressVerify({ handleStep }: IAddAddressVerifyProps) {
       <Input
         label="استان"
         placeholder="استان را وارد کنید."
-        containerClassName="basis-modified2"
+        containerClassName="basis-full lg:basis-modified2"
         className="input input-bordered w-full"
         {...register("province", {
           required: true,
@@ -113,45 +129,51 @@ function AddAddressVerify({ handleStep }: IAddAddressVerifyProps) {
       <Input
         label="شهر"
         placeholder="شهر را وارد کنید."
-        containerClassName="basis-modified2"
+        containerClassName="basis-full lg:basis-modified2"
         className="input input-bordered w-full"
         {...register("city", {
           required: true,
         })}
       />
-      <Input
-        label="نام گیرنده"
-        placeholder="نام گیرنده را وارد کنید."
-        containerClassName="basis-modified2"
-        className="input input-bordered w-full"
-        {...register("fullName", {
-          required: true,
-        })}
-      />
-      <Input
-        label="شماره تماس گیرنده"
-        placeholder="شماره تماس گیرنده را وارد کنید."
-        containerClassName="basis-modified2"
-        className="input input-bordered w-full"
-        {...register("phone", {
-          required: true,
-          validate: (value) => {
-            if (
-              convertPersian2English(value).match(MOBILE_FORMAT) &&
-              value.length === 11
-            )
-              return;
-            return "شماره موبایل نادرست است.";
-          },
-        })}
-      />
+
+      {!watch("myself") ? (
+        <Fragment>
+          <Input
+            label="نام گیرنده"
+            placeholder="نام گیرنده را وارد کنید."
+            containerClassName="basis-full lg:basis-modified2"
+            className="input input-bordered w-full"
+            {...register("fullName", {
+              required: true,
+            })}
+          />
+          <Input
+            label="شماره تماس گیرنده"
+            placeholder="شماره تماس گیرنده را وارد کنید."
+            containerClassName="basis-full lg:basis-modified2"
+            className="input input-bordered w-full"
+            {...register("phone", {
+              required: true,
+              validate: (value) => {
+                if (
+                  convertPersian2English(value).match(MOBILE_FORMAT) &&
+                  value.length === 11
+                )
+                  return;
+                return "شماره موبایل نادرست است.";
+              },
+            })}
+          />
+        </Fragment>
+      ) : null}
+
       <Controller
         control={control}
         name="myself"
         render={({ field: { value, onChange } }) => (
           <Checkbox
             label="گیرنده هستم."
-            containerClassName="basis-modified2 justify-end"
+            containerClassName="basis-full lg:basis-modified2 justify-end"
             className="checkbox checkbox-success"
             checked={value}
             onChange={onChange}
@@ -167,7 +189,7 @@ function AddAddressVerify({ handleStep }: IAddAddressVerifyProps) {
           انصراف
         </button>
         <button
-          className="btn btn-primary btn-custom btn-wide"
+          className="btn btn-primary btn-custom lg:btn-wide"
           disabled={!isValid || !isDirty}
         >
           ذخیره آدرس

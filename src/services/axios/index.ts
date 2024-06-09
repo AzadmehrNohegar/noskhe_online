@@ -1,4 +1,5 @@
 import { apiCustomResponse, apiResponse } from "@/model";
+import { useAddressStore } from "@/store/address";
 import { useAuthStore } from "@/store/auth";
 import { useMiscStore } from "@/store/misc";
 import { useToastStore } from "@/store/toast";
@@ -144,12 +145,14 @@ export class Http {
             type: "info",
           },
         });
+        useAddressStore.getState().setAddress(null);
         useAuthStore.getState().logoutUser();
         break;
       }
       case StatusCode.NotFound: {
         useToastStore.getState().stackToast({
-          title: "یافت نشد.",
+          title: (response.data as Record<string, Record<string, string>>).error
+            .message,
           options: {
             type: "error",
           },

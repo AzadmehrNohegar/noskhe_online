@@ -6,7 +6,7 @@ import { Route, Routes } from "react-router-dom";
 const DashboardPage = lazy(() => import("./dashboard"));
 const AuthPage = lazy(() => import("./auth"));
 const WalletPage = lazy(() => import("./wallet"));
-const PerscriptionPage = lazy(() => import("./prescription"));
+const OrderPage = lazy(() => import("./order"));
 
 function BasePage() {
   return (
@@ -14,8 +14,8 @@ function BasePage() {
       <Route element={<PrivateRoute />}>
         <Route element={<DashboardLayout />}>
           <Route index element={<DashboardPage />} />
+          <Route path="order/*" element={<OrderPage />} />
           <Route path="wallet" element={<WalletPage />} />
-          <Route path="prescription" element={<PerscriptionPage />} />
           <Route path="*" element={<>gg</>} />
         </Route>
       </Route>

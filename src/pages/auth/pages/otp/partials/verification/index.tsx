@@ -1,4 +1,4 @@
-import { postUserAuthCheckOtp } from "@/api/user";
+import { postUserAuthCheckOtp, postUserAuthSendOtp } from "@/api/user";
 import { Divider } from "@/components/divider";
 import { authOtpForm } from "@/model";
 import { IconWrapper } from "@/shared/iconWrapper";
@@ -36,6 +36,7 @@ function AuthOtpVerification({ setPrevStep }: IAuthOtpVerificationProps) {
     control,
     handleSubmit,
     watch,
+    getValues,
     formState: { isValid, isDirty },
   } = useFormContext<authOtpForm>();
 
@@ -56,6 +57,36 @@ function AuthOtpVerification({ setPrevStep }: IAuthOtpVerificationProps) {
       }
     },
   });
+
+  const generateToken = useMutation(postUserAuthSendOtp, {
+    onSuccess: (res) => {
+      if (res?.data) {
+        stackToast({
+          title: "پیامک ارسال شد.",
+          message: "رمز یکبار مصرف برای شما ارسال شد.",
+          options: {
+            type: "success",
+          },
+        });
+        resetCountdown();
+      }
+    },
+    onError: () => {
+      stackToast({
+        title: "نام کاربری یا شناسه کاربری اشتباه است.",
+        options: {
+          type: "error",
+        },
+      });
+    },
+  });
+
+  const resendOtp = () =>
+    generateToken.mutate({
+      body: {
+        mobile: getValues().mobile,
+      },
+    });
 
   const onSubmit = (values: authOtpForm) =>
     login.mutate({
@@ -111,8 +142,8 @@ function AuthOtpVerification({ setPrevStep }: IAuthOtpVerificationProps) {
         {count === 0 ? (
           <button
             type="button"
-            className="btn btn-link btn-primary btn-sm px-0"
-            onClick={resetCountdown}
+            className="btn btn-link text-primary btn-sm px-0"
+            onClick={resendOtp}
           >
             ارسال دوباره کد
           </button>

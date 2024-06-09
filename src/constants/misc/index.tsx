@@ -58,6 +58,19 @@ export const SIDEBAR_ITEMS: navLink[] = [
     },
     submenu: null,
   },
+  {
+    to: "/order",
+    end: true,
+    label: "سفارشات",
+    icon: (isActive) => {
+      if (isActive)
+        return (
+          <IconWrapper iconSize="large" className="icon-Duotone-Bill-List-16" />
+        );
+      return <IconWrapper iconSize="large" className="icon-Bill-List-16" />;
+    },
+    submenu: null,
+  },
 ];
 
 export const REGISTER_STEPS: registerSteps[] = [

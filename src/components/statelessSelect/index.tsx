@@ -33,7 +33,7 @@ function StatelessSelect({
     <Listbox value={selected} onChange={setSelected}>
       <div
         className={clsx(
-          "relative bg-transparent",
+          "relative bg-white",
           !containerClassName && "max-w-[300px] min-w-[200px]",
           containerClassName
         )}
@@ -59,7 +59,7 @@ function StatelessSelect({
             {!selected ? placeholder || "یک گزینه را انتخاب کنید." : null}
             {optionDictionary[selected!] || selected}
           </span>
-          <span className="pointer-events-none absolute h-fit top-1/2 -translate-y-1/2 end-3 flex items-center ps-2 border-r border-r-gray-200 text-gray-600">
+          <span className="pointer-events-none absolute h-fit top-1/2 -translate-y-1/2 end-3 flex items-center ps-2 text-gray-600">
             <IconWrapper
               iconSize="medium"
               className="icon-Arrow-Down-16"
@@ -73,7 +73,7 @@ function StatelessSelect({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute z-30 mt-1 max-h-60 w-full overflow-auto rounded-md bg-transparent py-1 text-base shadow-lg focus:outline-none">
+          <Listbox.Options className="absolute z-30 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg focus:outline-none">
             {searchComponent}
             {options?.map((option) => (
               <Listbox.Option
@@ -82,8 +82,8 @@ function StatelessSelect({
                   `relative flex items-center gap-x-4 cursor-default select-none py-2 pl-10 pr-4 ${
                     selected
                       ? variant === "secondary"
-                        ? "bg-secondary-100 text-secondary-900"
-                        : "bg-primary-100 text-primary-900"
+                        ? "bg-slate-100 text-secondary-900"
+                        : "bg-slate-100 text-primary-900"
                       : "text-gray-900"
                   }`
                 }

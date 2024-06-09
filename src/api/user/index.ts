@@ -3,6 +3,7 @@ import {
   otp_response,
   login_success_response,
   user,
+  order_create_response,
 } from "@/model";
 import { AxiosCustomRequestConfig, http } from "@/services/axios";
 
@@ -65,4 +66,33 @@ export const postUserAuthRefreshToken = async ({
     "/user/auth/refresh-token",
     body
   );
+};
+
+export const postUserOrderCreate = async ({
+  body,
+}: AxiosCustomRequestConfig) => {
+  return await http.post<unknown, apiCustomResponse<order_create_response>>(
+    "/user/order/create",
+    body
+  );
+};
+
+export const postUserOrderAddOTC = async ({
+  body,
+  headers,
+}: AxiosCustomRequestConfig) => {
+  return await http.post("/user/order/addOTC", body, { headers });
+};
+
+export const postUserOrderUploadPrescription = async ({
+  body,
+  headers,
+}: AxiosCustomRequestConfig) => {
+  return await http.post("/user/order/uploadPrescription", body, { headers });
+};
+
+export const postUserOrderElecPrescription = async ({
+  body,
+}: AxiosCustomRequestConfig) => {
+  return await http.post("/user/order/elecPrescription", body);
 };

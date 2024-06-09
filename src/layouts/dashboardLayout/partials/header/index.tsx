@@ -11,12 +11,17 @@ import { getUserProfile } from "@/api/user";
 import { useAuthStore } from "@/store/auth";
 import Skeleton from "react-loading-skeleton";
 import { useToastStore } from "@/store/toast";
+import { useAddressStore } from "@/store/address";
+import { SelectAddressDialog } from "@/shared/selectAddress";
 
 function DashboardLayoutHeader() {
   const [isMobileSlideoverOpen, setIsMobileSlideoverOpen] = useState(false);
+  const [isSelectAddressDialogOpen, setIsSelectAddressDialogOpen] =
+    useState(false);
 
   const { logoutUser } = useAuthStore();
   const { stackToast } = useToastStore();
+  const { address } = useAddressStore();
 
   const { data: userData, isLoading } = useQuery("user-profile", () =>
     getUserProfile()
@@ -95,45 +100,64 @@ function DashboardLayoutHeader() {
     );
 
   return (
-    <header className="p-5 sticky z-10 top-0 border-b border-b-gray-100 w-full bg-white flex items-stretch gap-3">
-      <Breadcrumbs />
-      <Link
-        to="/wallet"
-        className="flex items-center rounded-md bg-secondary-10 border border-secondary-200 text-sm px-3 py-2 ms-auto min-w-72"
-      >
-        <span>اعتبار کیف پول</span>
-        <strong className="ms-auto text-base text-secondary min-w-24 text-end">
-          {isLoading ? <Skeleton width={60} inline className="h-full" /> : null}
-          {!isLoading
-            ? Number(userData?.data.data.user[0].walletBalance).toLocaleString()
-            : null}{" "}
-          <span className="text-sm font-light text-gray-500">ریال</span>
-        </strong>
-      </Link>
-      <Divider />
-      <Dropdown
-        dropdownButton={
-          <DropdownButton className="flex rounded-md gap-2 px-3 py-1 items-center border border-gray-200">
-            <IconWrapper iconSize="large" className="icon-User-16" />
-            {isLoading ? <Skeleton width={120} className="h-full" /> : null}
-            {!isLoading ? `${userData?.data.data.user[0].fullName}` : null}
-          </DropdownButton>
-        }
-        dropdownContainerClassName="p-2 min-w-max"
-      >
-        <Link to="/profile" className="btn btn-ghost btn-block font-light">
-          <IconWrapper iconSize="large" className="icon-User-16" />
-          مشاهده حساب کاربری
+    <Fragment>
+      <header className="p-5 sticky z-10 top-0 border-b border-b-gray-100 w-full bg-white flex items-stretch gap-3">
+        <Breadcrumbs />
+        <Link
+          to="/wallet"
+          className="flex items-center rounded-md bg-secondary-10 border border-secondary-200 text-sm px-3 py-2 ms-auto min-w-72"
+        >
+          <span>اعتبار کیف پول</span>
+          <strong className="ms-auto text-base text-secondary min-w-24 text-end">
+            {isLoading ? (
+              <Skeleton width={60} inline className="h-full" />
+            ) : null}
+            {!isLoading
+              ? Number(
+                  userData?.data.data.user[0].walletBalance
+                ).toLocaleString()
+              : null}{" "}
+            <span className="text-sm font-light text-gray-500">ریال</span>
+          </strong>
         </Link>
         <button
-          className="btn btn-ghost btn-block justify-start text-red-600 font-light"
-          onClick={handleLogout}
+          className="flex items-center rounded-md bg-secondary-10 border border-secondary-200 text-sm px-3 py-2 max-w-72 gap-2"
+          onClick={() => setIsSelectAddressDialogOpen(true)}
         >
-          <IconWrapper iconSize="large" className="icon-Logout-16" />
-          خروج از حساب کاربری
+          <span>آدرس</span>
+          <strong className="ms-auto text-xs text-secondary w-full text-end line-clamp-1">
+            {address ? address!.address : null}{" "}
+          </strong>
         </button>
-      </Dropdown>
-    </header>
+        <Divider />
+        <Dropdown
+          dropdownButton={
+            <DropdownButton className="flex rounded-md gap-2 px-3 py-1 items-center border border-gray-200">
+              <IconWrapper iconSize="large" className="icon-User-16" />
+              {isLoading ? <Skeleton width={120} className="h-full" /> : null}
+              {!isLoading ? `${userData?.data.data.user[0].fullName}` : null}
+            </DropdownButton>
+          }
+          dropdownContainerClassName="p-2 min-w-max"
+        >
+          <Link to="/profile" className="btn btn-ghost btn-block font-light">
+            <IconWrapper iconSize="large" className="icon-User-16" />
+            مشاهده حساب کاربری
+          </Link>
+          <button
+            className="btn btn-ghost btn-block justify-start text-red-600 font-light"
+            onClick={handleLogout}
+          >
+            <IconWrapper iconSize="large" className="icon-Logout-16" />
+            خروج از حساب کاربری
+          </button>
+        </Dropdown>
+      </header>
+      <SelectAddressDialog
+        isOpen={isSelectAddressDialogOpen}
+        closeModal={() => setIsSelectAddressDialogOpen(false)}
+      />
+    </Fragment>
   );
 }
 

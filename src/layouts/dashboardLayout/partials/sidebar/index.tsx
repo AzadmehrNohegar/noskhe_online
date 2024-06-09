@@ -16,7 +16,13 @@ function DashboardLayoutSidebarComponent() {
   return (
     <aside className="w-[17%] h-svh bg-white flex flex-col gap-6 rounded-l-1.5lg p-5 sticky top-0">
       <Link to="/" className="flex items-center gap-2 mx-auto">
-        <img src="/logo.png" width={180} alt="logo" />
+        <img
+          src="/logo.png"
+          width="100%"
+          height={90}
+          className="object-contain"
+          alt="logo"
+        />
       </Link>
 
       <ul className="flex flex-col gap-3">
