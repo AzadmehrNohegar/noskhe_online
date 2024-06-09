@@ -98,64 +98,62 @@ function Dashboard() {
         },
       })
       .then(async (res) => {
-        await Promise.all(
-          values.otc.map((el) => {
-            if (el.image) {
-              const formData = new FormData();
-              formData.append("orderId", res.data.data.orderId);
-              formData.append("count", convertPersian2English(el.count));
-              formData.append("image", el.image[0]);
-              formData.append("type", el.type);
-              addOTC.mutate({
-                body: formData,
-                headers: { "Content-Type": "multipart/form-data" },
-              });
-              return;
-            }
-            addOTC.mutate({
-              body: {
-                orderId: res.data.data.orderId,
-                drugName: el.drugName,
-                count: +convertPersian2English(el.count),
-                type: el.type,
-              },
+        const otcRequests = values.otc.map((el) => {
+          if (el.image) {
+            const formData = new FormData();
+            formData.append("orderId", res.data.data.orderId);
+            formData.append("count", convertPersian2English(el.count));
+            formData.append("image", el.image[0]);
+            formData.append("type", el.type);
+            return addOTC.mutateAsync({
+              body: formData,
+              headers: { "Content-Type": "multipart/form-data" },
             });
-          })
-        );
-        await Promise.all(
-          values.uploadPrescription.map((el) => {
-            if (el.image) {
-              const formData = new FormData();
-              formData.append("orderId", res.data.data.orderId);
-              formData.append("image", el.image[0]);
-              uploadPrescription.mutate({
-                body: formData,
-                headers: { "Content-Type": "multipart/form-data" },
-              });
-              return;
-            }
-          })
-        );
-        await Promise.all(
-          values.elecPrescription.map((el) => {
-            elecPrescription.mutate({
-              body: {
-                orderId: res.data.data.orderId,
-                trackingCode: +convertPersian2English(el.trackingCode),
-                nationalCode: +convertPersian2English(el.nationalCode),
-                typeOfInsurance: el.typeOfInsurance,
-                doctorName: el.doctorName,
-              },
-            });
-          })
-        );
-        stackToast({
-          title: "سفارش با موفقیت ایجاد شد.",
-          options: {
-            type: "success",
-          },
+          }
+          return addOTC.mutateAsync({
+            body: {
+              orderId: res.data.data.orderId,
+              drugName: el.drugName,
+              count: +convertPersian2English(el.count),
+              type: el.type,
+            },
+          });
         });
-        navigate(`/order/${res.data.data.orderId}`);
+        const uploadRequests = values.uploadPrescription.map((el) => {
+          if (el.image) {
+            const formData = new FormData();
+            formData.append("orderId", res.data.data.orderId);
+            formData.append("image", el.image[0]);
+            return uploadPrescription.mutateAsync({
+              body: formData,
+              headers: { "Content-Type": "multipart/form-data" },
+            });
+          }
+        });
+        const elecRequests = values.elecPrescription.map((el) => {
+          return elecPrescription.mutateAsync({
+            body: {
+              orderId: res.data.data.orderId,
+              trackingCode: +convertPersian2English(el.trackingCode),
+              nationalCode: +convertPersian2English(el.nationalCode),
+              typeOfInsurance: el.typeOfInsurance,
+              doctorName: el.doctorName,
+            },
+          });
+        });
+        await Promise.all([
+          ...otcRequests,
+          ...uploadRequests,
+          ...elecRequests,
+        ]).then(() => {
+          stackToast({
+            title: "سفارش با موفقیت ایجاد شد.",
+            options: {
+              type: "success",
+            },
+          });
+          navigate(`/order/${res.data.data.orderId}`);
+        });
       });
   };
 
