@@ -14,7 +14,7 @@ export default {
       },
       maxHeight: {
         "container-custom": "calc(100vh - 131px)",
-        "container-custom-mobile": "calc(100vh - 357px)",
+        "container-custom-mobile": "calc(100vh - 321px)",
       },
       borderRadius: {
         "1.5lg": "0.625rem",
@@ -45,6 +45,6 @@ export default {
     require("@headlessui/tailwindcss")({ prefix: "ui" }),
   ],
   daisyui: {
-    themes: ["cmyk"],
+    themes: ["emerald"],
   },
 };

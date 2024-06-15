@@ -23,7 +23,7 @@ function AddAddressVerify({ handleStep }: IAddAddressVerifyProps) {
     register,
     watch,
     handleSubmit,
-    formState: { isValid, isDirty },
+    formState: { isValid },
   } = useFormContext<add_address_form>();
   const { data: userData } = useQuery("user-profile", () => getUserProfile());
 
@@ -174,7 +174,7 @@ function AddAddressVerify({ handleStep }: IAddAddressVerifyProps) {
           <Checkbox
             label="گیرنده هستم."
             containerClassName="basis-full lg:basis-modified2 justify-end"
-            className="checkbox checkbox-success"
+            className="checkbox checkbox-secondary"
             checked={value}
             onChange={onChange}
           />
@@ -183,6 +183,7 @@ function AddAddressVerify({ handleStep }: IAddAddressVerifyProps) {
 
       <div className="flex items-center justify-end border-t border-t-grey-100 pt-4 gap-3 basis-full">
         <button
+          type="button"
           className="btn btn-link btn-custom text-grey-800"
           onClick={handleSelect}
         >
@@ -190,7 +191,7 @@ function AddAddressVerify({ handleStep }: IAddAddressVerifyProps) {
         </button>
         <button
           className="btn btn-primary btn-custom lg:btn-wide"
-          disabled={!isValid || !isDirty}
+          disabled={!isValid || createAddress.isLoading}
         >
           ذخیره آدرس
         </button>

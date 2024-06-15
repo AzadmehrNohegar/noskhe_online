@@ -99,7 +99,7 @@ function SelectAddressStep({ closeModal }: IExtendedDialogProps) {
       />
       <button
         type="button"
-        className="btn btn-block btn-success"
+        className="btn btn-block btn-secondary"
         onClick={handleAdd}
       >
         <span className="icon-Add-16 text-xl"></span>

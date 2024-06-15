@@ -97,6 +97,13 @@ export type authRegisterForm = {
   nationalCode: string;
 };
 
+export type dashboard_form = {
+  description: string;
+  otc: otc[];
+  uploadPrescription: uploadPrescription[];
+  elecPrescription: elecPrescription[];
+};
+
 export type toast = {
   id: number;
   title: string;

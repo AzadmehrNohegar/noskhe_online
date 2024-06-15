@@ -142,6 +142,7 @@ function AddAddressMap({ handleStep }: IAddAddressMapProps) {
       </NoskheMapElement>
       <div className="flex items-center justify-end border-t border-t-grey-100 pt-4 gap-3">
         <button
+          type="button"
           className="btn btn-link btn-custom text-grey-800"
           onClick={handleSelect}
         >
