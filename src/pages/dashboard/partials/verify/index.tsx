@@ -140,6 +140,9 @@ function DashboardVerify({ prevStep }: IDashboardVerifyProps) {
                 iconSize="medium"
               />
               سریع‌ترین زمان ممکن
+              <strong className="text-gray-700 text-xs ms-auto">
+                20000 <span className="font-light">تومان</span>
+              </strong>
             </h3>
           </div>
         </div>
