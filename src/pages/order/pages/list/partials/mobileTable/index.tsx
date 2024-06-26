@@ -31,9 +31,6 @@ function OrderMobileTable({ fields }: IResponsiveGatewayProps<_order_list>) {
                 timeStyle: "short",
               }).format(new Date(item.createdAt))}
             </span>
-            <span className="text-sm text-gray-700 plaintext">
-              {item.accepted ? "پذیرفته شده" : "پذیرفته نشده"}
-            </span>
           </li>
           <li className="flex items-center justify-between">
             <span className="text-sm text-gray-700">وضعیت</span>

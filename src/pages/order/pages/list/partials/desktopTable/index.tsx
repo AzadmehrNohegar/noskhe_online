@@ -23,17 +23,10 @@ function OrderDesktopTable({ fields }: IResponsiveGatewayProps<_order_list>) {
               </button>
             </span>
           </th>
-          <th align="right">
-            <span className="inline-flex items-center gap-2">
-              پذیرفته شده
-              <button>
-                <IconWrapper iconSize="medium" className="icon-Sort-16" />
-              </button>
-            </span>
-          </th>
+
           <th align="right">نوع ارسال</th>
           <th align="right">وضعیت</th>
-          <th align="left">وضعیت</th>
+          <th align="left"></th>
         </tr>
       </thead>
       <tbody className="text-gray-700 text-sm">
@@ -50,10 +43,6 @@ function OrderDesktopTable({ fields }: IResponsiveGatewayProps<_order_list>) {
                 dateStyle: "short",
                 timeStyle: "short",
               }).format(new Date(item.createdAt))}
-            </td>
-
-            <td align="right">
-              {item.accepted ? "پذیرفته شده" : "پذیرفته نشده"}
             </td>
             <td align="right">{DELIVERY_TYPE[item.deliveryType]}</td>
             <td align="right">
