@@ -45,6 +45,13 @@ export default {
     require("@headlessui/tailwindcss")({ prefix: "ui" }),
   ],
   daisyui: {
-    themes: ["emerald"],
+    themes: [
+      {
+        emerald: {
+          ...require("daisyui/src/theming/themes")["emerald"],
+          "base-100": "#F9F9FA",
+        },
+      },
+    ],
   },
 };

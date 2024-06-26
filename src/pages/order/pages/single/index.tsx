@@ -48,7 +48,7 @@ function OrderSingle() {
       </div>
 
       <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4">
-        <h2 className="font-semibold text-lg lg:text-xl">اقلام سفارش</h2>
+        <h2 className="font-semibold text-lg lg:text-xl">جزئیات سفارش</h2>
         <div className="flex flex-col gap-4">
           <ul className="flex flex-col divide-y divide-gray-200 text-sm lg:text-base">
             {orderData?.data.data.order.otc.map((el) => (

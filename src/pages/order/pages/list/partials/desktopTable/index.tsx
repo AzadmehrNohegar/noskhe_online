@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 function OrderDesktopTable({ fields }: IResponsiveGatewayProps<_order_list>) {
   return (
     <table className="table">
-      <thead className="text-grey-500 text-sm border-t border-b border-t-secondary-200 border-b-secondary-200 bg-secondary-10">
+      <thead className="text-gray-500 text-sm border-t border-b border-t-secondary-200 border-b-secondary-200 bg-secondary-10">
         <tr className="border-0">
           <th align="right">شناسه سفارش</th>
           <th align="right">توضیحات سفارش</th>
@@ -36,9 +36,9 @@ function OrderDesktopTable({ fields }: IResponsiveGatewayProps<_order_list>) {
           <th align="left">وضعیت</th>
         </tr>
       </thead>
-      <tbody className="text-grey-700 text-sm">
+      <tbody className="text-gray-700 text-sm">
         {fields?.map((item) => (
-          <tr key={item._id} className="border-0 even:bg-misc-very-light">
+          <tr key={item._id} className="border-0 odd:bg-white">
             <td align="right">
               <span className="plaintext">{item._id}</span>
             </td>
@@ -60,11 +60,8 @@ function OrderDesktopTable({ fields }: IResponsiveGatewayProps<_order_list>) {
               <Chip status={item.status}>{GENERAL_STATUS[item.status]}</Chip>
             </td>
             <td align="left">
-              <Link
-                to={`./${item._id}`}
-                className="btn btn-link btn-xs btn-square text-gray-800"
-              >
-                <IconWrapper className="icon-Eye-16" iconSize="medium" />
+              <Link to={`./${item._id}`} className="btn btn-primary btn-sm">
+                جزئیات سفارش
               </Link>
             </td>
           </tr>

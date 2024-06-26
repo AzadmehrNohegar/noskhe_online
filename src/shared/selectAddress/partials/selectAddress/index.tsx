@@ -87,7 +87,7 @@ function SelectAddressStep({ closeModal }: IExtendedDialogProps) {
                       !checked && "bg-white btn-ghost"
                     )}
                   >
-                    <div className="w-6 min-w-6 h-6 bg-white border rounded-full border-grey-500 flex items-center justify-center">
+                    <div className="w-6 min-w-6 h-6 bg-white border rounded-full border-gray-500 flex items-center justify-center">
                       {checked ? (
                         <div className="w-4 min-w-4 h-4 bg-primary rounded-full" />
                       ) : null}
@@ -108,7 +108,7 @@ function SelectAddressStep({ closeModal }: IExtendedDialogProps) {
         <span className="icon-Add-16 text-xl"></span>
         افزودن آدرس
       </button>
-      <div className="flex items-center justify-end border-t border-t-grey-100 pt-4 gap-3">
+      <div className="flex items-center justify-end border-t border-t-gray-100 pt-4 gap-3">
         <button
           className="btn btn-primary btn-custom btn-wide"
           disabled={!isValid || !isDirty}

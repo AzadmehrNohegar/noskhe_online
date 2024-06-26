@@ -140,10 +140,10 @@ function AddAddressMap({ handleStep }: IAddAddressMapProps) {
       >
         <NoskheMapMarker coordinates={coords} anchor="bottom" />
       </NoskheMapElement>
-      <div className="flex items-center justify-end border-t border-t-grey-100 pt-4 gap-3">
+      <div className="flex items-center justify-end border-t border-t-gray-100 pt-4 gap-3">
         <button
           type="button"
-          className="btn btn-link btn-custom text-grey-800"
+          className="btn btn-link btn-custom text-gray-800"
           onClick={handleSelect}
         >
           انصراف
