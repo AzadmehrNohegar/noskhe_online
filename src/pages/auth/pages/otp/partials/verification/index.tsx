@@ -6,7 +6,7 @@ import { OtpInput } from "@/shared/otpInput";
 import { Timer } from "@/shared/timer";
 import { useAuthStore } from "@/store/auth";
 import { useToastStore } from "@/store/toast";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +21,7 @@ function AuthOtpVerification({ setPrevStep }: IAuthOtpVerificationProps) {
   const queryClient = useQueryClient();
   const { loginUser } = useAuthStore();
   const { stackToast } = useToastStore();
+  const formRef = useRef<HTMLFormElement>(null);
 
   const [count, { startCountdown, resetCountdown }] = useCountdown({
     countStart: 120,
@@ -99,6 +100,7 @@ function AuthOtpVerification({ setPrevStep }: IAuthOtpVerificationProps) {
     <form
       className="flex flex-col gap-4 w-full max-w-lg"
       onSubmit={handleSubmit(onSubmit)}
+      ref={formRef}
     >
       <h1 className="lg:text-xl flex items-center gap-2 font-bold text-primary justify-center lg:justify-start">
         تایید شماره موبایل
@@ -130,7 +132,10 @@ function AuthOtpVerification({ setPrevStep }: IAuthOtpVerificationProps) {
         render={({ field: { value, onChange }, fieldState: { error } }) => (
           <OtpInput
             value={value}
-            handleChange={(s) => onChange(s)}
+            handleChange={(v) => {
+              onChange(v);
+              if (v.trim().length === 5) formRef.current?.requestSubmit();
+            }}
             valueLength={5}
             error={!!error}
           />

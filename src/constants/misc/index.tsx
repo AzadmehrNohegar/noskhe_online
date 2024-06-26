@@ -60,7 +60,7 @@ export const SIDEBAR_ITEMS: navLink[] = [
   },
   {
     to: "/order",
-    end: true,
+    end: false,
     label: "سفارشات",
     icon: (isActive) => {
       if (isActive)

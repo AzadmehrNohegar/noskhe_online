@@ -10,6 +10,7 @@ const Input = forwardRef(
       error,
       className,
       containerClassName,
+      elementStart = null,
       elementEnd = null,
       block = true,
       label,
@@ -38,6 +39,7 @@ const Input = forwardRef(
           </label>
         ) : null}
         <div className={clsx("flex items-center relative", block && " w-full")}>
+          {elementStart ? elementStart : null}
           <input
             id={id || inputId}
             ref={ref}

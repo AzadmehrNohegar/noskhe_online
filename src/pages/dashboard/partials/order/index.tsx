@@ -1,10 +1,14 @@
 import { Input } from "@/components/input";
-import { dashboard_form, INSURANCE_LABEL, TYPE_LABEL } from "@/model";
+import {
+  dashboard_form,
+  INSURANCE_LABEL,
+  TYPE_LABEL,
+  TYPE_MAX,
+  TYPE_STEP,
+} from "@/model";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
 import { Fragment, useState } from "react";
-import { SelectAddressDialog } from "@/shared/selectAddress";
-import { useAddressStore } from "@/store/address";
 import { StatelessSelect } from "@/components/statelessSelect";
 
 interface IDashboardOrderProps {
@@ -12,10 +16,7 @@ interface IDashboardOrderProps {
 }
 
 function DashboardOrder({ nextStep }: IDashboardOrderProps) {
-  const [isSelectAddressDialogOpen, setIsSelectAddressDialogOpen] =
-    useState(false);
-
-  const { address } = useAddressStore();
+  useState(false);
 
   const {
     control,
@@ -23,7 +24,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
     setValue,
     register,
     handleSubmit,
-    formState: { isValid, isDirty },
+    formState: { isValid },
   } = useFormContext<dashboard_form>();
 
   const {
@@ -162,7 +163,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
             /> */}
             <button
               className="btn btn-primary mt-0 lg:mt-auto"
-              disabled={!isValid || !isDirty}
+              disabled={!isValid}
             >
               تایید نسخه
             </button>
@@ -243,7 +244,10 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
                       ]}
                       optionDictionary={TYPE_LABEL}
                       selected={value}
-                      setSelected={onChange}
+                      setSelected={(op) => {
+                        setValue(`otc.${index}.count`, "0");
+                        onChange(op);
+                      }}
                     />
                   )}
                 />
@@ -259,13 +263,70 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
                   }) => (
                     <NumericFormat
                       customInput={Input}
-                      className="input input-bordered w-full"
+                      className="input input-bordered w-full text-center pointer-events-none"
                       placeholder="تعداد"
                       value={value}
                       onValueChange={({ value: v }) => onChange(v)}
                       error={error}
                       allowNegative={false}
-                      suffix=" عدد"
+                      suffix={` ${
+                        TYPE_STEP[watch(`otc.${index}.type`)] || "عدد"
+                      }`}
+                      elementStart={
+                        <button
+                          type="button"
+                          className="text-secondary disabled:text-slate-100 absolute start-4 top-1/2 -translate-y-1/2"
+                          onClick={() => {
+                            if (
+                              +value <
+                              (TYPE_MAX[watch(`otc.${index}.type`)] || 10)
+                            )
+                              onChange(+value + 1);
+                          }}
+                          disabled={
+                            +watch(`otc.${index}.count`) >=
+                            (TYPE_MAX[watch(`otc.${index}.type`)] || 10)
+                          }
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            version="1.1"
+                            id="Capa_1"
+                            width="16px"
+                            height="16px"
+                            viewBox="0 0 45.402 45.402"
+                          >
+                            <g>
+                              <path d="M41.267,18.557H26.832V4.134C26.832,1.851,24.99,0,22.707,0c-2.283,0-4.124,1.851-4.124,4.135v14.432H4.141   c-2.283,0-4.139,1.851-4.138,4.135c-0.001,1.141,0.46,2.187,1.207,2.934c0.748,0.749,1.78,1.222,2.92,1.222h14.453V41.27   c0,1.142,0.453,2.176,1.201,2.922c0.748,0.748,1.777,1.211,2.919,1.211c2.282,0,4.129-1.851,4.129-4.133V26.857h14.435   c2.283,0,4.134-1.867,4.133-4.15C45.399,20.425,43.548,18.557,41.267,18.557z" />
+                            </g>
+                          </svg>
+                        </button>
+                      }
+                      elementEnd={
+                        <button
+                          type="button"
+                          className="text-secondary disabled:text-slate-100 absolute end-4 top-1/2 -translate-y-1/2"
+                          onClick={() => {
+                            if (+value > 0) onChange(+value - 1);
+                          }}
+                          disabled={+watch(`otc.${index}.count`) === 0}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            height="16px"
+                            width="16px"
+                            version="1.1"
+                            id="Capa_1"
+                            viewBox="0 0 52.161 52.161"
+                          >
+                            <g>
+                              <path d="M52.161,26.081c0,3.246-2.63,5.875-5.875,5.875H5.875C2.63,31.956,0,29.327,0,26.081l0,0c0-3.245,2.63-5.875,5.875-5.875   h40.411C49.531,20.206,52.161,22.835,52.161,26.081L52.161,26.081z" />
+                            </g>
+                          </svg>
+                        </button>
+                      }
                       thousandSeparator
                     />
                   )}
@@ -274,7 +335,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
                   <div className="flex w-fit p-4 rounded-md items-center gap-3 border border-success">
                     <img
                       src={URL.createObjectURL(
-                        watch(`otc.${index}.image`)?.[0] || new Blob()
+                        (watch(`otc.${index}.image`)?.[0] as Blob) || new Blob()
                       )}
                       className="w-14 h-14 min-w-14 object-contain"
                       alt="perc"
@@ -331,8 +392,9 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
                   <div className="flex w-fit p-4 rounded-md items-center gap-3 border border-secondary">
                     <img
                       src={URL.createObjectURL(
-                        watch(`uploadPrescription.${index}.image`)?.[0] ||
-                          new Blob()
+                        (watch(
+                          `uploadPrescription.${index}.image`
+                        )?.[0] as Blob) || new Blob()
                       )}
                       className="w-14 h-14 min-w-14 object-contain"
                       alt="perc"
@@ -410,10 +472,6 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
           </div>
         </div>
       </form>
-      <SelectAddressDialog
-        isOpen={isSelectAddressDialogOpen || !address}
-        closeModal={() => setIsSelectAddressDialogOpen(false)}
-      />
     </Fragment>
   );
 }

@@ -77,8 +77,28 @@
     @apply px-4 py-1.5 inline-block min-w-max rounded-md text-sm;
   }
 
+  .chip-primary {
+    @apply bg-primary text-primary-content;
+  }
+
+  .chip-info {
+    @apply bg-secondary text-secondary-content;
+  }
+
+  .chip-info-light {
+    @apply bg-secondary text-secondary-content;
+  }
+
+  .chip-success {
+    @apply bg-success text-success-content;
+  }
+
+  .chip-danger {
+    @apply bg-error text-error-content;
+  }
+
   .chip-accent {
-    @apply bg-gray-50 text-gray-600;
+    @apply bg-accent text-accent-content;
   }
 
   .plaintext {

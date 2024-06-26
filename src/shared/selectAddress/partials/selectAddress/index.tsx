@@ -49,6 +49,9 @@ function SelectAddressStep({ closeModal }: IExtendedDialogProps) {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-x-4 gap-y-6 p-4"
     >
+      {!isLoading && (addressList as any)?.data.address?.length === 0 ? (
+        <span className="text-start">آدرسی از قبل مشخص نکرده‌اید.</span>
+      ) : null}
       <Controller
         control={control}
         name="address"

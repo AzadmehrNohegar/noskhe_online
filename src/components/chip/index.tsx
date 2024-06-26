@@ -13,8 +13,8 @@ function Chip({ status, className, children, ...rest }: IChipProps) {
         "chip",
         status === "ready" && "chip-primary",
         status === "success" && "chip-success",
-        status === "pending" && "chip-info-light",
-        status === "failed" && "chip-danger",
+        status === "PENDING" && "chip-info-light",
+        status === "FAILED" && "chip-danger",
         status === "closed" && "chip-accent",
         status === "revoke" && "chip-accent",
         className

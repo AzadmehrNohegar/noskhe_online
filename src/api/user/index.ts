@@ -4,6 +4,8 @@ import {
   login_success_response,
   user,
   order_create_response,
+  _order,
+  _order_list,
 } from "@/model";
 import { AxiosCustomRequestConfig, http } from "@/services/axios";
 
@@ -75,6 +77,18 @@ export const postUserOrderCreate = async ({
     "/user/order/create",
     body
   );
+};
+
+export const getUserOrderByOrderId = async ({
+  id,
+}: AxiosCustomRequestConfig) => {
+  return await http.get<_order>(`/user/order/${id}`);
+};
+
+export const getUserOrderList = async ({
+  params,
+}: AxiosCustomRequestConfig) => {
+  return await http.get<_order_list[]>("/user/order/list", { params });
 };
 
 export const postUserOrderAddOTC = async ({

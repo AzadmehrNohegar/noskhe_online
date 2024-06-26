@@ -12,6 +12,7 @@ function Dashboard() {
       otc: [],
       uploadPrescription: [],
       elecPrescription: [],
+      description: "",
     },
     mode: "all",
   });
@@ -21,7 +22,9 @@ function Dashboard() {
       {step === "order" ? (
         <DashboardOrder nextStep={() => setStep("verify")} />
       ) : null}
-      {step === "verify" ? <DashboardVerify /> : null}
+      {step === "verify" ? (
+        <DashboardVerify prevStep={() => setStep("order")} />
+      ) : null}
     </FormProvider>
   );
 }

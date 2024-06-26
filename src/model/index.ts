@@ -10,6 +10,7 @@ export interface IInputProps
   containerClassName?: string;
   label?: string;
   elementEnd?: React.ReactNode;
+  elementStart?: React.ReactNode;
   block?: boolean;
   isLabelAbsolute?: boolean;
   astrisk?: boolean;
@@ -58,9 +59,13 @@ export type apiResponse<T> = {
   user_id: number | null;
   time: number;
   data: T;
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
+  result: {
+    count: number;
+    next: string | null;
+    previous: string | null;
+    data: T;
+  };
+
   redirect_to?: string | null;
 };
 
@@ -129,8 +134,8 @@ export type general_status =
   | "ready"
   | "success"
   | "revoke"
-  | "pending"
-  | "failed"
+  | "PENDING"
+  | "FAILED"
   | "closed";
 
 export type general_boolean = "true" | "false";
@@ -143,12 +148,26 @@ export type cdr_direction = "inbound" | "outbound";
 
 export type operation_type = "increase" | "decrease";
 
+export type _order_status = "PENDING" | "FAILED";
+
+export type _delivery_type = "COURIER";
+
 export type invoice_used_for =
   | "package_invoice"
   | "invoice"
   | "base_balance_invoice"
   | "credit_invoice"
   | "";
+
+export type otc_type =
+  | "CAPSULE"
+  | "TAB"
+  | "CAPSULE_PACKAGE"
+  | "TAB_PACKAGE"
+  | "DROPLET"
+  | "OINTMENT"
+  | "DRINK"
+  | "OTHER";
 
 export type add_address_form = {
   lat: number;
@@ -165,11 +184,11 @@ export type otc = {
   drugName: string;
   type: string;
   count: string;
-  image: FileList | null;
+  image: FileList | File[] | string | null;
 };
 
 export type uploadPrescription = {
-  image: FileList | null;
+  image: FileList | File[] | string | null;
 };
 
 export type elecPrescription = {
@@ -224,6 +243,58 @@ export type address = {
   mobile: string;
 };
 
+export type _order = {
+  order: {
+    _id: string;
+    userId: string;
+    mobile: string;
+    fullName: string;
+    addressId: string;
+    description: string;
+    status: _order_status;
+    deliveryType: string;
+    accepted: boolean;
+    otc: _otc[];
+    uploadPrescription: _uploadPrescription[];
+    elecPrescription: _elecPrescription[];
+    createdAt: string;
+    updatedAt: string;
+  };
+};
+
+export type _elecPrescription = {
+  typeOfInsurance: string;
+  nationalCode: string;
+  doctorName: string;
+  trackingCode: string;
+  _id: string;
+};
+
+export type _uploadPrescription = {
+  image: string;
+  _id: string;
+  imageUrl: string;
+};
+
+export type _otc = {
+  type: otc_type;
+  count: number;
+  _id: string;
+  imageUrl: string;
+  drugName?: string;
+  image?: string;
+};
+
+export type _order_list = {
+  _id: string;
+  userId: string;
+  description: string;
+  status: general_status;
+  deliveryType: _delivery_type;
+  accepted: boolean;
+  createdAt: string;
+};
+
 export const ICON_SIZE: IDictionary<string> = {
   small: "text-base",
   medium: "text-xl",
@@ -259,4 +330,39 @@ export const TYPE_LABEL: IDictionary<string> = {
   OINTMENT: "پماد",
   DRINK: "شربت",
   OTHER: "سایر",
+};
+
+export const TYPE_STEP: IDictionary<string> = {
+  CAPSULE: "ورق",
+  TAB: "قرص",
+  CAPSULE_PACKAGE: "بسته",
+  TAB_PACKAGE: "بسته",
+  DROPLET: "عدد",
+  OINTMENT: "عدد",
+  DRINK: "بطری",
+  OTHER: "عدد",
+};
+
+export const TYPE_MAX: IDictionary<number> = {
+  CAPSULE: 10,
+  TAB: 10,
+  CAPSULE_PACKAGE: 5,
+  TAB_PACKAGE: 5,
+  DROPLET: 5,
+  OINTMENT: 5,
+  DRINK: 5,
+  OTHER: 5,
+};
+
+export const GENERAL_STATUS: ITypedDictionary<general_status, string> = {
+  ready: "آماده برای پرداخت",
+  success: "موفق",
+  revoke: "لغو شده",
+  PENDING: "در حال بررسی",
+  FAILED: "ناموفق",
+  closed: "بسته شده",
+};
+
+export const DELIVERY_TYPE: ITypedDictionary<_delivery_type, string> = {
+  COURIER: "پیک",
 };
