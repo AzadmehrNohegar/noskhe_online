@@ -87,9 +87,9 @@ function SelectAddressStep({ closeModal }: IExtendedDialogProps) {
                       !checked && "bg-white btn-ghost"
                     )}
                   >
-                    <div className="w-6 h-6 bg-white border rounded-full border-grey-500 flex items-center justify-center">
+                    <div className="w-6 min-w-6 h-6 bg-white border rounded-full border-grey-500 flex items-center justify-center">
                       {checked ? (
-                        <div className="w-4 h-4 bg-primary rounded-full" />
+                        <div className="w-4 min-w-4 h-4 bg-primary rounded-full" />
                       ) : null}
                     </div>
                     <span className="line-clamp-1">{item.address}</span>
