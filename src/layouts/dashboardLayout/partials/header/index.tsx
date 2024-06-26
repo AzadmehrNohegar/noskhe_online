@@ -97,6 +97,10 @@ function DashboardLayoutHeader() {
           isOpen={isMobileSlideoverOpen}
           closeModal={() => setIsMobileSlideoverOpen(false)}
         />
+        <SelectAddressDialog
+          isOpen={addressDialogOpen || !address}
+          closeModal={() => setIsAddressDialogOpen(false)}
+        />
       </Fragment>
     );
 
