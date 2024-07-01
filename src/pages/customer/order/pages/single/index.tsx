@@ -51,6 +51,12 @@ function OrderSingle() {
           </button>
           شماره سفارش: {orderData?.data.data.order.refId}
         </h2>
+        <div className="border border-warning p-4 rounded-md flex flex-col gap-4 bg-warning text-white">
+          <h6 className="font-semibold text-xs lg:text-sm">
+            سفارش شما درحال بررسی توسط داروخانه است و ظرف ۳۰ دقیقه آینده هزینه
+            آن محاسبه و از طریق پیامک به شما اطلاع داده خواهد شد.
+          </h6>
+        </div>
         <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4 bg-white">
           <h2 className="font-semibold text-lg lg:text-xl flex items-center gap-2">
             <span className="p-2 rounded-lg bg-secondary">
@@ -83,12 +89,6 @@ function OrderSingle() {
           <Chip className="w-fit" status={orderData?.data.data.order.status}>
             {GENERAL_STATUS[orderData?.data.data.order.status || "PENDING"]}
           </Chip>
-        </div>
-        <div className="border border-warning p-4 rounded-md flex flex-col gap-4 bg-warning text-white">
-          <h6 className="font-semibold text-xs lg:text-sm">
-            سفارش شما درحال بررسی توسط داروخانه است و ظرف ۳۰ دقیقه آینده هزینه
-            آن محاسبه و از طریق پیامک به شما اطلاع داده خواهد شد.
-          </h6>
         </div>
 
         <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4 bg-white">

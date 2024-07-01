@@ -1,15 +1,15 @@
 import { Outlet } from "react-router-dom";
-import { DashboardLayoutSidebar } from "./partials/sidebar";
-import { DashboardLayoutHeader } from "./partials/header";
+import { CustomerLayoutSidebar } from "./partials/sidebar";
+import { CustomerLayoutHeader } from "./partials/header";
 import { Suspense } from "react";
 import Skeleton from "react-loading-skeleton";
 
-function DashboardLayout() {
+function CustomerLayout() {
   return (
     <main className="min-h-svh flex items-stretch">
-      <DashboardLayoutSidebar />
+      <CustomerLayoutSidebar />
       <section className="flex flex-col relative min-h-full w-full lg:max-w-[83%]">
-        <DashboardLayoutHeader />
+        <CustomerLayoutHeader />
 
         <section className="p-4 lg:p-5 h-full overflow-x-auto">
           <Suspense
@@ -28,4 +28,4 @@ function DashboardLayout() {
   );
 }
 
-export { DashboardLayout };
+export { CustomerLayout };

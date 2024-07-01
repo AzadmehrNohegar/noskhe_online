@@ -72,7 +72,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
                   otcAppend({
                     drugName: "",
                     type: "",
-                    count: "",
+                    count: "1",
                     image: null,
                   })
                 }
@@ -183,7 +183,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
             {otcFields.map((item, index) => (
               <div
                 key={item.id}
-                className="flex flex-col gap-3 border border-success rounded-md p-4"
+                className="flex flex-col gap-3 border bg-white border-success rounded-md p-4"
               >
                 <div className="flex gap-2 items-center">
                   <h4>داروی بدون نسخه {index + 1}</h4>
@@ -217,7 +217,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
 
                 <Input
                   placeholder="نام دارو"
-                  className="input input-bordered w-full"
+                  className="input input-bordered bg-white w-full"
                   {...register(`otc.${index}.drugName`, {
                     required: true,
                   })}
@@ -245,7 +245,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
                       optionDictionary={TYPE_LABEL}
                       selected={value}
                       setSelected={(op) => {
-                        setValue(`otc.${index}.count`, "0");
+                        setValue(`otc.${index}.count`, "1");
                         onChange(op);
                       }}
                     />
@@ -263,7 +263,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
                   }) => (
                     <NumericFormat
                       customInput={Input}
-                      className="input input-bordered w-full text-center pointer-events-none"
+                      className="input input-bordered bg-white w-full text-center pointer-events-none"
                       placeholder="تعداد"
                       value={value}
                       onValueChange={({ value: v }) => onChange(v)}
@@ -308,9 +308,9 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
                           type="button"
                           className="text-secondary disabled:text-slate-100 absolute end-4 top-1/2 -translate-y-1/2"
                           onClick={() => {
-                            if (+value > 0) onChange(+value - 1);
+                            if (+value > 1) onChange(+value - 1);
                           }}
-                          disabled={+watch(`otc.${index}.count`) === 0}
+                          disabled={+watch(`otc.${index}.count`) <= 1}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -354,7 +354,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
             {uploadFields.map((item, index) => (
               <div
                 key={item.id}
-                className="flex flex-col gap-3 border border-secondary rounded-md p-4"
+                className="flex flex-col gap-3 border bg-white border-secondary rounded-md p-4"
               >
                 <div className="flex gap-2 items-center">
                   <h4>نسخه پزشک {index + 1}</h4>
@@ -415,7 +415,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
             {elecFields.map((item, index) => (
               <div
                 key={item.id}
-                className="flex flex-col gap-3 border border-warning rounded-md p-4"
+                className="flex flex-col gap-3 border bg-white border-warning rounded-md p-4"
               >
                 <div className="flex gap-2 items-center">
                   <h4>نسخه الکترونیکی بیمه {index + 1}</h4>
@@ -447,7 +447,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
                 <Input
                   type="number"
                   placeholder="کد پیگیری"
-                  className="input input-bordered w-full"
+                  className="input input-bordered bg-white w-full"
                   {...register(`elecPrescription.${index}.trackingCode`, {
                     required: true,
                   })}
@@ -455,14 +455,14 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
                 <Input
                   type="number"
                   placeholder="کد ملی"
-                  className="input input-bordered w-full"
+                  className="input input-bordered bg-white w-full"
                   {...register(`elecPrescription.${index}.nationalCode`, {
                     required: true,
                   })}
                 />
                 <Input
                   placeholder="نام دکتر"
-                  className="input input-bordered w-full"
+                  className="input input-bordered bg-white w-full"
                   {...register(`elecPrescription.${index}.doctorName`, {
                     required: true,
                   })}

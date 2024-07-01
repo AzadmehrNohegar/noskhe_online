@@ -4,15 +4,15 @@ import { useMediaQuery } from "usehooks-ts";
 import { SidebarLiWithSubmenu } from "./partials/sidebarLiWithSubmenu";
 import { SidebarLiWithoutSubmenu } from "./partials/sidebarLiWithoutSubmenu";
 
-function DashboardLayoutSidebar() {
+function CustomerLayoutSidebar() {
   const matches = useMediaQuery("(max-width: 1023px)");
 
   if (matches) return null;
 
-  return <DashboardLayoutSidebarComponent />;
+  return <CustomerLayoutSidebarComponent />;
 }
 
-function DashboardLayoutSidebarComponent() {
+function CustomerLayoutSidebarComponent() {
   return (
     <aside className="w-[17%] h-svh bg-white flex flex-col gap-6 rounded-bl-2xl p-5 sticky top-0">
       <Link to="/" className="flex items-center gap-2 mx-auto">
@@ -36,4 +36,4 @@ function DashboardLayoutSidebarComponent() {
   );
 }
 
-export { DashboardLayoutSidebar };
+export { CustomerLayoutSidebar };

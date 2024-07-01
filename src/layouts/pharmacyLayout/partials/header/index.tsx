@@ -15,7 +15,7 @@ import { useAddressStore } from "@/store/address";
 import { SelectAddressDialog } from "@/shared/selectAddress";
 import { useMiscStore } from "@/store/misc";
 
-function DashboardLayoutHeader() {
+function PharmacyLayoutHeader() {
   const [isMobileSlideoverOpen, setIsMobileSlideoverOpen] = useState(false);
 
   const { addressDialogOpen, setIsAddressDialogOpen } = useMiscStore();
@@ -166,4 +166,4 @@ function DashboardLayoutHeader() {
   );
 }
 
-export { DashboardLayoutHeader };
+export { PharmacyLayoutHeader };
