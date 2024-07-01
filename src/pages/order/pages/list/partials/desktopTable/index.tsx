@@ -14,7 +14,6 @@ function OrderDesktopTable({ fields }: IResponsiveGatewayProps<_order_list>) {
       <thead className="text-gray-500 text-sm border-t border-b border-t-secondary-200 border-b-secondary-200 bg-secondary-10">
         <tr className="border-0">
           <th align="right">شناسه سفارش</th>
-          <th align="right">توضیحات سفارش</th>
           <th align="right">
             <span className="inline-flex items-center gap-2">
               تاریخ سفارش
@@ -33,10 +32,7 @@ function OrderDesktopTable({ fields }: IResponsiveGatewayProps<_order_list>) {
         {fields?.map((item) => (
           <tr key={item._id} className="border-0 odd:bg-white">
             <td align="right">
-              <span className="plaintext">{item._id}</span>
-            </td>
-            <td align="right">
-              <span className="plaintext">{item.description}</span>
+              <span className="plaintext">{item.refId || "-"}</span>
             </td>
             <td align="right">
               {new Intl.DateTimeFormat("fa-IR", {
@@ -49,7 +45,10 @@ function OrderDesktopTable({ fields }: IResponsiveGatewayProps<_order_list>) {
               <Chip status={item.status}>{GENERAL_STATUS[item.status]}</Chip>
             </td>
             <td align="left">
-              <Link to={`./${item._id}`} className="btn btn-primary btn-sm">
+              <Link
+                to={`./${item._id}`}
+                className="btn btn-link text-primary btn-sm"
+              >
                 جزئیات سفارش
               </Link>
             </td>

@@ -4,12 +4,17 @@ import { IconWrapper } from "@/shared/iconWrapper";
 import { HTMLProps } from "react";
 import clsx from "clsx";
 import { useDebouncedSearchParams } from "@/utils/useDebouncedSearchParams";
+import { NumericFormat } from "react-number-format";
+
+interface IListSearchWrapperProps extends HTMLProps<HTMLDivElement> {
+  isNumber?: boolean;
+}
 
 interface IListSearchWrapperForm {
   search: string;
 }
 
-function ListSearchWrapper({ className }: HTMLProps<HTMLDivElement>) {
+function ListSearchWrapper({ className, isNumber }: IListSearchWrapperProps) {
   const [searchParams, setSearchParams] = useDebouncedSearchParams();
 
   const { register, handleSubmit } = useForm<IListSearchWrapperForm>({
@@ -28,10 +33,31 @@ function ListSearchWrapper({ className }: HTMLProps<HTMLDivElement>) {
     setSearchParams(searchParams);
   };
 
+  if (isNumber)
+    return (
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={clsx("w-96", className)}
+      >
+        <NumericFormat
+          customInput={Input}
+          className="input input-bordered bg-white w-full peer"
+          placeholder="جست و جو..."
+          elementEnd={
+            <button className="absolute end-1 lg:end-2 inset-y-auto btn btn-sm peer-[&:not(:placeholder-shown)]:btn-primary font-light">
+              پیدا کن
+              <IconWrapper iconSize="medium" className="icon-Search20" />
+            </button>
+          }
+          {...register("search")}
+        />
+      </form>
+    );
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={clsx("w-96", className)}>
       <Input
-        className="input input-bordered w-full peer"
+        className="input input-bordered bg-white w-full peer"
         placeholder="جست و جو..."
         elementEnd={
           <button className="absolute end-1 lg:end-2 inset-y-auto btn btn-sm peer-[&:not(:placeholder-shown)]:btn-primary font-light">

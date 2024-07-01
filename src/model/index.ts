@@ -252,14 +252,16 @@ export type _order = {
     addressId: string;
     description: string;
     status: _order_status;
-    deliveryType: string;
+    deliveryType: _delivery_type;
     accepted: boolean;
+    refId: number;
     otc: _otc[];
     uploadPrescription: _uploadPrescription[];
     elecPrescription: _elecPrescription[];
     createdAt: string;
     updatedAt: string;
   };
+  address: address;
 };
 
 export type _elecPrescription = {
@@ -289,6 +291,7 @@ export type _order_list = {
   _id: string;
   userId: string;
   description: string;
+  refId: number;
   status: general_status;
   deliveryType: _delivery_type;
   accepted: boolean;
