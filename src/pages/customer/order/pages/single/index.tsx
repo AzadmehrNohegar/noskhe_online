@@ -188,13 +188,13 @@ function OrderSingle() {
                         type="button"
                         className="border border-gray-200 rounded-md p-2 text-gray-600"
                         onClick={() =>
-                          navigate(`?imageUrl=${el.imageUrl}`, {
+                          navigate(`?image=${el.image}`, {
                             replace: true,
                           })
                         }
                       >
                         <img
-                          src={el.imageUrl}
+                          src={import.meta.env.VITE_BASEURL + el.image}
                           className="w-10 h-10 min-w-10 object-contain"
                           alt="perc"
                         />
@@ -227,13 +227,13 @@ function OrderSingle() {
                       type="button"
                       className="border border-gray-200 rounded-md p-2 text-gray-600"
                       onClick={() =>
-                        navigate(`?imageUrl=${el.imageUrl}`, {
+                        navigate(`?image=${el.image}`, {
                           replace: true,
                         })
                       }
                     >
                       <img
-                        src={el.imageUrl}
+                        src={import.meta.env.VITE_BASEURL + el.image}
                         className="w-10 h-10 min-w-10 object-contain"
                         alt="perc"
                       />
@@ -246,7 +246,7 @@ function OrderSingle() {
         </div>
       </div>
       <ImageDialog
-        isOpen={!!searchParams.get("imageUrl")}
+        isOpen={!!searchParams.get("image")}
         closeModal={() =>
           navigate(`.`, {
             replace: true,
