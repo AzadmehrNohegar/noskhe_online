@@ -44,7 +44,7 @@ function Toast({ toast }: IToastProps) {
     >
       <div
         className={clsx(
-          "p-4 text-white rounded-xl flex flex-col justify-start gap-y-4",
+          "p-4 text-white rounded-lg flex flex-col justify-start gap-y-4",
           type === "primary" && "bg-primary",
           type === "secondary" && "bg-secondary",
           type === "info" && "bg-info",

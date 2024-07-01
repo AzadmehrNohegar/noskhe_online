@@ -60,7 +60,7 @@ function DatePicker(props: IDatePicker) {
           containerClassName="w-full"
           className="purple"
           arrowClassName="border-r-0 border-l-0"
-          inputClass="w-full px-3 py-2.5 lg:py-3 text-sm lg:text-base outline-none border-none relative z-10 rounded-1.5lg placeholder:text-gray-400 text-base"
+          inputClass="w-full px-3 py-2.5 lg:py-3 text-sm lg:text-base outline-none border-none relative z-10 rounded-lg placeholder:text-gray-400 text-base"
           {...rest}
         />
       </div>

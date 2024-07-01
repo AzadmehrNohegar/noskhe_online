@@ -50,7 +50,7 @@ function CustomerLayoutHeader() {
 
           <Link
             to="/wallet"
-            className="flex items-center rounded-md bg-gray-50 border border-gray-200 px-2 py-1 h-fit my-auto me-2 w-1/2"
+            className="flex items-center rounded-md bg-white border border-gray-200 px-2 py-1 h-fit my-auto me-2 w-1/2"
           >
             <IconWrapper iconSize="medium" className="icon-Wallet-16" />
             <strong className="ms-auto text-sm text-red-600 min-w-16 text-end">
@@ -130,7 +130,7 @@ function CustomerLayoutHeader() {
         <Breadcrumbs className="me-auto" />
         <Link
           to="/wallet"
-          className="flex items-center rounded-md bg-gray-50 border border-gray-200 text-sm px-3 py-2 min-w-72"
+          className="flex items-center rounded-md bg-white border border-gray-200 text-sm px-3 py-2 min-w-72"
         >
           <span>اعتبار کیف پول</span>
           <strong className="ms-auto text-base text-red-600 min-w-24 text-end">
@@ -146,7 +146,7 @@ function CustomerLayoutHeader() {
           </strong>
         </Link>
         <button
-          className="flex items-center rounded-md bg-gray-50 border border-gray-200 text-sm px-3 py-2 max-w-72 gap-2"
+          className="flex items-center rounded-md bg-white border border-gray-200 text-sm px-3 py-2 max-w-72 gap-2"
           onClick={() => setIsAddressDialogOpen(true)}
         >
           <span>آدرس</span>

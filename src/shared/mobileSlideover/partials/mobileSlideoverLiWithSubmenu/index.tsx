@@ -37,7 +37,7 @@ function MobileSlideoverLiWithSubmenu({
       <label
         htmlFor={elementId}
         className={clsx(
-          "btn btn-custom p-2 rounded-xl flex items-center gap-3 justify-start",
+          "btn btn-custom p-2 rounded-lg flex items-center gap-3 justify-start",
           isCurrentEndpoint(to) &&
             role === "CUSTOMER" &&
             "btn-primary relative before:absolute before:-start-5 before:w-2 before:h-1/2 before:inset-y-auto before:bg-primary before:rounded-l-md",
@@ -65,7 +65,7 @@ function MobileSlideoverLiWithSubmenu({
             to={el.to}
             className={({ isActive }) =>
               clsx(
-                "btn btn-block btn-custom justify-start rounded-xl text-xs",
+                "btn btn-block btn-custom justify-start rounded-lg text-xs",
                 !isActive && "btn-ghost text-gray-700 font-light",
                 isActive &&
                   role === "CUSTOMER" &&

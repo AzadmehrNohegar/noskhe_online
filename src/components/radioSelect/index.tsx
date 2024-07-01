@@ -71,7 +71,7 @@ function RadioSelect({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute z-30 mt-1 max-h-60 w-full overflow-auto rounded-1.5lg bg-transparent py-1 text-base shadow-lg focus:outline-none">
+          <Listbox.Options className="absolute z-30 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-transparent py-1 text-base shadow-lg focus:outline-none">
             {searchComponent}
             {options?.map((option) => (
               <Listbox.Option

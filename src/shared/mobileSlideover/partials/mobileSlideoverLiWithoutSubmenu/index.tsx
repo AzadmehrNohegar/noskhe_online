@@ -24,7 +24,7 @@ function MobileSlideoverLiWithoutSubmenu({
         end={end}
         className={({ isActive }) =>
           clsx(
-            "btn btn-custom p-2 rounded-xl flex items-center gap-3 justify-start",
+            "btn btn-custom p-2 rounded-lg flex items-center gap-3 justify-start",
             isActive &&
               role === "CUSTOMER" &&
               "btn-primary relative before:absolute before:-start-5 before:w-2 before:h-1/2 before:inset-y-auto before:bg-primary before:rounded-l-md",

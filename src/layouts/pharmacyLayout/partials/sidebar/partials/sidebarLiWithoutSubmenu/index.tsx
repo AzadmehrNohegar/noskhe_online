@@ -11,7 +11,7 @@ function SidebarLiWithoutSubmenu({ end, icon, label, to }: navLink) {
         end={end}
         className={({ isActive }) =>
           clsx(
-            "btn p-2 rounded-xl flex items-center gap-3 justify-start min-w-max",
+            "btn p-2 rounded-lg flex items-center gap-3 justify-start min-w-max",
             isActive &&
               "btn-secondary relative before:absolute before:-start-5 before:w-2 before:h-1/2 before:inset-y-auto before:bg-secondary before:rounded-l-md text-white",
             !isActive && "btn-ghost"

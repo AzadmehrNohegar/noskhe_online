@@ -28,7 +28,7 @@ function SidebarLiWithSubmenu({ icon, label, to, submenu }: navLink) {
       <label
         htmlFor={elementId}
         className={clsx(
-          "btn p-2 rounded-xl flex items-center gap-3 justify-start",
+          "btn p-2 rounded-lg flex items-center gap-3 justify-start",
           isCurrentEndpoint(to) &&
             "btn-primary relative before:absolute before:-start-5 before:w-2 before:h-1/2 before:inset-y-auto before:bg-primary before:rounded-l-md text-white",
           !isCurrentEndpoint(to) && "btn-ghost"
@@ -52,7 +52,7 @@ function SidebarLiWithSubmenu({ icon, label, to, submenu }: navLink) {
             to={el.to}
             className={({ isActive }) =>
               clsx(
-                "btn btn-block btn-custom justify-start rounded-xl text-sm min-w-max",
+                "btn btn-block btn-custom justify-start rounded-lg text-sm min-w-max",
                 !isActive && "btn-ghost text-gray-700 font-light",
                 isActive &&
                   "btn-ghost relative bg-primary-100 text-primary text-start"

@@ -48,7 +48,6 @@ function OrderList() {
       <Breadcrumbs className="lg:hidden" />
       <div className="flex items-center gap-3 flex-wrap lg:flex-nowrap lg:justify-normal">
         <ListSearchWrapper
-          isNumber
           type="number"
           className="basis-full lg:basis-auto lg:me-auto"
         />
