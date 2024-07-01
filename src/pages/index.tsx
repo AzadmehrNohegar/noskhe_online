@@ -27,12 +27,12 @@ function BasePage() {
             <Route path="*" element={<>gg</>} />
           </Route>
         ) : null}
+        {role === "PHARMACY" ? (
+          <Route element={<PharmacyLayout />}>
+            <Route index element={<PharmacyDashboardPage />} />
+          </Route>
+        ) : null}
       </Route>
-      {role === "PHARMACY" ? (
-        <Route element={<PharmacyLayout />}>
-          <Route index element={<PharmacyDashboardPage />} />
-        </Route>
-      ) : null}
       <Route path="auth/*" element={<AuthPage />} />
     </Routes>
   );

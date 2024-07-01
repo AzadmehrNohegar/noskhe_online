@@ -18,7 +18,9 @@ export default {
       },
       borderRadius: {
         "1.5lg": "0.625rem",
+        "1.5xl": "1.25rem",
         "2.5xl": "1.25rem",
+        "4xl": "1.75rem",
       },
       flexBasis: {
         modified2: "calc(50% - 0.5rem)",
@@ -27,6 +29,9 @@ export default {
       },
       backgroundImage: {
         discount: "url('/images/discount-tag.svg')",
+        "pattern-primary": "url('/images/pattern-primary.svg')",
+        "pattern-secondary": "url('/images/pattern-secondary.svg')",
+        "pattern-warning": "url('/images/pattern-warning.svg')",
       },
       maxWidth: {
         toast: "calc(100vw - 3.5rem)",

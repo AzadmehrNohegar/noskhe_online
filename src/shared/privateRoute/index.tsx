@@ -15,7 +15,7 @@ function PrivateRoute() {
     enabled: isAuthenticated && role === "PHARMACY",
   });
 
-  if (!isAuthenticated) return <Navigate to="/auth" />;
+  if (!isAuthenticated) return <Navigate to="/auth" replace />;
   return <Outlet />;
 }
 

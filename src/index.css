@@ -69,10 +69,6 @@
     direction: rtl;
   }
 
-  .btn-custom {
-    @apply h-10 min-h-10 py-0;
-  }
-
   .chip {
     @apply px-4 py-1.5 inline-block min-w-max rounded-md text-sm;
   }
@@ -111,7 +107,7 @@
 
   @media screen and (max-width: 1023px) {
     .btn:not(.btn-xs, .btn-sm, .btn-md, .btn-lg, .btn-xl, .btn-square) {
-      @apply btn-custom;
+      @apply h-10 min-h-10 py-0;
     }
 
     .btn-square {
