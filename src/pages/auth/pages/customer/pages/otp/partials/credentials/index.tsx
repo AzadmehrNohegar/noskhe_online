@@ -8,11 +8,13 @@ import { useFormContext } from "react-hook-form";
 import { useMutation } from "react-query";
 import { Link } from "react-router-dom";
 
-interface IAuthOtpCredentialsProps {
+interface ICustomerAuthOtpCredentialsProps {
   setNextStep: () => void;
 }
 
-function AuthOtpCredentials({ setNextStep }: IAuthOtpCredentialsProps) {
+function CustomerAuthOtpCredentials({
+  setNextStep,
+}: ICustomerAuthOtpCredentialsProps) {
   const { stackToast } = useToastStore();
 
   const [searchParams, setSearchParams] = useDebouncedSearchParams();
@@ -44,7 +46,7 @@ function AuthOtpCredentials({ setNextStep }: IAuthOtpCredentialsProps) {
     },
     onError: () => {
       stackToast({
-        title: "نام کاربری یا شناسه کاربری اشتباه است.",
+        title: "نام کاربری یا رمز عبور اشتباه است.",
         options: {
           type: "error",
         },
@@ -101,14 +103,20 @@ function AuthOtpCredentials({ setNextStep }: IAuthOtpCredentialsProps) {
       >
         ورود با نام کاربری
       </Link> */}
-      <div className="flex items-center justify-center gap-4 w-full">
+      <div className="flex items-center flex-wrap justify-center gap-4 w-full">
         <span className="text-sm text-gray-600">حساب کاربری ندارید؟</span>
-        <Link to="register" type="button" className="btn btn-ghost btn-primary">
+        <Link to="register" type="button" className="btn btn-link text-primary">
           ثبت‌نام در نسخه انلاین
+        </Link>
+        <Link
+          to="../pharmacy"
+          className="btn btn-outline text-secondary hover:bg-secondary hover:border-secondary btn-block basis-full"
+        >
+          ورود داروخانه
         </Link>
       </div>
     </form>
   );
 }
 
-export { AuthOtpCredentials };
+export { CustomerAuthOtpCredentials };

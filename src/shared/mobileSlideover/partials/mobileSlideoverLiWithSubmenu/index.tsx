@@ -1,5 +1,6 @@
 import { navLink } from "@/constants/misc";
 import { IconWrapper } from "@/shared/iconWrapper";
+import { useAuthStore } from "@/store/auth";
 import { useIsCurrentEndpoint } from "@/utils/useIsCurrentEndpoint";
 import clsx from "clsx";
 import { useId, useRef } from "react";
@@ -23,9 +24,7 @@ function MobileSlideoverLiWithSubmenu({
   const checkboxRef = useRef<HTMLInputElement>(null);
   const elementRef = useRef<HTMLLIElement>(null);
 
-  // useOnClickOutside(elementRef, () => {
-  //   if (checkboxRef.current) checkboxRef.current.checked = false;
-  // });
+  const { role } = useAuthStore();
 
   return (
     <li tabIndex={0} className="group" ref={elementRef}>
@@ -40,7 +39,11 @@ function MobileSlideoverLiWithSubmenu({
         className={clsx(
           "btn btn-custom p-2 rounded-xl flex items-center gap-3 justify-start",
           isCurrentEndpoint(to) &&
+            role === "CUSTOMER" &&
             "btn-primary relative before:absolute before:-start-5 before:w-2 before:h-1/2 before:inset-y-auto before:bg-primary before:rounded-l-md",
+          isCurrentEndpoint(to) &&
+            role === "PHARMACY" &&
+            "btn-secondary relative before:absolute before:-start-5 before:w-2 before:h-1/2 before:inset-y-auto before:bg-secondary before:rounded-l-md",
           !isCurrentEndpoint(to) && "btn-ghost"
         )}
       >
@@ -65,7 +68,11 @@ function MobileSlideoverLiWithSubmenu({
                 "btn btn-block btn-custom justify-start rounded-xl text-xs",
                 !isActive && "btn-ghost text-gray-700 font-light",
                 isActive &&
-                  "btn-ghost relative bg-primary-100 text-primary text-start"
+                  role === "CUSTOMER" &&
+                  "btn-ghost relative bg-primary-100 text-primary text-start",
+                isActive &&
+                  role === "PHARMACY" &&
+                  "btn-ghost relative bg-secondary-100 text-secondary text-start"
               )
             }
             onClick={closeModal}

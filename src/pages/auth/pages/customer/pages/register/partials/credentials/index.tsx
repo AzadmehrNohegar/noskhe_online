@@ -9,11 +9,13 @@ import { useFormContext } from "react-hook-form";
 import { useMutation } from "react-query";
 import { Link } from "react-router-dom";
 
-interface IAuthOtpCredentialsProps {
+interface ICustomerAuthOtpCredentialsProps {
   setNextStep: () => void;
 }
 
-function AuthOtpCredentials({ setNextStep }: IAuthOtpCredentialsProps) {
+function CustomerAuthOtpCredentials({
+  setNextStep,
+}: ICustomerAuthOtpCredentialsProps) {
   const { stackToast } = useToastStore();
   const { convertPersian2English } = usePersianConvert();
 
@@ -39,7 +41,7 @@ function AuthOtpCredentials({ setNextStep }: IAuthOtpCredentialsProps) {
     },
     onError: () => {
       stackToast({
-        title: "نام کاربری یا شناسه کاربری اشتباه است.",
+        title: "نام کاربری یا رمز عبور اشتباه است.",
         options: {
           type: "error",
         },
@@ -60,10 +62,10 @@ function AuthOtpCredentials({ setNextStep }: IAuthOtpCredentialsProps) {
       onSubmit={handleSubmit(onSubmit)}
     >
       <h1 className="lg:text-xl flex items-center gap-2 font-bold text-primary justify-center lg:justify-start">
-        ورود به پنل نسخه انلاین
+        ثبت نام پنل نسخه انلاین
       </h1>
       <span className="text-gray-600 text-sm lg:text-base text-center lg:text-start">
-        برای ورود به حساب کاربری اطلاعات زیر را وارد کنید.
+        برای ثبت نام حساب کاربری اطلاعات زیر را وارد کنید.
       </span>
       <Input
         placeholder="نام و نام خانوادگی"
@@ -122,7 +124,7 @@ function AuthOtpCredentials({ setNextStep }: IAuthOtpCredentialsProps) {
         className="btn btn-primary btn-block"
         disabled={!isValid || !isDirty || generateToken.isLoading}
       >
-        ورود به حساب کاربری
+        ثبت نام
       </button>
       <Divider orientation="horizontal" />
       {/* <Link
@@ -132,14 +134,20 @@ function AuthOtpCredentials({ setNextStep }: IAuthOtpCredentialsProps) {
       >
         ورود با نام کاربری
       </Link> */}
-      <div className="flex items-center justify-center gap-4 w-full">
+      <div className="flex items-center flex-wrap justify-center gap-4 w-full">
         <span className="text-sm text-gray-600">حساب کاربری دارید؟</span>
-        <Link to=".." type="button" className="btn btn-ghost btn-primary">
+        <Link to=".." type="button" className="btn btn-link text-primary">
           ورود به نسخه انلاین
+        </Link>
+        <Link
+          to="../../pharmacy/register"
+          className="btn btn-outline text-secondary hover:bg-secondary hover:border-secondary btn-block basis-full"
+        >
+          ثبت نام داروخانه
         </Link>
       </div>
     </form>
   );
 }
 
-export { AuthOtpCredentials };
+export { CustomerAuthOtpCredentials };

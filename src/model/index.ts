@@ -95,11 +95,23 @@ export type authOtpForm = {
   code: string;
 };
 
+export type authLoginForm = {
+  userName: string;
+  password: string;
+};
+
 export type authRegisterForm = {
   mobile: string;
   code: string;
   fullName: string;
   nationalCode: string;
+};
+
+export type authPharmacyRegisterForm = {
+  mobile: string;
+  userName: string;
+  fullName: string;
+  password: string;
 };
 
 export type dashboard_form = {
@@ -201,10 +213,25 @@ export type elecPrescription = {
 };
 
 export type user = {
-  fullName: "azadmehr";
-  nationalCode: "0024373028";
-  mobile: "09129098256";
-  walletBalance: 0;
+  fullName: string;
+  nationalCode: number;
+  mobile: string;
+  walletBalance: number;
+};
+
+export type pharmacyUser = {
+  mobile: string;
+  userName: string;
+  address: string;
+  city: string;
+  coordinates: number[];
+  district: string;
+  fullName: string;
+  licenseNumber: string;
+  nationalCode: string;
+  pharmacyName: string;
+  province: string;
+  walletBalance: number;
 };
 
 export type mapir_reserve = {

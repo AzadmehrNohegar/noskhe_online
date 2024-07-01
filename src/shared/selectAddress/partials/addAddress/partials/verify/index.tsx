@@ -112,7 +112,7 @@ function AddAddressVerify({ handleStep }: IAddAddressVerifyProps) {
         label="آدرس کامل"
         placeholder="آدرس کامل را وارد کنید."
         containerClassName="basis-full"
-        className="input input-bordered w-full"
+        className="input input-bordered bg-white w-full"
         {...register("address", {
           required: true,
         })}
@@ -121,7 +121,7 @@ function AddAddressVerify({ handleStep }: IAddAddressVerifyProps) {
         label="استان"
         placeholder="استان را وارد کنید."
         containerClassName="basis-full lg:basis-modified2"
-        className="input input-bordered w-full"
+        className="input input-bordered bg-white w-full"
         {...register("province", {
           required: true,
         })}
@@ -130,7 +130,7 @@ function AddAddressVerify({ handleStep }: IAddAddressVerifyProps) {
         label="شهر"
         placeholder="شهر را وارد کنید."
         containerClassName="basis-full lg:basis-modified2"
-        className="input input-bordered w-full"
+        className="input input-bordered bg-white w-full"
         {...register("city", {
           required: true,
         })}
@@ -142,7 +142,7 @@ function AddAddressVerify({ handleStep }: IAddAddressVerifyProps) {
             label="نام گیرنده"
             placeholder="نام گیرنده را وارد کنید."
             containerClassName="basis-full lg:basis-modified2"
-            className="input input-bordered w-full"
+            className="input input-bordered bg-white w-full"
             {...register("fullName", {
               required: true,
             })}
@@ -151,7 +151,7 @@ function AddAddressVerify({ handleStep }: IAddAddressVerifyProps) {
             label="شماره تماس گیرنده"
             placeholder="شماره تماس گیرنده را وارد کنید."
             containerClassName="basis-full lg:basis-modified2"
-            className="input input-bordered w-full"
+            className="input input-bordered bg-white w-full"
             {...register("phone", {
               required: true,
               validate: (value) => {
@@ -181,7 +181,7 @@ function AddAddressVerify({ handleStep }: IAddAddressVerifyProps) {
         )}
       />
 
-      <div className="flex items-center justify-end border-t border-t-gray-100 pt-4 gap-3 basis-full">
+      <div className="flex items-center justify-end border-t border-t-gray-100 pt-4 gap-3 w-full">
         <button
           type="button"
           className="btn btn-link btn-custom text-gray-800"
@@ -190,7 +190,7 @@ function AddAddressVerify({ handleStep }: IAddAddressVerifyProps) {
           انصراف
         </button>
         <button
-          className="btn btn-primary btn-custom lg:btn-wide"
+          className="btn btn-primary btn-custom btn-wide"
           disabled={!isValid || createAddress.isLoading}
         >
           ذخیره آدرس

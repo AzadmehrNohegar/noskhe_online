@@ -1,6 +1,6 @@
-import { postUserAuthCheckOtp, postUserAuthSendOtp } from "@/api/user";
+import { postUserAuthRegisterCheckOtp } from "@/api/user";
 import { Divider } from "@/components/divider";
-import { authOtpForm } from "@/model";
+import { authRegisterForm } from "@/model";
 import { IconWrapper } from "@/shared/iconWrapper";
 import { OtpInput } from "@/shared/otpInput";
 import { Timer } from "@/shared/timer";
@@ -12,11 +12,13 @@ import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useCountdown } from "usehooks-ts";
 
-interface IAuthOtpVerificationProps {
+interface ICustomerAuthOtpVerificationProps {
   setPrevStep: () => void;
 }
 
-function AuthOtpVerification({ setPrevStep }: IAuthOtpVerificationProps) {
+function CustomerAuthOtpVerification({
+  setPrevStep,
+}: ICustomerAuthOtpVerificationProps) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { loginUser } = useAuthStore();
@@ -37,15 +39,13 @@ function AuthOtpVerification({ setPrevStep }: IAuthOtpVerificationProps) {
     control,
     handleSubmit,
     watch,
-    getValues,
     formState: { isValid, isDirty },
-  } = useFormContext<authOtpForm>();
+  } = useFormContext<authRegisterForm>();
 
-  const login = useMutation(postUserAuthCheckOtp, {
+  const login = useMutation(postUserAuthRegisterCheckOtp, {
     onSuccess: (res) => {
       if (res?.data) {
         const { token } = res.data.data;
-
         stackToast({
           title: "خوش آمدید!",
           options: {
@@ -53,43 +53,13 @@ function AuthOtpVerification({ setPrevStep }: IAuthOtpVerificationProps) {
           },
         });
         queryClient.invalidateQueries();
-        loginUser(token.accessToken, token.refreshToken);
+        loginUser(token.accessToken, token.refreshToken, "CUSTOMER");
         navigate("/");
       }
     },
   });
 
-  const generateToken = useMutation(postUserAuthSendOtp, {
-    onSuccess: (res) => {
-      if (res?.data) {
-        stackToast({
-          title: "پیامک ارسال شد.",
-          message: "رمز یکبار مصرف برای شما ارسال شد.",
-          options: {
-            type: "success",
-          },
-        });
-        resetCountdown();
-      }
-    },
-    onError: () => {
-      stackToast({
-        title: "نام کاربری یا شناسه کاربری اشتباه است.",
-        options: {
-          type: "error",
-        },
-      });
-    },
-  });
-
-  const resendOtp = () =>
-    generateToken.mutate({
-      body: {
-        mobile: getValues().mobile,
-      },
-    });
-
-  const onSubmit = (values: authOtpForm) =>
+  const onSubmit = (values: authRegisterForm) =>
     login.mutate({
       body: {
         ...values,
@@ -147,8 +117,8 @@ function AuthOtpVerification({ setPrevStep }: IAuthOtpVerificationProps) {
         {count === 0 ? (
           <button
             type="button"
-            className="btn btn-link text-primary btn-sm px-0"
-            onClick={resendOtp}
+            className="btn btn-link btn-primary btn-sm px-0"
+            onClick={resetCountdown}
           >
             ارسال دوباره کد
           </button>
@@ -170,4 +140,4 @@ function AuthOtpVerification({ setPrevStep }: IAuthOtpVerificationProps) {
   );
 }
 
-export { AuthOtpVerification };
+export { CustomerAuthOtpVerification };

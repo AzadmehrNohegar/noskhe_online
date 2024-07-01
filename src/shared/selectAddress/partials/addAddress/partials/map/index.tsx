@@ -109,7 +109,7 @@ function AddAddressMap({ handleStep }: IAddAddressMapProps) {
         name="mapir-search"
         type="text"
         value={text}
-        className="input input-bordered w-full"
+        className="input input-bordered bg-white w-full"
         onChange={(e) => setText(e.target.value)}
         placeholder="موقعیت مکانی خود را انتخاب کنید..."
       >

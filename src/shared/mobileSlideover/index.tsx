@@ -40,7 +40,7 @@ function MobileSlideoverComponent({
           <div className="flex h-full flex-col overflow-y-auto bg-gray-50">
             <div className="flex items-stretch gap-3 px-5 py-3 border-b border-b-gray-100">
               <Link to="/" className="flex items-center gap-2 me-auto">
-                <img src="/logo.png" width={44} height={44} alt="logo" />
+                <img src="/logo.png" width={100} height={32} alt="logo" />
               </Link>
               <Divider />
               <button

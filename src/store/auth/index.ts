@@ -8,11 +8,10 @@ import { persist } from "zustand/middleware";
 interface IAuthStore {
   access: string;
   refresh: string;
-  prime: string;
   isAuthenticated: boolean;
   role: role;
   refreshUser: (resolve: () => void, reject: () => void) => Promise<void>;
-  loginUser: (accessToken: string, primeToken: string) => void;
+  loginUser: (accessToken: string, primeToken: string, role: role) => void;
   logoutUser: () => void;
 }
 
@@ -21,13 +20,13 @@ const useAuthStore = create<IAuthStore>()(
     (set, get) => ({
       access: "",
       refresh: "",
-      prime: "",
       isAuthenticated: false,
       role: "CUSTOMER",
-      loginUser: (accessToken, refreshToken) =>
+      loginUser: (accessToken, refreshToken, role) =>
         set({
           access: accessToken,
           refresh: refreshToken,
+          role: role,
           isAuthenticated: true,
         }),
       refreshUser: (resolve, reject) =>
@@ -51,7 +50,8 @@ const useAuthStore = create<IAuthStore>()(
             reject();
           }),
 
-      logoutUser: () => set({ access: "", prime: "", isAuthenticated: false }),
+      logoutUser: () =>
+        set({ access: "", refresh: "", isAuthenticated: false }),
     }),
     {
       name: "auth-storage",

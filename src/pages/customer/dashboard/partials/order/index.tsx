@@ -8,7 +8,7 @@ import {
 } from "@/model";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { StatelessSelect } from "@/components/statelessSelect";
 
 interface IDashboardOrderProps {
@@ -16,8 +16,6 @@ interface IDashboardOrderProps {
 }
 
 function DashboardOrder({ nextStep }: IDashboardOrderProps) {
-  useState(false);
-
   const {
     control,
     watch,

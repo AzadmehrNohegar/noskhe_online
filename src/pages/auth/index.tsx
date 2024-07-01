@@ -1,14 +1,15 @@
 import { lazy } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
-const AuthOtpPage = lazy(() => import("./pages/otp"));
-const AuthRegisterPage = lazy(() => import("./pages/register"));
+const CustomerAuthPage = lazy(() => import("./pages/customer"));
+const PharmacyAuthPage = lazy(() => import("./pages/pharmacy"));
 
 function Auth() {
   return (
     <Routes>
-      <Route index element={<AuthOtpPage />} />
-      <Route path="register" element={<AuthRegisterPage />} />
+      <Route index element={<Navigate to="./customer" replace />} />
+      <Route path="customer/*" element={<CustomerAuthPage />} />
+      <Route path="pharmacy/*" element={<PharmacyAuthPage />} />
     </Routes>
   );
 }
