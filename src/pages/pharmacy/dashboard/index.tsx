@@ -58,7 +58,7 @@ function Dashboard() {
           </h3>
           <div className="flex items-center justify-between w-full relative">
             <strong className="lg:text-xl">
-              {dashboardKpi.data?.data.data.WFC_ORDERS}{" "}
+              {dashboardKpi.data?.data.data.CONFIRMED_ORDERS}{" "}
               <span className="font-normal text-2xs lg:text-sm text-gray-600">
                 سفارش
               </span>
@@ -77,7 +77,7 @@ function Dashboard() {
           </h3>
           <div className="flex items-center justify-between w-full relative">
             <strong className="lg:text-xl">
-              {dashboardKpi.data?.data.data.CONFIRMED_ORDERS}{" "}
+              {dashboardKpi.data?.data.data.WFC_ORDERS}{" "}
               <span className="font-normal text-2xs lg:text-sm text-gray-600">
                 سفارش
               </span>
