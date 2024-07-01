@@ -73,7 +73,7 @@ function Dashboard() {
         </div>
         <div className="w-full flex flex-col gap-8 bg-white relative before:absolute before:inset-0 before:w-full before:h-full before:bg-no-repeat before:bg-cover before:bg-pattern-warning before:rounded-1.5xl rounded-1.5xl px-6 py-4">
           <h3 className="font-normal text-gray-600 text-sm lg:text-lg relative">
-            سفارشات جاری
+            سفارشات جاری تحویل با پیک
           </h3>
           <div className="flex items-center justify-between w-full relative">
             <strong className="lg:text-xl">
@@ -94,7 +94,7 @@ function Dashboard() {
       <div className="flex flex-col lg:flex-row items-stretch justify-between gap-3">
         <div className="w-full flex flex-col gap-8 bg-white relative before:absolute before:inset-0 before:w-full before:h-full before:bg-no-repeat before:bg-cover before:bg-pattern-secondary before:rounded-1.5xl rounded-1.5xl px-6 py-4 before:grayscale">
           <h3 className="font-normal text-gray-600 text-sm lg:text-lg relative">
-            سفارشات در انتظار تایید (حضوری)
+            سفارشات جاری حضوری
           </h3>
           <div className="flex items-center justify-between w-full relative">
             <strong className="lg:text-xl">

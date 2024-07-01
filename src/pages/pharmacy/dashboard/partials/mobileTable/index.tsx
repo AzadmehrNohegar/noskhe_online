@@ -1,5 +1,6 @@
 import { Chip } from "@/components/chip";
 import { GENERAL_STATUS } from "@/model";
+import { Link } from "react-router-dom";
 
 function MobileDashboardTable() {
   return (
@@ -7,8 +8,18 @@ function MobileDashboardTable() {
       {new Array(8).fill(null).map((_, index) => (
         <ul key={index} className="flex flex-col gap-4 p-4 even:bg-white">
           <li className="flex items-center justify-between">
-            <span className="text-xs text-gray-500">شناسه سفارش</span>
-            <span className="text-sm text-gray-700">1234</span>
+            <span className="line-clamp-1 text-sm">
+              <span className="inline-flex w-7 min-w-7 h-7 items-center justify-center bg-gray-200 text-xs text-gray-600 rounded-lg">
+                {index + 1}
+              </span>{" "}
+              1234
+            </span>
+            <Link
+              to="./order/1"
+              className="btn btn-link text-secondary btn-sm px-0"
+            >
+              مشاهده جزئیات
+            </Link>
           </li>
           <li className="flex items-center justify-between">
             <span className="text-xs text-gray-500">تاریخ سفارش</span>
