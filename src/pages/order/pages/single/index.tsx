@@ -74,7 +74,7 @@ function OrderSingle() {
             </span>
             سفارش دارو
           </h2>
-          <span className="text-grey-600 font-normal text-sm">
+          <span className="text-grey-600 font-normal text-sm plaintext">
             {new Intl.DateTimeFormat("fa-IR", {
               dateStyle: "long",
               timeStyle: "short",

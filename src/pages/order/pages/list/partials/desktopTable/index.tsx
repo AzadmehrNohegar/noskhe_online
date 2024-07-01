@@ -34,7 +34,7 @@ function OrderDesktopTable({ fields }: IResponsiveGatewayProps<_order_list>) {
             <td align="right">
               <span className="plaintext">{item.refId || "-"}</span>
             </td>
-            <td align="right">
+            <td align="right" className="plaintext">
               {new Intl.DateTimeFormat("fa-IR", {
                 dateStyle: "short",
                 timeStyle: "short",

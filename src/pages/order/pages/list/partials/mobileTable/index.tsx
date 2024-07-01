@@ -12,7 +12,7 @@ function OrderMobileTable({ fields }: IResponsiveGatewayProps<_order_list>) {
             <span className="text-sm text-gray-700">{item.refId || "-"}</span>
           </li>
           <li className="flex items-center justify-between">
-            <span className="text-sm text-gray-700">
+            <span className="text-sm text-gray-700 plaintext">
               {new Intl.DateTimeFormat("fa-IR", {
                 dateStyle: "short",
                 timeStyle: "short",
