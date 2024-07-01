@@ -3,19 +3,20 @@ import { PrivateRoute } from "@/shared/privateRoute";
 import { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 
-const DashboardPage = lazy(() => import("./dashboard"));
 const AuthPage = lazy(() => import("./auth"));
-const WalletPage = lazy(() => import("./wallet"));
-const OrderPage = lazy(() => import("./order"));
+
+const CustomerWalletPage = lazy(() => import("./customer/wallet"));
+const CustomerOrderPage = lazy(() => import("./customer/order"));
+const CustomerDashboardPage = lazy(() => import("./customer/dashboard"));
 
 function BasePage() {
   return (
     <Routes>
       <Route element={<PrivateRoute />}>
         <Route element={<DashboardLayout />}>
-          <Route index element={<DashboardPage />} />
-          <Route path="order/*" element={<OrderPage />} />
-          <Route path="wallet" element={<WalletPage />} />
+          <Route index element={<CustomerDashboardPage />} />
+          <Route path="order/*" element={<CustomerOrderPage />} />
+          <Route path="wallet" element={<CustomerWalletPage />} />
           <Route path="*" element={<>gg</>} />
         </Route>
       </Route>

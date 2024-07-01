@@ -1,6 +1,7 @@
 // import { postAccountAuthRefreshToken } from "@/api/account";
 // import { AxiosResponse } from "axios";
 import { postUserAuthRefreshToken } from "@/api/user";
+import { role } from "@/model";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -9,6 +10,7 @@ interface IAuthStore {
   refresh: string;
   prime: string;
   isAuthenticated: boolean;
+  role: role;
   refreshUser: (resolve: () => void, reject: () => void) => Promise<void>;
   loginUser: (accessToken: string, primeToken: string) => void;
   logoutUser: () => void;
@@ -21,7 +23,7 @@ const useAuthStore = create<IAuthStore>()(
       refresh: "",
       prime: "",
       isAuthenticated: false,
-
+      role: "CUSTOMER",
       loginUser: (accessToken, refreshToken) =>
         set({
           access: accessToken,

@@ -118,6 +118,8 @@ export type toast = {
   };
 };
 
+export type role = "CUSTOMER" | "PHARMACY";
+
 export type loading_type = "query" | "mutation";
 
 export type toastType = "primary" | "secondary" | "error" | "info" | "success";

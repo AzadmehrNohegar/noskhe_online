@@ -84,13 +84,66 @@ function OrderSingle() {
             {GENERAL_STATUS[orderData?.data.data.order.status || "PENDING"]}
           </Chip>
         </div>
-        <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4 bg-white">
+        <div className="border border-warning p-4 rounded-md flex flex-col gap-4 bg-warning text-white">
           <h6 className="font-semibold text-xs lg:text-sm">
             سفارش شما درحال بررسی توسط داروخانه است و ظرف ۳۰ دقیقه آینده هزینه
             آن محاسبه و از طریق پیامک به شما اطلاع داده خواهد شد.
           </h6>
         </div>
 
+        <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4 bg-white">
+          <h2 className="font-semibold text-lg lg:text-xl flex items-center gap-2">
+            <span className="p-2 rounded-lg bg-secondary">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="#FFFFFF"
+                height="20px"
+                width="20px"
+                version="1.1"
+                id="Capa_1"
+                viewBox="0 0 297 297"
+              >
+                <g>
+                  <path d="M148.5,0C87.43,0,37.747,49.703,37.747,110.797c0,91.026,99.729,179.905,103.976,183.645   c1.936,1.705,4.356,2.559,6.777,2.559c2.421,0,4.841-0.853,6.778-2.559c4.245-3.739,103.975-92.618,103.975-183.645   C259.253,49.703,209.57,0,148.5,0z M148.5,272.689c-22.049-21.366-90.243-93.029-90.243-161.892   c0-49.784,40.483-90.287,90.243-90.287s90.243,40.503,90.243,90.287C238.743,179.659,170.549,251.322,148.5,272.689z" />
+                  <path d="M148.5,59.183c-28.273,0-51.274,23.154-51.274,51.614c0,28.461,23.001,51.614,51.274,51.614   c28.273,0,51.274-23.153,51.274-51.614C199.774,82.337,176.773,59.183,148.5,59.183z M148.5,141.901   c-16.964,0-30.765-13.953-30.765-31.104c0-17.15,13.801-31.104,30.765-31.104c16.964,0,30.765,13.953,30.765,31.104   C179.265,127.948,165.464,141.901,148.5,141.901z" />
+                </g>
+              </svg>
+            </span>
+            جزئیات تحویل
+          </h2>
+          <div className="flex flex-col gap-4">
+            <ul className="flex flex-col divide-y divide-gray-200 text-sm">
+              <li className="flex items-center justify-between py-2">
+                <strong>نام تحویل گیرنده: </strong>
+                <span className="text-gray-600">
+                  {orderData?.data.data.address.fullName || "-"}
+                </span>
+              </li>
+              <li className="flex items-center justify-between py-2">
+                <strong>شماره تماس تحویل گیرنده: </strong>
+                <span className="text-gray-600">
+                  {orderData?.data.data.address.mobile || "-"}
+                </span>
+              </li>
+              <li className="flex items-center justify-between py-2">
+                <strong>نوع تحویل: </strong>
+                <span className="text-gray-600">
+                  {
+                    DELIVERY_TYPE[
+                      orderData?.data.data.order.deliveryType || "COURIER"
+                    ]
+                  }
+                </span>
+              </li>
+              <li className="flex flex-col items-start justify-between py-2">
+                <strong>آدرس کامل: </strong>
+                <span className="text-gray-600 text-justify">
+                  {orderData?.data.data.address.address || "-"}
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
         <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4 bg-white">
           <h2 className="font-semibold text-lg lg:text-xl flex items-center gap-2">
             <span className="p-2 rounded-lg bg-secondary">
@@ -155,9 +208,11 @@ function OrderSingle() {
                   key={`${el.trackingCode}${index}`}
                   className="flex items-center justify-between py-2"
                 >
-                  <strong>شماره پیگیری: {el.trackingCode}</strong>
+                  <strong>
+                    نوع بیمه: {INSURANCE_LABEL[el.typeOfInsurance]}
+                  </strong>
                   <span className="text-gray-600">
-                    {INSURANCE_LABEL[el.typeOfInsurance]}
+                    کد رهگیری: {el.trackingCode}
                   </span>
                 </li>
               ))}
@@ -186,60 +241,6 @@ function OrderSingle() {
                   </li>
                 )
               )}
-            </ul>
-          </div>
-        </div>
-
-        <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4 bg-white">
-          <h2 className="font-semibold text-lg lg:text-xl flex items-center gap-2">
-            <span className="p-2 rounded-lg bg-secondary">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="#FFFFFF"
-                height="20px"
-                width="20px"
-                version="1.1"
-                id="Capa_1"
-                viewBox="0 0 297 297"
-              >
-                <g>
-                  <path d="M148.5,0C87.43,0,37.747,49.703,37.747,110.797c0,91.026,99.729,179.905,103.976,183.645   c1.936,1.705,4.356,2.559,6.777,2.559c2.421,0,4.841-0.853,6.778-2.559c4.245-3.739,103.975-92.618,103.975-183.645   C259.253,49.703,209.57,0,148.5,0z M148.5,272.689c-22.049-21.366-90.243-93.029-90.243-161.892   c0-49.784,40.483-90.287,90.243-90.287s90.243,40.503,90.243,90.287C238.743,179.659,170.549,251.322,148.5,272.689z" />
-                  <path d="M148.5,59.183c-28.273,0-51.274,23.154-51.274,51.614c0,28.461,23.001,51.614,51.274,51.614   c28.273,0,51.274-23.153,51.274-51.614C199.774,82.337,176.773,59.183,148.5,59.183z M148.5,141.901   c-16.964,0-30.765-13.953-30.765-31.104c0-17.15,13.801-31.104,30.765-31.104c16.964,0,30.765,13.953,30.765,31.104   C179.265,127.948,165.464,141.901,148.5,141.901z" />
-                </g>
-              </svg>
-            </span>
-            جزئیات تحویل
-          </h2>
-          <div className="flex flex-col gap-4">
-            <ul className="flex flex-col divide-y divide-gray-200 text-sm">
-              <li className="flex items-center justify-between py-2">
-                <strong>نام تحویل گیرنده: </strong>
-                <span className="text-gray-600">
-                  {orderData?.data.data.address.fullName || "-"}
-                </span>
-              </li>
-              <li className="flex items-center justify-between py-2">
-                <strong>شماره تماس تحویل گیرنده: </strong>
-                <span className="text-gray-600">
-                  {orderData?.data.data.address.mobile || "-"}
-                </span>
-              </li>
-              <li className="flex items-center justify-between py-2">
-                <strong>نوع تحویل: </strong>
-                <span className="text-gray-600">
-                  {
-                    DELIVERY_TYPE[
-                      orderData?.data.data.order.deliveryType || "COURIER"
-                    ]
-                  }
-                </span>
-              </li>
-              <li className="flex flex-col items-start justify-between py-2">
-                <strong>آدرس کامل: </strong>
-                <span className="text-gray-600 text-justify">
-                  {orderData?.data.data.address.address || "-"}
-                </span>
-              </li>
             </ul>
           </div>
         </div>
