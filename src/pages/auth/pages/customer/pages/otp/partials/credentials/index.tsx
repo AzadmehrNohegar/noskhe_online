@@ -4,6 +4,7 @@ import { Input } from "@/components/input";
 import { authOtpForm } from "@/model";
 import { useToastStore } from "@/store/toast";
 import { useDebouncedSearchParams } from "@/utils/useDebouncedSearchParams";
+import { usePersianConvert } from "@/utils/usePersianConvert";
 import { useFormContext } from "react-hook-form";
 import { useMutation } from "react-query";
 import { Link } from "react-router-dom";
@@ -18,6 +19,8 @@ function CustomerAuthOtpCredentials({
   const { stackToast } = useToastStore();
 
   const [searchParams, setSearchParams] = useDebouncedSearchParams();
+
+  const { convertPersian2English } = usePersianConvert();
 
   const {
     register,
@@ -57,7 +60,7 @@ function CustomerAuthOtpCredentials({
   const onSubmit = (values: authOtpForm) =>
     generateToken.mutate({
       body: {
-        mobile: values.mobile,
+        mobile: convertPersian2English(values.mobile),
       },
     });
 

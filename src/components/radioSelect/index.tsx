@@ -81,7 +81,7 @@ function RadioSelect({
                     "relative flex items-center gap-x-4 select-none py-2 pl-10 pr-4 cursor-pointer transition-all",
                     selected &&
                       variant === "secondary" &&
-                      "bg-secondary-100 text-secondary-900 hover:bg-secondary-200",
+                      "bg-gray-500 text-gray-900 hover:bg-gray-200",
                     selected &&
                       variant === "primary" &&
                       "bg-primary-100 hover:bg-primary-200 text-primary-900",
@@ -90,7 +90,7 @@ function RadioSelect({
                       "text-gray-900 hover:bg-primary-10",
                     !selected &&
                       variant === "secondary" &&
-                      "text-gray-900 hover:bg-secondary-10"
+                      "text-gray-900 hover:bg-gray-50"
                   )
                 }
                 value={option}

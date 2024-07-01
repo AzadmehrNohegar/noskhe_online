@@ -82,7 +82,7 @@ function StatelessSelect({
                   `relative flex items-center gap-x-4 cursor-default select-none py-2 pl-10 pr-4 ${
                     selected
                       ? variant === "secondary"
-                        ? "bg-slate-100 text-secondary-900"
+                        ? "bg-slate-100 text-gray-900"
                         : "bg-slate-100 text-primary-900"
                       : "text-gray-900"
                   }`

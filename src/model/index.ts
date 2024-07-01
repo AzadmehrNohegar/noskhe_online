@@ -327,6 +327,15 @@ export type _order_list = {
   createdAt: string;
 };
 
+export type dashboard_kpi = {
+  UNCONFIRMED_ORDERS: number;
+  CONFIRMED_ORDERS: number;
+  CURRENT_COURIER_ORDERS: number;
+  CURRENT_PERSON_ORDERS: number;
+  WFC_ORDERS: number;
+  ALL_OF_ORDERS: number;
+};
+
 export const ICON_SIZE: IDictionary<string> = {
   small: "text-base",
   medium: "text-xl",

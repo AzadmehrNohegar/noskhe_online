@@ -119,7 +119,7 @@ function OtpInput({ value, valueLength, handleChange, error }: Props) {
             pattern="\d{1}"
             maxLength={valueLength}
             className={clsx(
-              "w-12 lg:w-16 h-12 lg:h-16 outline-none text-center border rounded-md bg-transparent focus:border-secondary-200 focus:bg-secondary-10",
+              "w-12 lg:w-16 h-12 lg:h-16 outline-none text-center border rounded-md bg-transparent focus:border-gray-200 focus:bg-gray-50",
               !error && "border-gray-200",
               error && "border-red-600"
             )}

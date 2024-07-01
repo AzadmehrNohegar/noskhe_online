@@ -1,5 +1,6 @@
 import {
   apiCustomResponse,
+  dashboard_kpi,
   login_success_response,
   pharmacyUser,
 } from "@/model";
@@ -25,4 +26,8 @@ export const postPharmacyAuthRegister = async ({
 
 export const getPharmacyProfile = async () => {
   return await http.get<{ user: pharmacyUser[] }>("/pharmacy/profile");
+};
+
+export const getPharmacyDashboard = async () => {
+  return await http.get<dashboard_kpi>("/pharmacy/dashboard");
 };

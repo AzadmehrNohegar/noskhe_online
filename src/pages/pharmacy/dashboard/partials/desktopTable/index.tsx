@@ -1,219 +1,44 @@
+import { Chip } from "@/components/chip";
+import { DELIVERY_TYPE, GENERAL_STATUS } from "@/model";
+import { IconWrapper } from "@/shared/iconWrapper";
+
 function DesktopDashboardTable() {
   return (
     <table className="table">
-      <thead className="text-sm border-t border-b border-gray-200 bg-secondary bg-opacity-10">
+      <thead className="text-gray-500 text-sm border-t border-b border-t-gray-200 border-b-gray-200 bg-secondary bg-opacity-5">
         <tr className="border-0">
-          <th align="right">شماره سفارش‌</th>
-          <th align="right">تاریخ درخواست</th>
-          <th align="right">تاریخ تحویل</th>
+          <th align="right">شناسه سفارش</th>
+          <th align="right">
+            <span className="inline-flex items-center gap-2">
+              تاریخ سفارش
+              <button>
+                <IconWrapper iconSize="medium" className="icon-Sort-16" />
+              </button>
+            </span>
+          </th>
+
+          <th align="right">نوع ارسال</th>
           <th align="right">وضعیت</th>
         </tr>
       </thead>
-      <tbody className="text-gray-600 text-sm">
-        <tr className="border-gray-200 even:bg-gray-50 last-of-type:border-b-0">
-          <td align="right">
-            <span className="plaintext">1460</span>
-          </td>
-          <td align="right">
-            <span className="plaintext">
+      <tbody className="text-gray-700 text-sm">
+        {new Array(8).fill(null).map((_, index) => (
+          <tr key={index} className="border-0 odd:bg-white">
+            <td align="right">
+              <span className="plaintext">1234</span>
+            </td>
+            <td align="right" className="plaintext">
               {new Intl.DateTimeFormat("fa-IR", {
                 dateStyle: "short",
                 timeStyle: "short",
               }).format(new Date())}
-            </span>
-          </td>
-          <td align="right">
-            <span className="plaintext">
-              {new Intl.DateTimeFormat("fa-IR", {
-                dateStyle: "short",
-                timeStyle: "short",
-              }).format(new Date())}
-            </span>
-          </td>
-          <td align="right">
-            <span className="font-normal text-warning-700">
-              در انتظار پرداخت
-            </span>
-          </td>
-        </tr>
-        <tr className="border-gray-200 even:bg-gray-50 last-of-type:border-b-0">
-          <td align="right">
-            <span className="plaintext">1460</span>
-          </td>
-          <td align="right">
-            <span className="plaintext">
-              {new Intl.DateTimeFormat("fa-IR", {
-                dateStyle: "short",
-                timeStyle: "short",
-              }).format(new Date())}
-            </span>
-          </td>
-          <td align="right">
-            <span className="plaintext">
-              {new Intl.DateTimeFormat("fa-IR", {
-                dateStyle: "short",
-                timeStyle: "short",
-              }).format(new Date())}
-            </span>
-          </td>
-          <td align="right">
-            <span className="font-normal text-success-700">
-              در حال آماده‌سازی
-            </span>
-          </td>
-        </tr>
-        <tr className="border-gray-200 even:bg-gray-50 last-of-type:border-b-0">
-          <td align="right">
-            <span className="plaintext">1460</span>
-          </td>
-          <td align="right">
-            <span className="plaintext">
-              {new Intl.DateTimeFormat("fa-IR", {
-                dateStyle: "short",
-                timeStyle: "short",
-              }).format(new Date())}
-            </span>
-          </td>
-          <td align="right">
-            <span className="plaintext">
-              {new Intl.DateTimeFormat("fa-IR", {
-                dateStyle: "short",
-                timeStyle: "short",
-              }).format(new Date())}
-            </span>
-          </td>
-          <td align="right">
-            <span className="font-normal text-warning-700">
-              در انتظار پرداخت
-            </span>
-          </td>
-        </tr>
-        <tr className="border-gray-200 even:bg-gray-50 last-of-type:border-b-0">
-          <td align="right">
-            <span className="plaintext">1460</span>
-          </td>
-          <td align="right">
-            <span className="plaintext">
-              {new Intl.DateTimeFormat("fa-IR", {
-                dateStyle: "short",
-                timeStyle: "short",
-              }).format(new Date())}
-            </span>
-          </td>
-          <td align="right">
-            <span className="plaintext">
-              {new Intl.DateTimeFormat("fa-IR", {
-                dateStyle: "short",
-                timeStyle: "short",
-              }).format(new Date())}
-            </span>
-          </td>
-          <td align="right">
-            <span className="font-normal">تحویل شده</span>
-          </td>
-        </tr>
-        <tr className="border-gray-200 even:bg-gray-50 last-of-type:border-b-0">
-          <td align="right">
-            <span className="plaintext">1460</span>
-          </td>
-          <td align="right">
-            <span className="plaintext">
-              {new Intl.DateTimeFormat("fa-IR", {
-                dateStyle: "short",
-                timeStyle: "short",
-              }).format(new Date())}
-            </span>
-          </td>
-          <td align="right">
-            <span className="plaintext">
-              {new Intl.DateTimeFormat("fa-IR", {
-                dateStyle: "short",
-                timeStyle: "short",
-              }).format(new Date())}
-            </span>
-          </td>
-          <td align="right">
-            <span className="font-normal text-warning-700">
-              در انتظار پرداخت
-            </span>
-          </td>
-        </tr>
-        <tr className="border-gray-200 even:bg-gray-50 last-of-type:border-b-0">
-          <td align="right">
-            <span className="plaintext">1460</span>
-          </td>
-          <td align="right">
-            <span className="plaintext">
-              {new Intl.DateTimeFormat("fa-IR", {
-                dateStyle: "short",
-                timeStyle: "short",
-              }).format(new Date())}
-            </span>
-          </td>
-          <td align="right">
-            <span className="plaintext">
-              {new Intl.DateTimeFormat("fa-IR", {
-                dateStyle: "short",
-                timeStyle: "short",
-              }).format(new Date())}
-            </span>
-          </td>
-          <td align="right">
-            <span className="font-normal text-success-700">
-              در حال آماده‌سازی
-            </span>
-          </td>
-        </tr>
-        <tr className="border-gray-200 even:bg-gray-50 last-of-type:border-b-0">
-          <td align="right">
-            <span className="plaintext">1460</span>
-          </td>
-          <td align="right">
-            <span className="plaintext">
-              {new Intl.DateTimeFormat("fa-IR", {
-                dateStyle: "short",
-                timeStyle: "short",
-              }).format(new Date())}
-            </span>
-          </td>
-          <td align="right">
-            <span className="plaintext">
-              {new Intl.DateTimeFormat("fa-IR", {
-                dateStyle: "short",
-                timeStyle: "short",
-              }).format(new Date())}
-            </span>
-          </td>
-          <td align="right">
-            <span className="font-normal text-warning-700">
-              در انتظار پرداخت
-            </span>
-          </td>
-        </tr>
-        <tr className="border-gray-200 even:bg-gray-50 last-of-type:border-b-0">
-          <td align="right">
-            <span className="plaintext">1460</span>
-          </td>
-          <td align="right">
-            <span className="plaintext">
-              {new Intl.DateTimeFormat("fa-IR", {
-                dateStyle: "short",
-                timeStyle: "short",
-              }).format(new Date())}
-            </span>
-          </td>
-          <td align="right">
-            <span className="plaintext">
-              {new Intl.DateTimeFormat("fa-IR", {
-                dateStyle: "short",
-                timeStyle: "short",
-              }).format(new Date())}
-            </span>
-          </td>
-          <td align="right">
-            <span className="font-normal">تحویل شده</span>
-          </td>
-        </tr>
+            </td>
+            <td align="right">{DELIVERY_TYPE["COURIER"]}</td>
+            <td align="right">
+              <Chip status="PENDING">{GENERAL_STATUS["PENDING"]}</Chip>
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );

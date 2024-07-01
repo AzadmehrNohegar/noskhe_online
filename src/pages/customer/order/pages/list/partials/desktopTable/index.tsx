@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 function OrderDesktopTable({ fields }: IResponsiveGatewayProps<_order_list>) {
   return (
     <table className="table">
-      <thead className="text-gray-500 text-sm border-t border-b border-t-secondary-200 border-b-secondary-200 bg-secondary-10">
+      <thead className="text-gray-500 text-sm border-t border-b border-t-gray-200 border-b-gray-200 bg-gray-50">
         <tr className="border-0">
           <th align="right">شناسه سفارش</th>
           <th align="right">

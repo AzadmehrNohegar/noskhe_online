@@ -6,6 +6,7 @@ import { OtpInput } from "@/shared/otpInput";
 import { Timer } from "@/shared/timer";
 import { useAuthStore } from "@/store/auth";
 import { useToastStore } from "@/store/toast";
+import { usePersianConvert } from "@/utils/usePersianConvert";
 import { useEffect, useRef } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
@@ -24,6 +25,7 @@ function CustomerAuthOtpVerification({
   const { loginUser } = useAuthStore();
   const { stackToast } = useToastStore();
   const formRef = useRef<HTMLFormElement>(null);
+  const { convertPersian2English } = usePersianConvert();
 
   const [count, { startCountdown, resetCountdown }] = useCountdown({
     countStart: 120,
@@ -63,6 +65,7 @@ function CustomerAuthOtpVerification({
     login.mutate({
       body: {
         ...values,
+        mobile: convertPersian2English(values.mobile),
       },
     });
 

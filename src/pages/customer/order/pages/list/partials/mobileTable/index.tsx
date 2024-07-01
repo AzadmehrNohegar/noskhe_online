@@ -12,6 +12,7 @@ function OrderMobileTable({ fields }: IResponsiveGatewayProps<_order_list>) {
             <span className="text-sm text-gray-700">{item.refId || "-"}</span>
           </li>
           <li className="flex items-center justify-between">
+            <span className="text-xs text-gray-500">تاریخ سفارش</span>
             <span className="text-sm text-gray-700 plaintext">
               {new Intl.DateTimeFormat("fa-IR", {
                 dateStyle: "short",
@@ -20,13 +21,17 @@ function OrderMobileTable({ fields }: IResponsiveGatewayProps<_order_list>) {
             </span>
           </li>
           <li className="flex items-center justify-between">
+            <span className="text-xs text-gray-500">وضعیت سفارش</span>
             <Chip status={item.status}>{GENERAL_STATUS[item.status]}</Chip>
+          </li>
+          <li className="flex items-center justify-between">
+            <span className="text-xs text-gray-500">جزئیات سفارش</span>
             <span className="text-sm text-gray-700">
               <Link
                 to={`./${item._id}`}
                 className="btn btn-link text-primary btn-sm"
               >
-                جزئیات سفارش
+                مشاهده جزئیات
               </Link>
             </span>
           </li>

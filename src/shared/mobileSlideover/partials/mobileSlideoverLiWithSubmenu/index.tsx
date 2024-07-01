@@ -72,7 +72,7 @@ function MobileSlideoverLiWithSubmenu({
                   "btn-ghost relative bg-primary-100 text-primary text-start",
                 isActive &&
                   role === "PHARMACY" &&
-                  "btn-ghost relative bg-secondary-100 text-secondary text-start"
+                  "btn-ghost relative bg-gray-500 text-secondary text-start"
               )
             }
             onClick={closeModal}

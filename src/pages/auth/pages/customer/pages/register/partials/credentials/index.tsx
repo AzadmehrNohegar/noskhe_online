@@ -52,7 +52,7 @@ function CustomerAuthOtpCredentials({
   const onSubmit = (values: authOtpForm) =>
     generateToken.mutate({
       body: {
-        mobile: values.mobile,
+        mobile: convertPersian2English(values.mobile),
       },
     });
 

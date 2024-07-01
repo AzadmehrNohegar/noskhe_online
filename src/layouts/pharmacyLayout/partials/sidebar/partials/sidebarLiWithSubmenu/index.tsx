@@ -55,7 +55,7 @@ function SidebarLiWithSubmenu({ icon, label, to, submenu }: navLink) {
                 "btn btn-block btn-custom justify-start rounded-xl text-sm min-w-max",
                 !isActive && "btn-ghost text-gray-700 font-light",
                 isActive &&
-                  "btn-ghost relative bg-secondary-100 text-secondary text-start"
+                  "btn-ghost relative bg-gray-500 text-secondary text-start"
               )
             }
           >
