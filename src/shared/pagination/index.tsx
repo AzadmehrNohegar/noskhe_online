@@ -1,11 +1,13 @@
 import clsx from "clsx";
-import { IconWrapper } from "@/shared/iconWrapper";
-import { Fragment } from "react";
+import { DoubleArrowRight } from "@/assets/icons/DoubleArrowRight";
+import { ArrowRight } from "@/assets/icons/ArrowRight";
+import { ArrowLeft } from "@/assets/icons/ArrowLeft";
+import { DoubleArrowLeft } from "@/assets/icons/DoubleArrowLeft";
 
 interface IPaginationProps {
-  page: number;
+  page: string;
   count: number;
-  setPage: (val: number) => void;
+  setPage: (val: string) => void;
   next: string | null;
   prev: string | null;
   isFixed?: boolean;
@@ -36,73 +38,56 @@ function Pagination({
         )}
       >
         <button
-          className="btn btn-sm btn-square btn-ghost disabled-ghost"
+          className="btn btn-sm btn-square shadow-none !w-9 !min-w-9 !h-9 !min-h-9 btn-ghost disabled-ghost"
           disabled={!prev}
-          onClick={() => setPage(page - 1)}
+          onClick={() => setPage("1")}
         >
-          <IconWrapper iconSize="medium" className="icon-Arrow-Right-16" />
+          <DoubleArrowRight />
         </button>
-        {prev ? (
-          <Fragment>
-            <button
-              className={clsx(
-                "btn btn-sm btn-square rounded-md",
-                page !== 0 && "btn-ghost bg-gray-50 text-gray-600 font-light",
-                page === 0 && "btn-primary"
-              )}
-              onClick={() => setPage(0)}
-            >
-              1
-            </button>
-            <span>...</span>
-          </Fragment>
-        ) : null}
+        <button
+          className="btn btn-sm btn-square shadow-none !w-9 !min-w-9 !h-9 !min-h-9 btn-ghost disabled-ghost"
+          disabled={!prev}
+          onClick={() => setPage(`${+page - 1}`)}
+        >
+          <ArrowRight />
+        </button>
         {count
-          ? new Array(Math.floor(count / 10))
+          ? new Array(Math.ceil(count / 10))
               .fill(null)
               .map((_, index) => (
                 <button
                   key={index}
                   className={clsx(
-                    "btn btn-sm btn-square rounded-md",
-                    page !== index &&
-                      "btn-ghost bg-gray-50 text-gray-600 font-light",
-                    page === index && "btn-primary"
+                    "btn btn-sm btn-square shadow-none !w-9 !min-w-9 !h-9 !min-h-9 rounded-md",
+                    +page !== index + 1 &&
+                      "btn-ghost bg-grey-50 text-grey-600 font-light hover:bg-secondary hover:text-white",
+                    +page === index + 1 &&
+                      "bg-secondary text-white border-secondary hover:bg-secondary hover:bg-opacity-50 hover:border-opacity-50"
                   )}
-                  onClick={() => setPage(index)}
+                  onClick={() => setPage(`${index + 1}`)}
                 >
                   {index + 1}
                 </button>
               ))
               .filter(
                 (_, index) =>
-                  index >= page - 1 && index <= page + 1 && index >= 0
+                  index >= +page - 1 && index <= +page + 1 && index >= 0
               )
-              .filter((_, index) => {
-                if (page === 1 && index === 0) return null;
-                return _;
-              })
           : null}
-        {next ? <span>...</span> : null}
 
         <button
-          className={clsx(
-            "btn btn-sm btn-square rounded-md",
-            page !== Math.floor(count / 10) &&
-              "btn-ghost bg-gray-50 text-gray-600 font-light",
-            page === Math.floor(count / 10) && "btn-primary"
-          )}
-          onClick={() => setPage(Math.floor(count / 10))}
-        >
-          {String((Math.floor(count / 10) || 0) + 1)}
-        </button>
-
-        <button
-          className="btn btn-sm btn-square btn-ghost disabled-ghost"
+          className="btn btn-sm btn-square shadow-none !w-9 !min-w-9 !h-9 !min-h-9 btn-ghost disabled-ghost"
           disabled={!next}
-          onClick={() => setPage(page + 1)}
+          onClick={() => setPage(`${+page + 1}`)}
         >
-          <IconWrapper iconSize="medium" className="icon-Arrow-Left-16" />
+          <ArrowLeft />
+        </button>
+        <button
+          className="btn btn-sm btn-square shadow-none !w-9 !min-w-9 !h-9 !min-h-9 btn-ghost disabled-ghost"
+          disabled={!next}
+          onClick={() => setPage(`${Math.ceil(count / 10)}`)}
+        >
+          <DoubleArrowLeft />
         </button>
       </div>
     </div>

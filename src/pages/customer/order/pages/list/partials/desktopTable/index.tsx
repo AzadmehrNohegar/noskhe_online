@@ -6,13 +6,17 @@ import {
   IResponsiveGatewayProps,
 } from "@/model";
 import { IconWrapper } from "@/shared/iconWrapper";
+import { useDebouncedSearchParams } from "@/utils/useDebouncedSearchParams";
 import { Link } from "react-router-dom";
 
 function OrderDesktopTable({ fields }: IResponsiveGatewayProps<_order_list>) {
+  const [searchParams] = useDebouncedSearchParams(0);
+
   return (
     <table className="table">
       <thead className="text-gray-500 text-sm border-t border-b border-t-gray-200 border-b-gray-200 bg-gray-50">
         <tr className="border-0">
+          <th align="right">#</th>
           <th align="right">شناسه سفارش</th>
           <th align="right">
             <span className="inline-flex items-center gap-2">
@@ -29,8 +33,14 @@ function OrderDesktopTable({ fields }: IResponsiveGatewayProps<_order_list>) {
         </tr>
       </thead>
       <tbody className="text-gray-700 text-sm">
-        {fields?.map((item) => (
+        {fields?.map((item, index) => (
           <tr key={item._id} className="border-0 odd:bg-white">
+            <td align="right">
+              {((+searchParams.get("page")! || 1) - 1) *
+                (+searchParams.get("page_size")! || 10) +
+                index +
+                1}
+            </td>
             <td align="right">
               <span className="plaintext">{item.refId || "-"}</span>
             </td>

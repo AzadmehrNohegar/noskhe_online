@@ -27,6 +27,7 @@ function OrderList() {
       getUserOrderList({
         params: {
           search: searchParams.get("search"),
+          page: searchParams.get("page"),
         },
       }),
     {
@@ -58,9 +59,9 @@ function OrderList() {
       />
       <Pagination
         count={orderPagination?.data.result.count || 0}
-        page={+(searchParams.get("page") || 0)}
+        page={searchParams.get("page") || "1"}
         setPage={(val) => {
-          searchParams.set("page", String(val));
+          searchParams.set("page", val);
           setSearchParams(searchParams);
         }}
         next={orderPagination?.data.result.next || null}
