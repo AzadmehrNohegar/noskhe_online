@@ -76,6 +76,7 @@ function CustomerAuthOtpCredentials({
         برای ورود به حساب کاربری اطلاعات زیر را وارد کنید.
       </span>
       <Input
+        type="number"
         placeholder="شماره موبایل"
         className="input input-bordered w-full"
         containerClassName="w-full"

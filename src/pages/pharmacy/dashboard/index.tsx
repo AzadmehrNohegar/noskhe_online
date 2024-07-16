@@ -166,7 +166,7 @@ function Dashboard() {
         </div>
         <div className="flex w-full lg:w-5/12 flex-col border border-gray-200 divide-y divide-gray-200 rounded-lg overflow-hidden">
           <h2 className="p-4 bg-gray-50 flex items-center gap-2 font-semibold text-sm lg:text-base">
-            تیکت‌ها
+            تراکنش‌ها
             <Link
               to="/"
               className="ms-auto btn btn-link text-gray-800 h-fit min-h-fit px-0"
@@ -182,7 +182,7 @@ function Dashboard() {
               alt="ticket empty"
             />
 
-            <span className="text-sm lg:text-base">هیچ تیکتی وجود ندارد.</span>
+            <span className="text-sm lg:text-base">هیچ تراکنش وجود ندارد.</span>
           </div>
         </div>
       </div>

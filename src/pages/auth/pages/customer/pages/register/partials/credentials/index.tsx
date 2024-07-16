@@ -80,6 +80,7 @@ function CustomerAuthOtpCredentials({
         })}
       />
       <Input
+        type="number"
         placeholder="شماره موبایل"
         className="input input-bordered w-full"
         containerClassName="w-full"
