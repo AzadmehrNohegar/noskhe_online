@@ -1,4 +1,4 @@
-import { SIDEBAR_ITEMS } from "@/constants/misc";
+import { PHARMACY_SIDEBAR } from "@/constants/misc";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "usehooks-ts";
 import { SidebarLiWithSubmenu } from "./partials/sidebarLiWithSubmenu";
@@ -26,7 +26,7 @@ function PharmacyLayoutSidebarComponent() {
       </Link>
 
       <ul className="flex flex-col gap-3">
-        {SIDEBAR_ITEMS.map((item) => {
+        {PHARMACY_SIDEBAR.map((item) => {
           if (item.submenu)
             return <SidebarLiWithSubmenu key={item.to} {...item} />;
           return <SidebarLiWithoutSubmenu key={item.to} {...item} />;

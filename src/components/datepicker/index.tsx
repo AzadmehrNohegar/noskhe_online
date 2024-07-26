@@ -8,6 +8,7 @@ import persian_fa from "react-date-object/locales/persian_fa";
 import clsx from "clsx";
 import { useRef } from "react";
 import "react-multi-date-picker/styles/colors/purple.css";
+import { default as MultiTimePicker } from "react-multi-date-picker/plugins/time_picker";
 import { IconWrapper } from "@/shared/iconWrapper";
 import { useOnClickOutside } from "usehooks-ts";
 
@@ -15,6 +16,10 @@ type CalendarPropsGeneral = DatePickerProps & CalendarProps;
 interface IDatePicker extends CalendarPropsGeneral {
   containerClassName?: string;
   label?: string;
+}
+
+interface ITimePicker extends CalendarPropsGeneral {
+  containerClassName?: string;
 }
 
 function DatePicker(props: IDatePicker) {
@@ -68,4 +73,45 @@ function DatePicker(props: IDatePicker) {
   );
 }
 
-export { DatePicker };
+function TimePicker(props: ITimePicker) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { containerClassName, ...rest } = props;
+
+  const handleRefClick = () => {
+    if (ref.current) ref.current.click();
+  };
+
+  return (
+    <div
+      className={clsx(
+        "border border-grey-200 w-fit focus:border-info-200 rounded-lg relative ps-12",
+        containerClassName
+      )}
+    >
+      <div
+        role="button"
+        onClick={handleRefClick}
+        className="absolute start-0 inset-y-0 rounded-s-lg flex items-center justify-center h-full aspect-square bg-grey-50 text-grey-600"
+      >
+        <IconWrapper className="icon-clock-square16" iconSize="medium" />
+      </div>
+      <MultiDatePicker
+        format="HH:mm YYYY-M-d"
+        plugins={[<MultiTimePicker hideSeconds />]}
+        ref={ref}
+        calendar={persian}
+        locale={persian_fa}
+        monthYearSeparator="|"
+        calendarPosition="bottom-right"
+        editable={false}
+        containerClassName="w-full"
+        className="border border-grey-200 purple"
+        arrowClassName="border-r-0 border-l-0"
+        inputClass="w-full px-3 h-10 min-h-10 lg:h-12 lg:min-h-12 outline-none border-none relative z-10 rounded-lg text-sm"
+        {...rest}
+      />
+    </div>
+  );
+}
+
+export { DatePicker, TimePicker };

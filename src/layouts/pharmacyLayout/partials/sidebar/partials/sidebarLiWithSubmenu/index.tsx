@@ -54,8 +54,7 @@ function SidebarLiWithSubmenu({ icon, label, to, submenu }: navLink) {
               clsx(
                 "btn btn-block btn-custom justify-start rounded-lg text-sm min-w-max",
                 !isActive && "btn-ghost text-gray-700 font-light",
-                isActive &&
-                  "btn-ghost relative bg-gray-500 text-secondary text-start"
+                isActive && "btn-ghost relative text-secondary text-start"
               )
             }
           >

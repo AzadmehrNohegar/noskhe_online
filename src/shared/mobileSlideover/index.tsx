@@ -1,4 +1,4 @@
-import { SIDEBAR_ITEMS } from "@/constants/misc";
+import { CUSTOMER_SIDEBAR, PHARMACY_SIDEBAR } from "@/constants/misc";
 import { Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
@@ -8,6 +8,7 @@ import { Divider } from "@/components/divider";
 import { IExtendedDialogProps } from "@/model";
 import { MobileSlideoverLiWithSubmenu } from "./partials/mobileSlideoverLiWithSubmenu";
 import { MobileSlideoverLiWithoutSubmenu } from "./partials/mobileSlideoverLiWithoutSubmenu";
+import { useAuthStore } from "@/store/auth";
 
 function MobileSlideover(props: IExtendedDialogProps) {
   const matches = useMediaQuery("(max-width: 1023px)");
@@ -15,6 +16,47 @@ function MobileSlideover(props: IExtendedDialogProps) {
   if (!matches) return null;
 
   return <MobileSlideoverComponent {...props} />;
+}
+
+function SidebarItems({ closeModal }: IExtendedDialogProps) {
+  const { role } = useAuthStore();
+
+  if (role === "PHARMACY")
+    return PHARMACY_SIDEBAR.map((item) => {
+      if (item.submenu)
+        return (
+          <MobileSlideoverLiWithSubmenu
+            key={item.to}
+            closeModal={closeModal}
+            {...item}
+          />
+        );
+      return (
+        <MobileSlideoverLiWithoutSubmenu
+          key={item.to}
+          closeModal={closeModal}
+          {...item}
+        />
+      );
+    });
+
+  return CUSTOMER_SIDEBAR.map((item) => {
+    if (item.submenu)
+      return (
+        <MobileSlideoverLiWithSubmenu
+          key={item.to}
+          closeModal={closeModal}
+          {...item}
+        />
+      );
+    return (
+      <MobileSlideoverLiWithoutSubmenu
+        key={item.to}
+        closeModal={closeModal}
+        {...item}
+      />
+    );
+  });
 }
 
 function MobileSlideoverComponent({
@@ -52,23 +94,7 @@ function MobileSlideoverComponent({
             </div>
 
             <ul className="flex flex-col gap-3 p-5">
-              {SIDEBAR_ITEMS.map((item) => {
-                if (item.submenu)
-                  return (
-                    <MobileSlideoverLiWithSubmenu
-                      key={item.to}
-                      closeModal={closeModal}
-                      {...item}
-                    />
-                  );
-                return (
-                  <MobileSlideoverLiWithoutSubmenu
-                    key={item.to}
-                    closeModal={closeModal}
-                    {...item}
-                  />
-                );
-              })}
+              <SidebarItems isOpen={isOpen} closeModal={closeModal} />
             </ul>
           </div>
         </Transition.Child>

@@ -22,7 +22,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
     setValue,
     register,
     handleSubmit,
-    formState: { isValid },
+    formState: { isValid, isDirty },
   } = useFormContext<dashboard_form>();
 
   const {
@@ -161,7 +161,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
             /> */}
             <button
               className="btn btn-primary mt-0 lg:mt-auto"
-              disabled={!isValid}
+              disabled={!isValid || !isDirty}
             >
               تایید نسخه
             </button>
@@ -214,6 +214,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
                 </div>
 
                 <Input
+                  label="نام دارو"
                   placeholder="نام دارو"
                   className="input input-bordered bg-white w-full"
                   {...register(`otc.${index}.drugName`, {
@@ -229,6 +230,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
                   render={({ field: { value, onChange } }) => (
                     <StatelessSelect
                       containerClassName="w-full"
+                      label="نوع دارو"
                       placeholder="نوع دارو"
                       options={[
                         "CAPSULE",
@@ -262,6 +264,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
                     <NumericFormat
                       customInput={Input}
                       className="input input-bordered bg-white w-full text-center pointer-events-none"
+                      label="تعداد"
                       placeholder="تعداد"
                       value={value}
                       onValueChange={({ value: v }) => onChange(v)}
@@ -434,6 +437,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
                   render={({ field: { value, onChange } }) => (
                     <StatelessSelect
                       containerClassName="w-full"
+                      label="نوع بیمه"
                       placeholder="نوع بیمه"
                       options={["TAMIN", "SALAMAT"]}
                       optionDictionary={INSURANCE_LABEL}
@@ -444,6 +448,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
                 />
                 <Input
                   type="number"
+                  label="کد پیگیری"
                   placeholder="کد پیگیری"
                   className="input input-bordered bg-white w-full"
                   {...register(`elecPrescription.${index}.trackingCode`, {
@@ -452,6 +457,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
                 />
                 <Input
                   type="number"
+                  label="کد ملی"
                   placeholder="کد ملی"
                   className="input input-bordered bg-white w-full"
                   {...register(`elecPrescription.${index}.nationalCode`, {
@@ -459,6 +465,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
                   })}
                 />
                 <Input
+                  label="نام دکتر"
                   placeholder="نام دکتر"
                   className="input input-bordered bg-white w-full"
                   {...register(`elecPrescription.${index}.doctorName`, {

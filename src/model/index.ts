@@ -115,10 +115,12 @@ export type authPharmacyRegisterForm = {
 };
 
 export type dashboard_form = {
-  description: string;
   otc: otc[];
   uploadPrescription: uploadPrescription[];
   elecPrescription: elecPrescription[];
+  description: string;
+  isPerson: boolean;
+  pharmacy: pharmacy_list | null;
 };
 
 export type toast = {
@@ -149,6 +151,7 @@ export type general_status =
   | "success"
   | "revoke"
   | "PENDING"
+  | "WAITING"
   | "FAILED"
   | "closed";
 
@@ -162,9 +165,9 @@ export type cdr_direction = "inbound" | "outbound";
 
 export type operation_type = "increase" | "decrease";
 
-export type _order_status = "PENDING" | "FAILED";
+export type _order_status = "PENDING" | "FAILED" | "WAITING";
 
-export type _delivery_type = "COURIER";
+export type _delivery_type = "COURIER" | "PERSON";
 
 export type invoice_used_for =
   | "package_invoice"
@@ -182,6 +185,8 @@ export type otc_type =
   | "OINTMENT"
   | "DRINK"
   | "OTHER";
+
+export type invoice_item_type = "OTC" | "UPLOAD" | "ELEC";
 
 export type add_address_form = {
   lat: number;
@@ -293,6 +298,20 @@ export type _order = {
   address: address;
 };
 
+export type _new_order = {
+  _id: string;
+  refId: number;
+  fullName: string;
+  description: string;
+  status: _order_status;
+  deliveryType: _delivery_type;
+  accepted: boolean;
+  otc: _otc[];
+  uploadPrescription: _uploadPrescription[];
+  elecPrescription: _elecPrescription[];
+  createdAt: string;
+};
+
 export type _elecPrescription = {
   typeOfInsurance: string;
   nationalCode: string;
@@ -327,6 +346,15 @@ export type _order_list = {
   createdAt: string;
 };
 
+export type _new_order_list = {
+  _id: string;
+  refId: number;
+  pharmacyId: string;
+  orderId: string;
+  status: _order_status;
+  createdAt: string;
+};
+
 export type dashboard_kpi = {
   UNCONFIRMED_ORDERS: number;
   CONFIRMED_ORDERS: number;
@@ -334,6 +362,24 @@ export type dashboard_kpi = {
   CURRENT_PERSON_ORDERS: number;
   WFC_ORDERS: number;
   ALL_OF_ORDERS: number;
+};
+
+export type pharmacy_list = {
+  _id: string;
+  address: string;
+  city: string;
+  pharmacyName: string;
+  province: string;
+};
+
+export type invoice_price_type = _otc | _uploadPrescription | _elecPrescription;
+
+export type invoice_price = {
+  itemId: string;
+  price: string;
+  insurance: string;
+  itemType: invoice_item_type;
+  obj?: invoice_price_type;
 };
 
 export const ICON_SIZE: IDictionary<string> = {
@@ -401,9 +447,11 @@ export const GENERAL_STATUS: ITypedDictionary<general_status, string> = {
   revoke: "لغو شده",
   PENDING: "در حال بررسی",
   FAILED: "ناموفق",
+  WAITING: "در انتظار قیمت",
   closed: "بسته شده",
 };
 
 export const DELIVERY_TYPE: ITypedDictionary<_delivery_type, string> = {
   COURIER: "پیک",
+  PERSON: "حضوری",
 };

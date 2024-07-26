@@ -17,6 +17,7 @@ function Chip({ status, className, children, ...rest }: IChipProps) {
         status === "FAILED" && "chip-danger",
         status === "closed" && "chip-accent",
         status === "revoke" && "chip-accent",
+        status === "WAITING" && "chip-success",
         className
       )}
       {...rest}

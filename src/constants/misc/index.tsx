@@ -41,7 +41,7 @@ export type registerLegalData = {
   } | null;
 };
 
-export const SIDEBAR_ITEMS: navLink[] = [
+export const CUSTOMER_SIDEBAR: navLink[] = [
   {
     to: "/",
     end: true,
@@ -56,6 +56,63 @@ export const SIDEBAR_ITEMS: navLink[] = [
         );
       return <IconWrapper iconSize="large" className="icon-Home-Smile-16" />;
     },
+    submenu: null,
+  },
+  {
+    to: "/order",
+    end: false,
+    label: "سفارشات",
+    icon: (isActive) => {
+      if (isActive)
+        return (
+          <IconWrapper iconSize="large" className="icon-Duotone-Bill-List-16" />
+        );
+      return <IconWrapper iconSize="large" className="icon-Bill-List-16" />;
+    },
+    submenu: null,
+  },
+  {
+    to: "/invoice",
+    end: false,
+    label: "فاکتورها",
+    icon: (isActive) => {
+      if (isActive)
+        return (
+          <IconWrapper iconSize="large" className="icon-Duotone-Activity-16" />
+        );
+      return <IconWrapper iconSize="large" className="icon-Activity-16" />;
+    },
+    submenu: null,
+  },
+];
+
+export const PHARMACY_SIDEBAR: navLink[] = [
+  {
+    to: "/",
+    end: true,
+    label: "پیشخوان",
+    icon: (isActive) => {
+      if (isActive)
+        return (
+          <IconWrapper
+            iconSize="large"
+            className="icon-Duotone-Home-Smile-16"
+          />
+        );
+      return <IconWrapper iconSize="large" className="icon-Home-Smile-16" />;
+    },
+    submenu: null,
+  },
+  {
+    to: "/new-order",
+    end: false,
+    label: "سفارشات جدید",
+    icon: (isActive) => {
+      if (isActive)
+        return <IconWrapper iconSize="large" className="icon-Duotone-Send16" />;
+      return <IconWrapper iconSize="large" className="icon-Send16" />;
+    },
+
     submenu: null,
   },
   {

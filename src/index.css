@@ -86,7 +86,7 @@
   }
 
   .chip-success {
-    @apply bg-success text-success-content;
+    @apply bg-success text-white;
   }
 
   .chip-danger {

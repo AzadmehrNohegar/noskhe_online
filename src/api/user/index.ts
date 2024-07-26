@@ -6,6 +6,7 @@ import {
   order_create_response,
   _order,
   _order_list,
+  pharmacy_list,
 } from "@/model";
 import { AxiosCustomRequestConfig, http } from "@/services/axios";
 
@@ -17,6 +18,24 @@ export const getUserAddressList = async ({
   params,
 }: AxiosCustomRequestConfig) => {
   return await http.get("/user/address/list", { params });
+};
+
+export const getUserOrderByOrderId = async ({
+  id,
+}: AxiosCustomRequestConfig) => {
+  return await http.get<_order>(`/user/order/${id}`);
+};
+
+export const getUserOrderList = async ({
+  params,
+}: AxiosCustomRequestConfig) => {
+  return await http.get<_order_list[]>("/user/order/list", { params });
+};
+
+export const getUserDocumentInvoice = async ({
+  params,
+}: AxiosCustomRequestConfig) => {
+  return await http.get<unknown>("/user/document/invoice", { params });
 };
 
 export const postUserAddressAdd = async ({
@@ -79,16 +98,22 @@ export const postUserOrderCreate = async ({
   );
 };
 
-export const getUserOrderByOrderId = async ({
-  id,
+export const postUserOrderPersonCreate = async ({
+  body,
 }: AxiosCustomRequestConfig) => {
-  return await http.get<_order>(`/user/order/${id}`);
+  return await http.post<unknown, apiCustomResponse<order_create_response>>(
+    "/user/order/person/create",
+    body
+  );
 };
 
-export const getUserOrderList = async ({
-  params,
+export const postUserOrderPersonPharmacyList = async ({
+  body,
 }: AxiosCustomRequestConfig) => {
-  return await http.get<_order_list[]>("/user/order/list", { params });
+  return await http.post<
+    unknown,
+    apiCustomResponse<{ result: pharmacy_list[] }>
+  >("/user/order/person/pharmacyList", body);
 };
 
 export const postUserOrderAddOTC = async ({

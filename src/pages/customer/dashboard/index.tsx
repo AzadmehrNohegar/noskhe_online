@@ -13,6 +13,8 @@ function Dashboard() {
       uploadPrescription: [],
       elecPrescription: [],
       description: "",
+      isPerson: false,
+      pharmacy: null,
     },
     mode: "all",
   });
