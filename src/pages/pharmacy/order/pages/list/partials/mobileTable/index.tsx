@@ -27,7 +27,7 @@ function OrderMobileTable({
               {item._id || "-"}
             </span>
             <Link
-              to={`./${item.orderId}?status=${item.status}`}
+              to={`./${item._id}?status=${item.status}`}
               className="btn btn-link text-primary btn-sm px-0"
             >
               مشاهده جزئیات

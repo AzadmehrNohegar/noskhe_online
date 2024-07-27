@@ -75,7 +75,7 @@ function OrderDesktopTable({
 
             <td align="left">
               <Link
-                to={`./${item.orderId}?status=${item.status}`}
+                to={`./${item._id}?status=${item.status}`}
                 className="btn btn-link text-primary btn-sm"
               >
                 جزئیات سفارش
