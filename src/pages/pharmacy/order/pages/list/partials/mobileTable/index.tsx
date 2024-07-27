@@ -1,9 +1,15 @@
 import { Chip } from "@/components/chip";
-import { _order_list, GENERAL_STATUS, IResponsiveGatewayProps } from "@/model";
+import {
+  _pharmacy_order_list,
+  GENERAL_STATUS,
+  IResponsiveGatewayProps,
+} from "@/model";
 import { useDebouncedSearchParams } from "@/utils/useDebouncedSearchParams";
 import { Link } from "react-router-dom";
 
-function OrderMobileTable({ fields }: IResponsiveGatewayProps<_order_list>) {
+function OrderMobileTable({
+  fields,
+}: IResponsiveGatewayProps<_pharmacy_order_list>) {
   const [searchParams] = useDebouncedSearchParams(0);
 
   return (
@@ -18,14 +24,30 @@ function OrderMobileTable({ fields }: IResponsiveGatewayProps<_order_list>) {
                   index +
                   1}
               </span>{" "}
-              {item.refId || "-"}
+              {item._id || "-"}
             </span>
             <Link
-              to={`./${item._id}?status=${item.status}`}
+              to={`./${item.orderId}?status=${item.status}`}
               className="btn btn-link text-primary btn-sm px-0"
             >
               مشاهده جزئیات
             </Link>
+          </li>
+          <li className="flex items-center justify-between">
+            <span className="text-xs text-gray-500">قیمت کل</span>
+            <strong className="text-sm text-gray-700 plaintext">
+              {item.totalPrice} <span className="font-light">ریال</span>
+            </strong>
+          </li>
+          <li className="flex items-center justify-between">
+            <span className="text-xs text-gray-500">زمان ارسال</span>
+            {item.deliveryType === "PERSON" ? (
+              <strong className="text-sm text-gray-700 plaintext">
+                {item.deliveryTime} <span className="font-light">دقیقه</span>
+              </strong>
+            ) : (
+              "-"
+            )}
           </li>
           <li className="flex items-center justify-between">
             <span className="text-xs text-gray-500">تاریخ سفارش</span>

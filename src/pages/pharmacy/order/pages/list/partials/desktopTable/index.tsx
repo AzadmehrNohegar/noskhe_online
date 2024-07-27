@@ -1,7 +1,6 @@
 import { Chip } from "@/components/chip";
 import {
-  _order_list,
-  DELIVERY_TYPE,
+  _pharmacy_order_list,
   GENERAL_STATUS,
   IResponsiveGatewayProps,
 } from "@/model";
@@ -9,7 +8,9 @@ import { IconWrapper } from "@/shared/iconWrapper";
 import { useDebouncedSearchParams } from "@/utils/useDebouncedSearchParams";
 import { Link } from "react-router-dom";
 
-function OrderDesktopTable({ fields }: IResponsiveGatewayProps<_order_list>) {
+function OrderDesktopTable({
+  fields,
+}: IResponsiveGatewayProps<_pharmacy_order_list>) {
   const [searchParams] = useDebouncedSearchParams(0);
 
   return (
@@ -18,6 +19,9 @@ function OrderDesktopTable({ fields }: IResponsiveGatewayProps<_order_list>) {
         <tr className="border-0">
           <th align="right">#</th>
           <th align="right">شناسه سفارش</th>
+
+          <th align="right">قیمت کل</th>
+          <th align="right">زمان ارسال</th>
           <th align="right">
             <span className="inline-flex items-center gap-2">
               تاریخ سفارش
@@ -27,7 +31,6 @@ function OrderDesktopTable({ fields }: IResponsiveGatewayProps<_order_list>) {
             </span>
           </th>
 
-          <th align="right">نوع ارسال</th>
           <th align="right">وضعیت</th>
           <th align="left"></th>
         </tr>
@@ -42,7 +45,23 @@ function OrderDesktopTable({ fields }: IResponsiveGatewayProps<_order_list>) {
                 1}
             </td>
             <td align="right">
-              <span className="plaintext">{item.refId || "-"}</span>
+              <span className="plaintext">{item._id || "-"}</span>
+            </td>
+
+            <td align="right">
+              <strong className="plaintext line-clamp-1">
+                {item.totalPrice.toLocaleString()}{" "}
+                <span className="font-light">ریال</span>
+              </strong>
+            </td>
+            <td align="right">
+              {item.deliveryType === "PERSON" ? (
+                <strong className="plaintext line-clamp-1">
+                  {item.deliveryTime} <span className="font-light">دقیقه</span>
+                </strong>
+              ) : (
+                "-"
+              )}
             </td>
             <td align="right" className="plaintext">
               {new Intl.DateTimeFormat("fa-IR", {
@@ -50,13 +69,13 @@ function OrderDesktopTable({ fields }: IResponsiveGatewayProps<_order_list>) {
                 timeStyle: "short",
               }).format(new Date(item.createdAt))}
             </td>
-            <td align="right">{DELIVERY_TYPE[item.deliveryType]}</td>
             <td align="right">
               <Chip status={item.status}>{GENERAL_STATUS[item.status]}</Chip>
             </td>
+
             <td align="left">
               <Link
-                to={`./${item._id}?status=${item.status}`}
+                to={`./${item.orderId}?status=${item.status}`}
                 className="btn btn-link text-primary btn-sm"
               >
                 جزئیات سفارش

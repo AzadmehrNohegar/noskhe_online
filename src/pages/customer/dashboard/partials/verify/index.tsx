@@ -166,7 +166,7 @@ function DashboardVerify({ prevStep }: IDashboardVerifyProps) {
                               !checked && "text-gray-700"
                             )}
                           >
-                            20000 <span className="font-light">تومان</span>
+                            20000 <span className="font-light">ریال</span>
                           </strong>
                         </div>
                       )}

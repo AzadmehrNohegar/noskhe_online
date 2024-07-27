@@ -1,6 +1,8 @@
 import {
   _new_order,
   _new_order_list,
+  _pharmacy_order,
+  _pharmacy_order_list,
   apiCustomResponse,
   dashboard_kpi,
   login_success_response,
@@ -22,6 +24,20 @@ export const getPharmacyFactorNewOrderList = async ({
   return await http.get<_new_order_list[]>("/pharmacy/factor/neworder/list", {
     params,
   });
+};
+
+export const getPharmacyFactorOrderList = async ({
+  params,
+}: AxiosCustomRequestConfig) => {
+  return await http.get<_pharmacy_order_list[]>("/pharmacy/factor/orderList", {
+    params,
+  });
+};
+
+export const getPharmacyFactorOrderById = async ({
+  id,
+}: AxiosCustomRequestConfig) => {
+  return await http.get<_pharmacy_order>(`/pharmacy/factor/order/${id}`);
 };
 
 export const getPharmacyFactorNewOrderSingleById = async ({
@@ -57,7 +73,7 @@ export const postPharmacyFactorOrderAcceptNotPrice = async ({
 export const postPharmacyFactorOrderAccept = async ({
   body,
 }: AxiosCustomRequestConfig) => {
-  return await http.post<unknown, apiCustomResponse<{ invoiceId: string }>>(
+  return await http.post<unknown, apiCustomResponse<{ factorId: string }>>(
     "/pharmacy/factor/order/Accept",
     body
   );

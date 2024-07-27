@@ -7,6 +7,7 @@ import {
   _order,
   _order_list,
   pharmacy_list,
+  _user_invoice,
 } from "@/model";
 import { AxiosCustomRequestConfig, http } from "@/services/axios";
 
@@ -24,6 +25,12 @@ export const getUserOrderByOrderId = async ({
   id,
 }: AxiosCustomRequestConfig) => {
   return await http.get<_order>(`/user/order/${id}`);
+};
+
+export const getUserOrderInvoiceByOrderId = async ({
+  id,
+}: AxiosCustomRequestConfig) => {
+  return await http.get<_user_invoice>(`/user/order/invoice/${id}`);
 };
 
 export const getUserOrderList = async ({
@@ -134,4 +141,8 @@ export const postUserOrderElecPrescription = async ({
   body,
 }: AxiosCustomRequestConfig) => {
   return await http.post("/user/order/elecPrescription", body);
+};
+
+export const postUserPayment = async ({ body }: AxiosCustomRequestConfig) => {
+  return await http.post("/user/payment", body);
 };

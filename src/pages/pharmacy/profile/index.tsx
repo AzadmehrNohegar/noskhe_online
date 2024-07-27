@@ -1,11 +1,11 @@
-import { getUserProfile } from "@/api/user";
+import { getPharmacyProfile } from "@/api/pharmacy";
 import { Input } from "@/components/input";
 import Skeleton from "react-loading-skeleton";
 import { useQuery } from "react-query";
 
 function Profile() {
   const { data: userData, isLoading } = useQuery("user-profile", () =>
-    getUserProfile()
+    getPharmacyProfile()
   );
 
   if (isLoading)

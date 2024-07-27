@@ -1,5 +1,5 @@
 import {
-  getPharmacyFactorNewOrderSingleById,
+  getPharmacyFactorOrderById,
   postPharmacyFactorOrderAcceptNotPrice,
 } from "@/api/pharmacy";
 import Skeleton from "react-loading-skeleton";
@@ -19,16 +19,16 @@ import { ImageDialog } from "@/shared/imageDialog";
 import { useDebouncedSearchParams } from "@/utils/useDebouncedSearchParams";
 import { useToastStore } from "@/store/toast";
 
-function NewOrderSingle() {
+function OrderSingle() {
   const { orderId } = useParams();
   const navigate = useNavigate();
   const [searchParams] = useDebouncedSearchParams(0);
   const queryClient = useQueryClient();
   const { stackToast } = useToastStore();
 
-  const { data: newOrderData, isLoading } = useQuery(
-    `new-order-${orderId}`,
-    () => getPharmacyFactorNewOrderSingleById({ id: orderId })
+  const { data: orderData, isLoading } = useQuery(
+    `pharmacy-order-${orderId}`,
+    () => getPharmacyFactorOrderById({ id: orderId })
   );
 
   const acceptNotPrice = useMutation(postPharmacyFactorOrderAcceptNotPrice, {
@@ -69,7 +69,7 @@ function NewOrderSingle() {
           >
             <IconWrapper iconSize="medium" className="icon-Arrow-Right-16" />
           </button>
-          شماره سفارش: {newOrderData?.data.data.refId}
+          شماره سفارش: {orderData?.data.data._id}
         </h2>
         <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4 bg-white">
           <h2 className="font-semibold text-lg lg:text-xl flex items-center gap-2">
@@ -98,10 +98,10 @@ function NewOrderSingle() {
             {new Intl.DateTimeFormat("fa-IR", {
               dateStyle: "long",
               timeStyle: "short",
-            }).format(new Date(newOrderData?.data.data.createdAt || ""))}
+            }).format(new Date(orderData?.data.data.createdAt || ""))}
           </span>
-          <Chip className="w-fit" status={newOrderData?.data.data.status}>
-            {GENERAL_STATUS[newOrderData?.data.data.status || "PENDING"]}
+          <Chip className="w-fit" status={orderData?.data.data.status}>
+            {GENERAL_STATUS[orderData?.data.data.status || "PENDING"]}
           </Chip>
         </div>
         <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4 bg-white">
@@ -131,7 +131,7 @@ function NewOrderSingle() {
                 <span className="text-gray-600">
                   {
                     DELIVERY_TYPE[
-                      newOrderData?.data.data.deliveryType || "COURIER"
+                      orderData?.data.data.deliveryType || "COURIER"
                     ]
                   }
                 </span>
@@ -161,7 +161,7 @@ function NewOrderSingle() {
           </h2>
           <div className="flex flex-col gap-4">
             <ul className="flex flex-col divide-y divide-gray-200 text-sm">
-              {newOrderData?.data.data.otc.map((el) => (
+              {orderData?.data.data.otc.map((el) => (
                 <li
                   key={el._id}
                   className="flex items-center justify-between py-2"
@@ -198,7 +198,7 @@ function NewOrderSingle() {
                   ) : null}
                 </li>
               ))}
-              {newOrderData?.data.data.elecPrescription.map((el, index) => (
+              {orderData?.data.data.elecPrescription.map((el, index) => (
                 <li
                   key={`${el.trackingCode}${index}`}
                   className="flex items-center justify-between py-2"
@@ -211,7 +211,7 @@ function NewOrderSingle() {
                   </span>
                 </li>
               ))}
-              {newOrderData?.data.data.uploadPrescription.map((el, index) => (
+              {orderData?.data.data.uploadPrescription.map((el, index) => (
                 <li
                   key={`${el.image}${index}`}
                   className="flex items-center justify-between py-2"
@@ -274,4 +274,4 @@ function NewOrderSingle() {
   );
 }
 
-export default NewOrderSingle;
+export default OrderSingle;

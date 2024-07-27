@@ -1,13 +1,7 @@
-import {
-  getPharmacyFactorNewOrderSingleById,
-  postPharmacyFactorOrderAcceptNotPrice,
-} from "@/api/pharmacy";
-import Skeleton from "react-loading-skeleton";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { getUserOrderByOrderId } from "@/api/user";
+import { useQuery } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
 import { Fragment } from "react";
-import { IconWrapper } from "@/shared/iconWrapper";
-import { Chip } from "@/components/chip";
 import {
   DELIVERY_TYPE,
   GENERAL_STATUS,
@@ -15,41 +9,28 @@ import {
   TYPE_LABEL,
   TYPE_STEP,
 } from "@/model";
+import { IconWrapper } from "@/shared/iconWrapper";
+import Skeleton from "react-loading-skeleton";
+import { Chip } from "@/components/chip";
 import { ImageDialog } from "@/shared/imageDialog";
 import { useDebouncedSearchParams } from "@/utils/useDebouncedSearchParams";
-import { useToastStore } from "@/store/toast";
 
-function NewOrderSingle() {
+function OrderSinglePending() {
   const { orderId } = useParams();
   const navigate = useNavigate();
   const [searchParams] = useDebouncedSearchParams(0);
-  const queryClient = useQueryClient();
-  const { stackToast } = useToastStore();
 
-  const { data: newOrderData, isLoading } = useQuery(
-    `new-order-${orderId}`,
-    () => getPharmacyFactorNewOrderSingleById({ id: orderId })
+  const { data: orderData, isLoading } = useQuery(
+    `order-${orderId}`,
+    () =>
+      getUserOrderByOrderId({
+        id: orderId,
+      }),
+    {
+      enabled: !!orderId,
+    }
   );
-
-  const acceptNotPrice = useMutation(postPharmacyFactorOrderAcceptNotPrice, {
-    onSuccess: () => {
-      stackToast({
-        title: "سفارش تایید شد.",
-        options: {
-          type: "success",
-        },
-      });
-      queryClient.invalidateQueries();
-      navigate("price");
-    },
-  });
-
-  const handleAcceptNotPrice = () =>
-    acceptNotPrice.mutate({
-      body: {
-        orderId,
-      },
-    });
+  console.log(orderData?.data.data);
 
   if (isLoading)
     return (
@@ -69,8 +50,14 @@ function NewOrderSingle() {
           >
             <IconWrapper iconSize="medium" className="icon-Arrow-Right-16" />
           </button>
-          شماره سفارش: {newOrderData?.data.data.refId}
+          شماره سفارش: {orderData?.data.data.order.refId}
         </h2>
+        <div className="border border-warning p-4 rounded-md flex flex-col gap-4 bg-warning text-white">
+          <h6 className="font-semibold text-xs lg:text-sm">
+            سفارش شما درحال بررسی توسط داروخانه است و ظرف ۳۰ دقیقه آینده هزینه
+            آن محاسبه و از طریق پیامک به شما اطلاع داده خواهد شد.
+          </h6>
+        </div>
         <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4 bg-white">
           <h2 className="font-semibold text-lg lg:text-xl flex items-center gap-2">
             <span className="p-2 rounded-lg bg-secondary">
@@ -98,12 +85,13 @@ function NewOrderSingle() {
             {new Intl.DateTimeFormat("fa-IR", {
               dateStyle: "long",
               timeStyle: "short",
-            }).format(new Date(newOrderData?.data.data.createdAt || ""))}
+            }).format(new Date(orderData?.data.data.order.createdAt || ""))}
           </span>
-          <Chip className="w-fit" status={newOrderData?.data.data.status}>
-            {GENERAL_STATUS[newOrderData?.data.data.status || "PENDING"]}
+          <Chip className="w-fit" status={orderData?.data.data.order.status}>
+            {GENERAL_STATUS[orderData?.data.data.order.status || "PENDING"]}
           </Chip>
         </div>
+
         <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4 bg-white">
           <h2 className="font-semibold text-lg lg:text-xl flex items-center gap-2">
             <span className="p-2 rounded-lg bg-secondary">
@@ -127,13 +115,31 @@ function NewOrderSingle() {
           <div className="flex flex-col gap-4">
             <ul className="flex flex-col divide-y divide-gray-200 text-sm">
               <li className="flex items-center justify-between py-2">
+                <strong>نام تحویل گیرنده: </strong>
+                <span className="text-gray-600">
+                  {orderData?.data.data.order.fullName || "-"}
+                </span>
+              </li>
+              <li className="flex items-center justify-between py-2">
+                <strong>شماره تماس تحویل گیرنده: </strong>
+                <span className="text-gray-600">
+                  {orderData?.data.data.order.mobile || "-"}
+                </span>
+              </li>
+              <li className="flex items-center justify-between py-2">
                 <strong>نوع تحویل: </strong>
                 <span className="text-gray-600">
                   {
                     DELIVERY_TYPE[
-                      newOrderData?.data.data.deliveryType || "COURIER"
+                      orderData?.data.data.order.deliveryType || "COURIER"
                     ]
                   }
+                </span>
+              </li>
+              <li className="flex flex-col items-start justify-between py-2">
+                <strong>آدرس کامل: </strong>
+                <span className="text-gray-600 text-justify">
+                  {orderData?.data.data.address?.address || "-"}
                 </span>
               </li>
             </ul>
@@ -161,7 +167,7 @@ function NewOrderSingle() {
           </h2>
           <div className="flex flex-col gap-4">
             <ul className="flex flex-col divide-y divide-gray-200 text-sm">
-              {newOrderData?.data.data.otc.map((el) => (
+              {orderData?.data.data.order.otc.map((el) => (
                 <li
                   key={el._id}
                   className="flex items-center justify-between py-2"
@@ -198,7 +204,7 @@ function NewOrderSingle() {
                   ) : null}
                 </li>
               ))}
-              {newOrderData?.data.data.elecPrescription.map((el, index) => (
+              {orderData?.data.data.order.elecPrescription.map((el, index) => (
                 <li
                   key={`${el.trackingCode}${index}`}
                   className="flex items-center justify-between py-2"
@@ -211,56 +217,34 @@ function NewOrderSingle() {
                   </span>
                 </li>
               ))}
-              {newOrderData?.data.data.uploadPrescription.map((el, index) => (
-                <li
-                  key={`${el.image}${index}`}
-                  className="flex items-center justify-between py-2"
-                >
-                  <strong>تصویر نسخه:</strong>
-                  <button
-                    type="button"
-                    className="border border-gray-200 rounded-md p-2 text-gray-600"
-                    onClick={() =>
-                      navigate(`?image=${el.image}`, {
-                        replace: true,
-                      })
-                    }
+              {orderData?.data.data.order.uploadPrescription.map(
+                (el, index) => (
+                  <li
+                    key={`${el.image}${index}`}
+                    className="flex items-center justify-between py-2"
                   >
-                    <img
-                      src={import.meta.env.VITE_BASEURL + el.image}
-                      className="w-10 h-10 min-w-10 object-contain"
-                      alt="perc"
-                    />
-                  </button>
-                </li>
-              ))}
+                    <strong>تصویر نسخه:</strong>
+                    <button
+                      type="button"
+                      className="border border-gray-200 rounded-md p-2 text-gray-600"
+                      onClick={() =>
+                        navigate(`?image=${el.image}`, {
+                          replace: true,
+                        })
+                      }
+                    >
+                      <img
+                        src={import.meta.env.VITE_BASEURL + el.image}
+                        className="w-10 h-10 min-w-10 object-contain"
+                        alt="perc"
+                      />
+                    </button>
+                  </li>
+                )
+              )}
             </ul>
           </div>
         </div>
-        {searchParams.get("status") === "PENDING" ? (
-          <div className="flex items-center justify-end border-t border-t-gray-100 pt-4 gap-3 w-full">
-            <button
-              className="btn btn-link btn-custom text-gray-800"
-              onClick={() => navigate("..")}
-            >
-              انصراف
-            </button>
-            <button
-              className="btn btn-primary btn-custom btn-wide"
-              onClick={handleAcceptNotPrice}
-              disabled={acceptNotPrice.isLoading}
-            >
-              تایید سفارش
-            </button>
-          </div>
-        ) : null}
-        {searchParams.get("status") === "WAITING" ? (
-          <div className="flex items-center justify-end border-t border-t-gray-100 pt-4 gap-3 w-full">
-            <Link to="price" className="btn btn-primary btn-custom btn-wide">
-              ثبت قیمت
-            </Link>
-          </div>
-        ) : null}
       </div>
       <ImageDialog
         isOpen={!!searchParams.get("image")}
@@ -274,4 +258,4 @@ function NewOrderSingle() {
   );
 }
 
-export default NewOrderSingle;
+export { OrderSinglePending };

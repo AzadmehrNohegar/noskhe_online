@@ -8,6 +8,7 @@ const AuthPage = lazy(() => import("../auth"));
 const DashboardPage = lazy(() => import("./dashboard"));
 const NewOrderPage = lazy(() => import("./newOrder"));
 const OrderPage = lazy(() => import("./order"));
+const ProfilePage = lazy(() => import("./profile"));
 
 function PharmacyBasePage() {
   return (
@@ -17,6 +18,7 @@ function PharmacyBasePage() {
           <Route index element={<DashboardPage />} />
           <Route path="new-order/*" element={<NewOrderPage />} />
           <Route path="order/*" element={<OrderPage />} />
+          <Route path="profile" element={<ProfilePage />} />
         </Route>
       </Route>
       <Route path="auth/*" element={<AuthPage />} />

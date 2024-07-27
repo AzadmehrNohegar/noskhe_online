@@ -148,7 +148,7 @@ export type subscription_type = "prepaid" | "postpaid";
 
 export type general_status =
   | "ready"
-  | "success"
+  | "SUCCESS"
   | "revoke"
   | "PENDING"
   | "WAITING"
@@ -374,6 +374,78 @@ export type pharmacy_list = {
 
 export type invoice_price_type = _otc | _uploadPrescription | _elecPrescription;
 
+export type _pharmacy_order_list = {
+  _id: string;
+  invoiceId: number;
+  orderId: string;
+  fullName: string;
+  price: number;
+  insurancePrice: number;
+  totalPrice: number;
+  deliveryTime: number;
+  deliveryType: _delivery_type;
+  shippingCost: number;
+  paymentStatus: boolean;
+  sendStatus: boolean;
+  active: boolean;
+  status: general_status;
+  createdAt: string;
+};
+
+export type _pharmacy_order = {
+  _id: string;
+  invoiceId: number;
+  userId: string;
+  orderId: string;
+  fullName: string;
+  price: number;
+  insurancePrice: number;
+  totalPrice: number;
+  deliveryTime: number;
+  deliveryType: _delivery_type;
+  shippingCost: number;
+  paymentStatus: boolean;
+  sendStatus: boolean;
+  active: boolean;
+  status: general_status;
+  otc: _otc[];
+  uploadPrescription: _uploadPrescription[];
+  elecPrescription: _elecPrescription[];
+  createdAt: string;
+};
+
+export type _user_invoice = {
+  delivery: _user_invoice_delivery;
+  detail: _user_invoice_detail;
+  payment: _user_invoice_payment;
+};
+
+export type _user_invoice_payment = {
+  trackingCode: number;
+  amount: number;
+  createdAt: string;
+};
+
+export type _user_invoice_detail = {
+  invoiceId: number;
+  fullName: string;
+  price: number;
+  insurancePrice: number;
+  totalPrice: number;
+  shippingCost: number;
+  status: general_status;
+  otc: _otc[];
+  uploadPrescription: _uploadPrescription[];
+  elecPrescription: _elecPrescription[];
+  createdAt: string;
+};
+
+export type _user_invoice_delivery = {
+  deliveryTime: string;
+  deliveryTo: string;
+  deliveryType: _delivery_type;
+};
+
 export type invoice_price = {
   itemId: string;
   price: string;
@@ -443,7 +515,7 @@ export const TYPE_MAX: IDictionary<number> = {
 
 export const GENERAL_STATUS: ITypedDictionary<general_status, string> = {
   ready: "آماده برای پرداخت",
-  success: "موفق",
+  SUCCESS: "موفق",
   revoke: "لغو شده",
   PENDING: "در حال بررسی",
   FAILED: "ناموفق",
