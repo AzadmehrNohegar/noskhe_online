@@ -518,7 +518,7 @@ export const GENERAL_STATUS: ITypedDictionary<general_status, string> = {
   ready: "آماده برای پرداخت",
   SUCCESS: "موفق",
   revoke: "لغو شده",
-  PENDING: "در حال بررسی",
+  PENDING: "در انتظار تایید",
   FAILED: "ناموفق",
   WAITING: "در انتظار قیمت",
   closed: "بسته شده",

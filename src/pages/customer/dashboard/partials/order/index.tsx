@@ -24,7 +24,7 @@ function DashboardOrder({ nextStep }: IDashboardOrderProps) {
     handleSubmit,
     formState: { isValid, isDirty },
   } = useFormContext<dashboard_form>();
-
+  console.log(watch("pharmacy"), watch("isPerson"));
   const {
     fields: otcFields,
     append: otcAppend,

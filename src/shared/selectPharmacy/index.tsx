@@ -12,8 +12,12 @@ interface ISelectPharmacyDialogForm {
   pharmacy: pharmacy_list | null;
 }
 
-function SelectPharmacyDialog(props: IExtendedDialogProps) {
-  const { isOpen, closeModal } = props;
+interface ISelectPharmacyDialog extends IExtendedDialogProps {
+  action: () => void;
+}
+
+function SelectPharmacyDialog(props: ISelectPharmacyDialog) {
+  const { isOpen, closeModal, action } = props;
 
   const { address } = useAddressStore();
 
@@ -39,9 +43,11 @@ function SelectPharmacyDialog(props: IExtendedDialogProps) {
 
   const onSubmit = (values: ISelectPharmacyDialogForm) => {
     setValue("pharmacy", values.pharmacy, { shouldValidate: true });
+    setValue("isPerson", true, { shouldValidate: true });
+    action();
     closeModal();
   };
-  console.log(pharmacyList?.data.result);
+
   return (
     <Dialog isOpen={isOpen} closeModal={closeModal} placement="center">
       <Dialog.Title className="flex items-center p-4 bg-primary-10 border-b border-b-primary-200 rounded-t-1.5lg">

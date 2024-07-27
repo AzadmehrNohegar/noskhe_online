@@ -3,9 +3,10 @@ import { FormProvider, useForm } from "react-hook-form";
 import { DashboardOrder } from "./partials/order";
 import { useState } from "react";
 import { DashboardVerify } from "./partials/verify";
+import DashboardDelivery from "./partials/delivery";
 
 function Dashboard() {
-  const [step, setStep] = useState<"order" | "verify">("order");
+  const [step, setStep] = useState<"delivery" | "order" | "verify">("delivery");
 
   const methods = useForm<dashboard_form>({
     defaultValues: {
@@ -21,6 +22,9 @@ function Dashboard() {
 
   return (
     <FormProvider {...methods}>
+      {step === "delivery" ? (
+        <DashboardDelivery nextStep={() => setStep("order")} />
+      ) : null}
       {step === "order" ? (
         <DashboardOrder nextStep={() => setStep("verify")} />
       ) : null}
