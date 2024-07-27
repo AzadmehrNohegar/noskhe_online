@@ -42,7 +42,6 @@ function NewOrderPrice() {
       onSuccess: (res) => {
         if (res?.data) {
           const otcValues = res.data.data.otc.map((el) => ({
-            invoiceId: orderId,
             itemId: el._id,
             itemType: "OTC",
             price: "",
@@ -50,7 +49,6 @@ function NewOrderPrice() {
             obj: el,
           })) as invoice_price[];
           const uploadValues = res.data.data.uploadPrescription.map((el) => ({
-            invoiceId: orderId,
             itemId: el._id,
             itemType: "UPLOAD",
             price: "",
@@ -58,7 +56,6 @@ function NewOrderPrice() {
             obj: el,
           })) as invoice_price[];
           const elecValues = res.data.data.elecPrescription.map((el) => ({
-            invoiceId: orderId,
             itemId: el._id,
             itemType: "ELEC",
             price: "",
@@ -112,6 +109,7 @@ function NewOrderPrice() {
                   itemId: item.itemId,
                   price: +convertPersian2English(item.price),
                   insurance: +convertPersian2English(item.insurance),
+                  itemType: item.itemType,
                 },
               });
             })
