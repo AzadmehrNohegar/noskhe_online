@@ -74,7 +74,7 @@
   }
 
   .chip-primary {
-    @apply bg-primary text-primary-content;
+    @apply bg-primary text-white;
   }
 
   .chip-info {

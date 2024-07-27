@@ -153,7 +153,8 @@ export type general_status =
   | "PENDING"
   | "WAITING"
   | "FAILED"
-  | "closed";
+  | "closed"
+  | "PAID";
 
 export type general_boolean = "true" | "false";
 
@@ -521,6 +522,7 @@ export const GENERAL_STATUS: ITypedDictionary<general_status, string> = {
   FAILED: "ناموفق",
   WAITING: "در انتظار قیمت",
   closed: "بسته شده",
+  PAID: "پرداخت شده",
 };
 
 export const DELIVERY_TYPE: ITypedDictionary<_delivery_type, string> = {
