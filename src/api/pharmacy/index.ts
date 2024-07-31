@@ -79,6 +79,24 @@ export const postPharmacyFactorOrderAccept = async ({
   );
 };
 
+export const postPharmacyFactorDeliveryCourier = async ({
+  body,
+}: AxiosCustomRequestConfig) => {
+  return await http.post("/pharmacy/factor/delivery/courier", body);
+};
+
+export const postPharmacyFactorDeliveryPerson = async ({
+  body,
+}: AxiosCustomRequestConfig) => {
+  return await http.post("/pharmacy/factor/delivery/person", body);
+};
+
+export const patchPharmacyFactorOrderAcceptPrice = async ({
+  body,
+}: AxiosCustomRequestConfig) => {
+  return await http.patch("/pharmacy/factor/order/acceptPrice", body);
+};
+
 export const patchPharmacyFactorOrderPrice = async ({
   body,
 }: AxiosCustomRequestConfig) => {

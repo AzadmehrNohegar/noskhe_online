@@ -2,7 +2,13 @@ import { getUserOrderInvoiceByOrderId, postUserPayment } from "@/api/user";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { Fragment } from "react";
-import { DELIVERY_TYPE, GENERAL_STATUS } from "@/model";
+import {
+  DELIVERY_TYPE,
+  GENERAL_STATUS,
+  INSURANCE_LABEL,
+  TYPE_LABEL,
+  TYPE_STEP,
+} from "@/model";
 import { IconWrapper } from "@/shared/iconWrapper";
 import Skeleton from "react-loading-skeleton";
 import { Chip } from "@/components/chip";
@@ -15,13 +21,13 @@ function OrderSingleInvoice() {
   const [searchParams] = useDebouncedSearchParams(0);
 
   const { data: orderData, isLoading } = useQuery(
-    `order-invoice-${orderId}`,
+    `order-invoice-${orderId}-customer`,
     () =>
       getUserOrderInvoiceByOrderId({
         id: orderId,
       }),
     {
-      enabled: !!orderId && searchParams.get("status") === "SUCCESS",
+      enabled: !!orderId && searchParams.get("status") !== "PENDING",
     }
   );
 
@@ -44,7 +50,7 @@ function OrderSingleInvoice() {
 
   return (
     <Fragment>
-      <div className="flex flex-col gap-3 h-full">
+      <div className="flex flex-col gap-3 h-full pb-24">
         <h2 className="flex items-center font-semibold lg:text-xl">
           <button
             className="btn btn-square btn-sm btn-link text-gray-600"
@@ -87,7 +93,141 @@ function OrderSingleInvoice() {
             {GENERAL_STATUS[orderData?.data.data.detail.status || "PENDING"]}
           </Chip>
         </div>
-
+        <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4 bg-white">
+          <h2 className="font-semibold text-lg lg:text-xl flex items-center gap-2">
+            <span className="rounded-lg bg-secondary inline-flex items-center justify-center w-9 min-w-9 aspect-square">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="#FFFFFF"
+                height="20px"
+                width="20px"
+                version="1.1"
+                viewBox="0 0 231.306 231.306"
+                enableBackground="new 0 0 231.306 231.306"
+              >
+                <g>
+                  <path d="M229.548,67.743L163.563,1.757C162.438,0.632,160.912,0,159.32,0H40.747C18.279,0,0,18.279,0,40.747v149.813   c0,22.468,18.279,40.747,40.747,40.747h149.813c22.468,0,40.747-18.279,40.747-40.747V71.985   C231.306,70.394,230.673,68.868,229.548,67.743z M164.32,19.485l47.5,47.5h-47.5V19.485z M190.559,219.306H40.747   C24.896,219.306,12,206.41,12,190.559V40.747C12,24.896,24.896,12,40.747,12H152.32v60.985c0,3.313,2.687,6,6,6h60.985v111.574   C219.306,206.41,206.41,219.306,190.559,219.306z" />
+                  <path d="m103.826,52.399c-5.867-5.867-13.667-9.098-21.964-9.098s-16.097,3.231-21.964,9.098c-5.867,5.867-9.098,13.667-9.098,21.964 0,8.297 3.231,16.097 9.098,21.964l61.536,61.536c7.957,7.956 20.9,7.954 28.855,0 7.955-7.956 7.955-20.899 0-28.855l-60.928-60.926c-2.343-2.343-6.143-2.343-8.485,0-2.343,2.343-2.343,6.142 0,8.485l60.927,60.927c3.276,3.276 3.276,8.608 0,11.884s-8.607,3.276-11.884,0l-61.536-61.535c-3.601-3.601-5.583-8.388-5.583-13.479 0-5.092 1.983-9.879 5.583-13.479 7.433-7.433 19.525-7.433 26.958,0l64.476,64.476c11.567,11.567 11.567,30.388 0,41.955-5.603,5.603-13.053,8.689-20.977,8.689s-15.374-3.086-20.977-8.689l-49.573-49.574c-2.343-2.343-6.143-2.343-8.485,0-2.343,2.343-2.343,6.142 0,8.485l49.573,49.573c7.87,7.87 18.333,12.204 29.462,12.204s21.593-4.334 29.462-12.204 12.204-18.333 12.204-29.463c0-11.129-4.334-21.593-12.204-29.462l-64.476-64.476z" />
+                </g>
+              </svg>
+            </span>
+            جزئیات سفارش
+          </h2>
+          <div className="flex flex-col gap-4">
+            <ul className="flex flex-col divide-y divide-gray-200 text-sm">
+              {orderData?.data.data.detail.otc.map((el) => (
+                <li
+                  key={el._id}
+                  className="flex items-center justify-between py-2"
+                >
+                  <div className="flex flex-col gap-1">
+                    <span>
+                      <strong>
+                        نام: {el.drugName || "-"} نوع: {TYPE_LABEL[el.type]}/{" "}
+                      </strong>
+                      <span className="text-gray-600">
+                        {el.count} {TYPE_STEP[el.type]}
+                      </span>
+                    </span>
+                    <span>
+                      <strong>
+                        قیمت کل: {el.price.toLocaleString() || "-"} تومان
+                      </strong>
+                    </span>
+                  </div>
+                  {el.image ? (
+                    <div className="flex items-center gap-1">
+                      <strong>تصویر نسخه:</strong>
+                      <button
+                        type="button"
+                        className="border border-gray-200 rounded-md p-2 text-gray-600"
+                        onClick={() =>
+                          navigate(`?image=${el.image}`, {
+                            replace: true,
+                          })
+                        }
+                      >
+                        <img
+                          src={import.meta.env.VITE_BASEURL + el.image}
+                          className="w-10 aspect-square min-w-10 lg:w-40 lg:min-w-40 object-contain"
+                          alt="perc"
+                        />
+                      </button>
+                    </div>
+                  ) : null}
+                </li>
+              ))}
+              {orderData?.data.data.detail.elecPrescription.map((el, index) => (
+                <li
+                  key={`${el.trackingCode}${index}`}
+                  className="flex items-center justify-between py-2"
+                >
+                  <div className="flex flex-col gap-1">
+                    <span>
+                      <strong>
+                        نوع بیمه: {INSURANCE_LABEL[el.typeOfInsurance]}/{" "}
+                      </strong>
+                      <span className="text-gray-600">
+                        کد رهگیری: {el.trackingCode}
+                      </span>
+                    </span>
+                    <span>
+                      <strong>
+                        قیمت کل: {el.price.toLocaleString() || "-"}/{" "}
+                      </strong>
+                      <span>
+                        سهم بیمه: {el.insurance.toLocaleString()} تومان/{" "}
+                      </span>
+                      <span>
+                        قیمت تمام شده: {el.total.toLocaleString()} تومان
+                      </span>
+                    </span>
+                  </div>
+                </li>
+              ))}
+              {orderData?.data.data.detail.uploadPrescription.map(
+                (el, index) => (
+                  <li
+                    key={`${el.image}${index}`}
+                    className="flex items-center justify-between py-2"
+                  >
+                    <div className="flex flex-col gap-1">
+                      <span>
+                        <strong>تصویر نسخه:</strong>
+                      </span>
+                      <span>
+                        <strong>
+                          قیمت کل: {el.price.toLocaleString() || "-"}/{" "}
+                        </strong>
+                        <span>
+                          سهم بیمه: {el.insurance.toLocaleString()} تومان/{" "}
+                        </span>
+                        <span>
+                          قیمت تمام شده: {el.total.toLocaleString()} تومان
+                        </span>
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      className="border border-gray-200 rounded-md p-2 text-gray-600"
+                      onClick={() =>
+                        navigate(`?image=${el.image}`, {
+                          replace: true,
+                        })
+                      }
+                    >
+                      <img
+                        src={import.meta.env.VITE_BASEURL + el.image}
+                        className="w-10 aspect-square min-w-10 lg:w-40 lg:min-w-40 object-contain"
+                        alt="perc"
+                      />
+                    </button>
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
+        </div>
         <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4 bg-white">
           <h2 className="font-semibold text-lg lg:text-xl flex items-center gap-2">
             <span className="p-2 rounded-lg bg-secondary">
@@ -115,7 +255,7 @@ function OrderSingleInvoice() {
                 <span className="text-gray-600">
                   {
                     DELIVERY_TYPE[
-                      orderData?.data.data.delivery.deliveryType || "COURIER"
+                      orderData?.data.data.delivery?.deliveryType || "COURIER"
                     ]
                   }
                 </span>
@@ -123,13 +263,13 @@ function OrderSingleInvoice() {
               <li className="flex items-center justify-between py-2">
                 <strong>زمان تحویل: </strong>
                 <span className="text-gray-600 text-justify">
-                  {orderData?.data.data.delivery.deliveryTime}
+                  {orderData?.data.data.delivery?.deliveryTime}
                 </span>
               </li>
               <li className="flex items-center justify-between py-2">
                 <strong>محل تحویل: </strong>
                 <span className="text-gray-600 text-justify">
-                  {orderData?.data.data.delivery.deliveryTo}
+                  {orderData?.data.data.delivery?.deliveryTo}
                 </span>
               </li>
             </ul>
@@ -177,37 +317,40 @@ function OrderSingleInvoice() {
             <div className="flex flex-col gap-4">
               <ul className="flex flex-col divide-y divide-gray-200 text-sm">
                 <li className="flex items-center justify-between py-2">
-                  <strong>مقدار: </strong>
+                  <strong>قیمت: </strong>
                   <strong className="text-gray600 plaintext">
-                    {orderData?.data.data.payment.amount.toLocaleString()}{" "}
+                    {orderData?.data.data.payment?.amount?.toLocaleString()}{" "}
                     <span className="font-light">ریال</span>
                   </strong>
                 </li>
-                <li className="flex items-center justify-between py-2">
-                  <strong>زمان پرداخت: </strong>
-                  <span className="text-gray-600 font-normal text-sm plaintext">
-                    {new Intl.DateTimeFormat("fa-IR", {
-                      dateStyle: "long",
-                      timeStyle: "short",
-                    }).format(
-                      new Date(orderData?.data.data.payment.createdAt || "")
-                    )}
-                  </span>
-                </li>
+                {orderData?.data.data.payment?.createdAt ? (
+                  <li className="flex items-center justify-between py-2">
+                    <strong>زمان پرداخت: </strong>
+                    <span className="text-gray-600 font-normal text-sm plaintext">
+                      {new Intl.DateTimeFormat("fa-IR", {
+                        dateStyle: "long",
+                        timeStyle: "short",
+                      }).format(
+                        new Date(orderData?.data.data.payment?.createdAt || "")
+                      )}
+                    </span>
+                  </li>
+                ) : null}
+
                 <li className="flex items-center justify-between py-2">
                   <strong>کد رهگیری: </strong>
                   <span className="text-gray-600 text-justify">
-                    {orderData?.data.data.payment.trackingCode}
+                    {orderData?.data.data.payment?.trackingCode}
                   </span>
                 </li>
               </ul>
             </div>
           </div>
         ) : null}
-        {!orderData?.data.data.payment ? (
-          <div className="flex items-center justify-end border-t border-t-gray-100 pt-4 gap-3 w-full">
+        {orderData?.data.data.detail.status === "WFP" ? (
+          <div className="flex flex-wrap mt-auto items-center border-t border-t-gray-100 p-4 gap-3 w-full fixed bg-[#F9F9FA] bottom-0 end-0 lg:max-w-[83%]">
             <button
-              className="btn btn-primary btn-custom btn-wide"
+              className="btn btn-primary btn-custom btn-wide ms-auto"
               onClick={handlePayment}
               disabled={createPayment.isLoading}
             >

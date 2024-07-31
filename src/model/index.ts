@@ -147,14 +147,14 @@ export type size = "standard" | "fit";
 export type subscription_type = "prepaid" | "postpaid";
 
 export type general_status =
-  | "ready"
   | "SUCCESS"
-  | "revoke"
   | "PENDING"
   | "WAITING"
   | "FAILED"
-  | "closed"
-  | "PAID";
+  | "PAID"
+  | "DELIVERED"
+  | "SENT"
+  | "WFP";
 
 export type general_boolean = "true" | "false";
 
@@ -167,6 +167,14 @@ export type cdr_direction = "inbound" | "outbound";
 export type operation_type = "increase" | "decrease";
 
 export type _order_status = "PENDING" | "FAILED" | "WAITING";
+
+export type _order_type =
+  | "ALL"
+  | "PERSON"
+  | "COURIER"
+  | "WFC"
+  | "WFP"
+  | "CONFIRMED";
 
 export type _delivery_type = "COURIER" | "PERSON";
 
@@ -321,10 +329,33 @@ export type _elecPrescription = {
   _id: string;
 };
 
+export type _elecPrescriptionWithPrice = {
+  typeOfInsurance: string;
+  nationalCode: string;
+  doctorName: string;
+  trackingCode: string;
+  price: number;
+  patient: number;
+  insurance: number;
+  count: number;
+  total: number;
+  _id: string;
+};
+
 export type _uploadPrescription = {
   image: string;
   _id: string;
   imageUrl: string;
+};
+
+export type _uploadPrescriptionWithPrice = {
+  image: string;
+  price: number;
+  patient: number;
+  insurance: number;
+  count: number;
+  total: number;
+  _id: string;
 };
 
 export type _otc = {
@@ -334,6 +365,17 @@ export type _otc = {
   imageUrl: string;
   drugName?: string;
   image?: string;
+};
+
+export type _otcWithPrice = {
+  type: otc_type;
+  count: number;
+  imageUrl: string;
+  drugName?: string;
+  image?: string;
+  price: number;
+  total: number;
+  _id: string;
 };
 
 export type _order_list = {
@@ -402,16 +444,16 @@ export type _pharmacy_order = {
   price: number;
   insurancePrice: number;
   totalPrice: number;
-  deliveryTime: number;
+  deliveryTime: string;
   deliveryType: _delivery_type;
   shippingCost: number;
   paymentStatus: boolean;
   sendStatus: boolean;
   active: boolean;
   status: general_status;
-  otc: _otc[];
-  uploadPrescription: _uploadPrescription[];
-  elecPrescription: _elecPrescription[];
+  otc: _otcWithPrice[];
+  uploadPrescription: _uploadPrescriptionWithPrice[];
+  elecPrescription: _elecPrescriptionWithPrice[];
   createdAt: string;
 };
 
@@ -435,9 +477,9 @@ export type _user_invoice_detail = {
   totalPrice: number;
   shippingCost: number;
   status: general_status;
-  otc: _otc[];
-  uploadPrescription: _uploadPrescription[];
-  elecPrescription: _elecPrescription[];
+  otc: _otcWithPrice[];
+  uploadPrescription: _uploadPrescriptionWithPrice[];
+  elecPrescription: _elecPrescriptionWithPrice[];
   createdAt: string;
 };
 
@@ -515,17 +557,26 @@ export const TYPE_MAX: IDictionary<number> = {
 };
 
 export const GENERAL_STATUS: ITypedDictionary<general_status, string> = {
-  ready: "آماده برای پرداخت",
   SUCCESS: "موفق",
-  revoke: "لغو شده",
   PENDING: "در انتظار تایید",
   FAILED: "ناموفق",
   WAITING: "در انتظار قیمت",
-  closed: "بسته شده",
   PAID: "پرداخت شده",
+  DELIVERED: "تحویل داده شده",
+  SENT: "ارسال شده",
+  WFP: "در انتظار پرداخت",
 };
 
 export const DELIVERY_TYPE: ITypedDictionary<_delivery_type, string> = {
   COURIER: "پیک",
   PERSON: "حضوری",
+};
+
+export const ORDER_TYPE: ITypedDictionary<_order_type, string> = {
+  ALL: "همه سفارشات",
+  COURIER: "سفارشات جاری پیک",
+  PERSON: "سفارشات جاری حضوری",
+  WFC: "سفارشات در انتظار پیک",
+  WFP: "سفارشات در انتظار پرداخت",
+  CONFIRMED: "سفارشات تایید شده",
 };

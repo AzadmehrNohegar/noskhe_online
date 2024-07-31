@@ -71,19 +71,6 @@ export const CUSTOMER_SIDEBAR: navLink[] = [
     },
     submenu: null,
   },
-  {
-    to: "/invoice",
-    end: false,
-    label: "فاکتورها",
-    icon: (isActive) => {
-      if (isActive)
-        return (
-          <IconWrapper iconSize="large" className="icon-Duotone-Activity-16" />
-        );
-      return <IconWrapper iconSize="large" className="icon-Activity-16" />;
-    },
-    submenu: null,
-  },
 ];
 
 export const PHARMACY_SIDEBAR: navLink[] = [

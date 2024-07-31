@@ -4,11 +4,16 @@ import { useMediaQuery } from "usehooks-ts";
 import { Pagination } from "@/shared/pagination";
 import { useQuery } from "react-query";
 import Skeleton from "react-loading-skeleton";
-import { _pharmacy_order_list, IResponsiveGatewayProps } from "@/model";
+import {
+  _pharmacy_order_list,
+  IResponsiveGatewayProps,
+  ORDER_TYPE,
+} from "@/model";
 import { useDebouncedSearchParams } from "@/utils/useDebouncedSearchParams";
 import { getPharmacyFactorOrderList } from "@/api/pharmacy";
 import { OrderDesktopTable } from "./partials/desktopTable";
 import { OrderMobileTable } from "./partials/mobileTable";
+import { StatelessSelect } from "@/components/statelessSelect";
 
 function OrderTable(props: IResponsiveGatewayProps<_pharmacy_order_list>) {
   const matches = useMediaQuery("(max-width: 1023px)");
@@ -51,6 +56,18 @@ function OrderList() {
         <ListSearchWrapper
           type="number"
           className="basis-full lg:basis-auto lg:me-auto"
+        />
+        <StatelessSelect
+          containerClassName="w-full basis-full lg:basis-modified3 !bg-transparent"
+          label="نوع سفارش"
+          placeholder="نوع سفارش"
+          options={["ALL", "PERSON", "COURIER", "WFC", "WFP", "CONFIRMED"]}
+          optionDictionary={ORDER_TYPE}
+          selected={searchParams.get("list")}
+          setSelected={(o) => {
+            searchParams.set("list", o);
+            setSearchParams(searchParams);
+          }}
         />
       </div>
       <OrderTable

@@ -1,6 +1,7 @@
 import { Chip } from "@/components/chip";
 import {
   _pharmacy_order_list,
+  DELIVERY_TYPE,
   GENERAL_STATUS,
   IResponsiveGatewayProps,
 } from "@/model";
@@ -24,7 +25,7 @@ function OrderMobileTable({
                   index +
                   1}
               </span>{" "}
-              {item._id || "-"}
+              {item.invoiceId || "-"}
             </span>
             <Link
               to={`./${item._id}?status=${item.status}`}
@@ -43,7 +44,9 @@ function OrderMobileTable({
             <span className="text-xs text-gray-500">زمان ارسال</span>
             {item.deliveryType === "PERSON" ? (
               <strong className="text-sm text-gray-700 plaintext">
-                {item.deliveryTime} <span className="font-light">دقیقه</span>
+                {new Intl.DateTimeFormat("fa-IR", {
+                  timeStyle: "short",
+                }).format(new Date(item.deliveryTime || ""))}
               </strong>
             ) : (
               "-"
@@ -56,6 +59,12 @@ function OrderMobileTable({
                 dateStyle: "short",
                 timeStyle: "short",
               }).format(new Date(item.createdAt))}
+            </span>
+          </li>
+          <li className="flex items-center justify-between">
+            <span className="text-xs text-gray-500">روش ارسال</span>
+            <span className="text-sm text-gray-700 plaintext">
+              {DELIVERY_TYPE[item.deliveryType]}
             </span>
           </li>
           <li className="flex items-center justify-between">

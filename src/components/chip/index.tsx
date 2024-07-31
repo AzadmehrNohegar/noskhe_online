@@ -11,14 +11,14 @@ function Chip({ status, className, children, ...rest }: IChipProps) {
     <span
       className={clsx(
         "chip",
-        status === "ready" && "chip-primary",
         status === "SUCCESS" && "chip-success",
         status === "PENDING" && "chip-info-light",
         status === "FAILED" && "chip-danger",
-        status === "closed" && "chip-accent",
-        status === "revoke" && "chip-accent",
         status === "WAITING" && "chip-success",
         status === "PAID" && "chip-primary",
+        status === "DELIVERED" && "chip-primary",
+        status === "SENT" && "chip-primary",
+        status === "WFP" && "chip-info-light",
         className
       )}
       {...rest}

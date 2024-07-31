@@ -5,7 +5,12 @@ import { OrderSinglePending } from "./partials/pending";
 function OrderSingle() {
   const [searchParams] = useDebouncedSearchParams(0);
 
-  if (searchParams.get("status") === "SUCCESS") return <OrderSingleInvoice />;
+  if (
+    searchParams.get("status") === "SUCCESS" ||
+    searchParams.get("status") === "WFP" ||
+    searchParams.get("status") === "DELIVERED"
+  )
+    return <OrderSingleInvoice />;
 
   return <OrderSinglePending />;
 }

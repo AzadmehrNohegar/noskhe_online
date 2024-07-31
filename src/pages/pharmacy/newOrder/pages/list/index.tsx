@@ -26,7 +26,7 @@ function NewOrderList() {
     () =>
       getPharmacyFactorNewOrderList({
         params: {
-          search: searchParams.get("search"),
+          search: searchParams.get("search") || "",
           page: searchParams.get("page"),
         },
       }),

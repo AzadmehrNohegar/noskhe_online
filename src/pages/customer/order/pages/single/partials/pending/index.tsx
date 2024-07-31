@@ -30,7 +30,6 @@ function OrderSinglePending() {
       enabled: !!orderId,
     }
   );
-  console.log(orderData?.data.data);
 
   if (isLoading)
     return (

@@ -1,6 +1,7 @@
 import { Chip } from "@/components/chip";
 import {
   _pharmacy_order_list,
+  DELIVERY_TYPE,
   GENERAL_STATUS,
   IResponsiveGatewayProps,
 } from "@/model";
@@ -18,7 +19,7 @@ function OrderDesktopTable({
       <thead className="text-gray-500 text-sm border-t border-b border-t-gray-200 border-b-gray-200 bg-gray-50">
         <tr className="border-0">
           <th align="right">#</th>
-          <th align="right">شناسه سفارش</th>
+          <th align="right">نام بیمار</th>
 
           <th align="right">قیمت کل</th>
           <th align="right">زمان ارسال</th>
@@ -30,8 +31,9 @@ function OrderDesktopTable({
               </button>
             </span>
           </th>
-
+          <th align="right">روش ارسال</th>
           <th align="right">وضعیت</th>
+
           <th align="left"></th>
         </tr>
       </thead>
@@ -45,9 +47,8 @@ function OrderDesktopTable({
                 1}
             </td>
             <td align="right">
-              <span className="plaintext">{item._id || "-"}</span>
+              <span className="plaintext">{item.fullName || "-"}</span>
             </td>
-
             <td align="right">
               <strong className="plaintext line-clamp-1">
                 {item.totalPrice.toLocaleString()}{" "}
@@ -57,7 +58,9 @@ function OrderDesktopTable({
             <td align="right">
               {item.deliveryType === "PERSON" ? (
                 <strong className="plaintext line-clamp-1">
-                  {item.deliveryTime} <span className="font-light">دقیقه</span>
+                  {new Intl.DateTimeFormat("fa-IR", {
+                    timeStyle: "short",
+                  }).format(new Date(item.deliveryTime || ""))}
                 </strong>
               ) : (
                 "-"
@@ -68,6 +71,12 @@ function OrderDesktopTable({
                 dateStyle: "short",
                 timeStyle: "short",
               }).format(new Date(item.createdAt))}
+            </td>
+
+            <td align="right">
+              <span className="plaintext">
+                {DELIVERY_TYPE[item.deliveryType] || "-"}
+              </span>
             </td>
             <td align="right">
               <Chip status={item.status}>{GENERAL_STATUS[item.status]}</Chip>

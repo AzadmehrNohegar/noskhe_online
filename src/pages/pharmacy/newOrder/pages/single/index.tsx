@@ -178,7 +178,7 @@ function NewOrderSingle() {
                   ) : null}
                   {el.image ? (
                     <Fragment>
-                      <strong>تصویر نسخه:</strong>
+                      <strong>تصویر دارو:/ تعداد: {el.count}</strong>
                       <button
                         type="button"
                         className="border border-gray-200 rounded-md p-2 text-gray-600"
@@ -190,7 +190,7 @@ function NewOrderSingle() {
                       >
                         <img
                           src={import.meta.env.VITE_BASEURL + el.image}
-                          className="w-10 h-10 min-w-10 object-contain"
+                          className="w-10 aspect-square min-w-10 lg:w-40 lg:min-w-40 object-contain"
                           alt="perc"
                         />
                       </button>
@@ -204,11 +204,9 @@ function NewOrderSingle() {
                   className="flex items-center justify-between py-2"
                 >
                   <strong>
-                    نوع بیمه: {INSURANCE_LABEL[el.typeOfInsurance]}
+                    نوع بیمه: {INSURANCE_LABEL[el.typeOfInsurance]}/ کد ملی:{" "}
+                    {el.nationalCode}/ کد رهگیری: {el.trackingCode}
                   </strong>
-                  <span className="text-gray-600">
-                    کد رهگیری: {el.trackingCode}
-                  </span>
                 </li>
               ))}
               {newOrderData?.data.data.uploadPrescription.map((el, index) => (
@@ -228,7 +226,7 @@ function NewOrderSingle() {
                   >
                     <img
                       src={import.meta.env.VITE_BASEURL + el.image}
-                      className="w-10 h-10 min-w-10 object-contain"
+                      className="w-10 aspect-square min-w-10 lg:w-40 lg:min-w-40 object-contain"
                       alt="perc"
                     />
                   </button>
@@ -237,7 +235,8 @@ function NewOrderSingle() {
             </ul>
           </div>
         </div>
-        {searchParams.get("status") === "PENDING" ? (
+        {searchParams.get("status") === "PENDING" ||
+        !searchParams.get("status") ? (
           <div className="flex items-center justify-end border-t border-t-gray-100 pt-4 gap-3 w-full">
             <button
               className="btn btn-link btn-custom text-gray-800"

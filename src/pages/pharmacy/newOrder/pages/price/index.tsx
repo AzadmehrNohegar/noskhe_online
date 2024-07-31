@@ -2,6 +2,7 @@ import {
   getPharmacyFactorNewOrderSingleById,
   patchPharmacyFactorOrderPrice,
   postPharmacyFactorOrderAccept,
+  patchPharmacyFactorOrderAcceptPrice,
 } from "@/api/pharmacy";
 import { Input } from "@/components/input";
 import {
@@ -15,7 +16,7 @@ import { useDebouncedSearchParams } from "@/utils/useDebouncedSearchParams";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import { Fragment } from "react";
+import { Fragment, useMemo } from "react";
 import { ImageDialog } from "@/shared/imageDialog";
 import { NumericFormat } from "react-number-format";
 import Skeleton from "react-loading-skeleton";
@@ -85,8 +86,12 @@ function NewOrderPrice() {
     },
   });
 
+  const invoiceItems = watch("invoiceItems");
+  const stringifiedInvoiceItems = JSON.stringify(watch("invoiceItems"));
+
   const patchPrice = useMutation(patchPharmacyFactorOrderPrice);
   const acceptOrder = useMutation(postPharmacyFactorOrderAccept);
+  const acceptPrice = useMutation(patchPharmacyFactorOrderAcceptPrice);
 
   const onSubmit = (values: INewOrderPriceForm) =>
     acceptOrder
@@ -114,14 +119,22 @@ function NewOrderPrice() {
               });
             })
           ).then(() => {
-            queryClient.invalidateQueries();
-            stackToast({
-              title: "قیمت اعمال شد.",
-              options: {
-                type: "success",
-              },
-            });
-            navigate(`/order/${factorId}`);
+            acceptPrice
+              .mutateAsync({
+                body: {
+                  invoiceId: factorId,
+                },
+              })
+              .then(() => {
+                queryClient.invalidateQueries();
+                stackToast({
+                  title: "قیمت اعمال شد.",
+                  options: {
+                    type: "success",
+                  },
+                });
+                navigate(`/order/${factorId}`);
+              });
           });
         }
       });
@@ -134,7 +147,17 @@ function NewOrderPrice() {
     },
   });
 
-  if (isLoading)
+  const orderTotal = useMemo(
+    () =>
+      invoiceItems.reduce(
+        (curr, next) => curr + (+next.price - +next.insurance),
+        0
+      ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [invoiceItems, stringifiedInvoiceItems]
+  );
+
+  if (isLoading || fields.length === 0)
     return (
       <Skeleton
         className="block h-full"
@@ -144,7 +167,10 @@ function NewOrderPrice() {
 
   return (
     <Fragment>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-3 min-h-full pb-24"
+      >
         {fields.map((item, index) => {
           if (item.itemType === "OTC") {
             const { count, type, drugName, image } = item.obj as _otc;
@@ -377,16 +403,23 @@ function NewOrderPrice() {
             )}
           />
         ) : null}
-        <div className="flex items-center justify-end border-t border-t-gray-100 pt-4 gap-3 w-full">
+        <div className="flex flex-wrap mt-auto items-center border-t border-t-gray-100 p-4 gap-3 w-full fixed bg-[#F9F9FA] bottom-0 end-0 lg:max-w-[83%]">
+          <div className="flex flex-col gap-1 me-auto basis-full lg:basis-auto items-center lg:items-start">
+            <span className="font-light text-gray-600 text-sm">قیمت کل</span>
+            <strong className="text-success">
+              {orderTotal.toLocaleString()}{" "}
+              <span className="text-xs font-light text-gray-600">تومان</span>
+            </strong>
+          </div>
           <button
             type="button"
-            className="btn btn-link btn-custom text-gray-800"
+            className="btn btn-link btn-custom text-gray-800 basis-modified2 lg:basis-auto"
             onClick={() => navigate("..")}
           >
             انصراف
           </button>
           <button
-            className="btn btn-primary btn-custom btn-wide"
+            className="btn btn-primary btn-custom btn-wide basis-modified2 lg:basis-auto"
             disabled={!isValid || !isDirty}
           >
             تایید سفارش

@@ -1,5 +1,6 @@
 import { IconWrapper } from "@/shared/iconWrapper";
 import { SelectPharmacyDialog } from "@/shared/selectPharmacy";
+import { useAddressStore } from "@/store/address";
 import { Fragment, useState } from "react";
 
 interface IDashboardDeliveryProps {
@@ -9,6 +10,8 @@ interface IDashboardDeliveryProps {
 function DashboardDelivery({ nextStep }: IDashboardDeliveryProps) {
   const [isSelectPharmacyDialogOpen, setIsSelectPharmacyDialogOpen] =
     useState(false);
+
+  const { address } = useAddressStore();
 
   return (
     <Fragment>
@@ -34,11 +37,13 @@ function DashboardDelivery({ nextStep }: IDashboardDeliveryProps) {
           <span className="text-lg lg:text-2xl">تحویل حضوری</span>
         </button>
       </div>
-      <SelectPharmacyDialog
-        isOpen={isSelectPharmacyDialogOpen}
-        closeModal={() => setIsSelectPharmacyDialogOpen(false)}
-        action={nextStep}
-      />
+      {address ? (
+        <SelectPharmacyDialog
+          isOpen={isSelectPharmacyDialogOpen}
+          closeModal={() => setIsSelectPharmacyDialogOpen(false)}
+          action={nextStep}
+        />
+      ) : null}
     </Fragment>
   );
 }

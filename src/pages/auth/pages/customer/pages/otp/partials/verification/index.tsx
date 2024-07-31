@@ -58,7 +58,9 @@ function CustomerAuthOtpVerification({
         });
         queryClient.invalidateQueries();
         loginUser(token.accessToken, token.refreshToken, "CUSTOMER");
-        navigate("/");
+        navigate("/", {
+          replace: true,
+        });
       }
     },
   });
@@ -87,11 +89,16 @@ function CustomerAuthOtpVerification({
   });
 
   const resendOtp = () =>
-    generateToken.mutate({
-      body: {
-        mobile: convertPersian2English(getValues().mobile),
-      },
-    });
+    generateToken
+      .mutateAsync({
+        body: {
+          mobile: convertPersian2English(getValues().mobile),
+        },
+      })
+      .then(() => {
+        resetCountdown();
+        startCountdown();
+      });
 
   const onSubmit = (values: authOtpForm) =>
     login.mutate({

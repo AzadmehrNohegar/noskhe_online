@@ -97,7 +97,7 @@ function SelectPharmacyDialog(props: ISelectPharmacyDialog) {
                   {({ checked }) => (
                     <div
                       className={clsx(
-                        "btn btn-block justify-start text-start flex-nowrap",
+                        "btn btn-block btn-lg justify-start text-start flex-nowrap",
                         checked && "btn-primary",
                         !checked && "bg-white btn-ghost"
                       )}
@@ -107,7 +107,10 @@ function SelectPharmacyDialog(props: ISelectPharmacyDialog) {
                           <div className="w-4 min-w-4 h-4 bg-primary rounded-full" />
                         ) : null}
                       </div>
-                      <span className="line-clamp-1">{item.address}</span>
+                      <div className="flex flex-col gap-2">
+                        <span>{item.pharmacyName}</span>
+                        <span className="line-clamp-1">{item.address}</span>
+                      </div>
                     </div>
                   )}
                 </RadioGroup.Option>

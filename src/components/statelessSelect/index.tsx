@@ -14,6 +14,7 @@ interface IListProps {
   label?: string;
   bordered?: boolean;
   searchComponent?: React.ReactNode;
+  className?: string;
   placeholder?: string;
 }
 

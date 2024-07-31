@@ -45,7 +45,9 @@ function PharmacyAuthLogin() {
         });
         queryClient.invalidateQueries();
         loginUser(token.accessToken, token.refreshToken, "PHARMACY");
-        navigate("/");
+        navigate("/", {
+          replace: true,
+        });
       }
     },
     onError: () => {

@@ -1,10 +1,11 @@
 import {
   getPharmacyFactorOrderById,
-  postPharmacyFactorOrderAcceptNotPrice,
+  postPharmacyFactorDeliveryCourier,
+  postPharmacyFactorDeliveryPerson,
 } from "@/api/pharmacy";
 import Skeleton from "react-loading-skeleton";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Fragment } from "react";
 import { IconWrapper } from "@/shared/iconWrapper";
 import { Chip } from "@/components/chip";
@@ -31,23 +32,41 @@ function OrderSingle() {
     () => getPharmacyFactorOrderById({ id: orderId })
   );
 
-  const acceptNotPrice = useMutation(postPharmacyFactorOrderAcceptNotPrice, {
+  const deliverCourier = useMutation(postPharmacyFactorDeliveryCourier, {
     onSuccess: () => {
       stackToast({
-        title: "سفارش تایید شد.",
+        title: "ارسال با موفقیت ثبت شد.",
         options: {
           type: "success",
         },
       });
       queryClient.invalidateQueries();
-      navigate("price");
     },
   });
 
-  const handleAcceptNotPrice = () =>
-    acceptNotPrice.mutate({
+  const deliverPerson = useMutation(postPharmacyFactorDeliveryPerson, {
+    onSuccess: () => {
+      stackToast({
+        title: "تحویل با موفقیت ثبت شد.",
+        options: {
+          type: "success",
+        },
+      });
+      queryClient.invalidateQueries();
+    },
+  });
+
+  const handleDeliverCourier = () =>
+    deliverCourier.mutate({
       body: {
-        orderId,
+        invoiceId: orderData?.data.data.invoiceId,
+      },
+    });
+
+  const handleDeliverPerson = () =>
+    deliverPerson.mutate({
+      body: {
+        invoiceId: orderData?.data.data.invoiceId,
       },
     });
 
@@ -61,7 +80,7 @@ function OrderSingle() {
 
   return (
     <Fragment>
-      <div className="flex flex-col gap-3 h-full">
+      <div className="flex flex-col gap-3 h-full pb-24">
         <h2 className="flex items-center font-semibold lg:text-xl">
           <button
             className="btn btn-square btn-sm btn-link text-gray-600"
@@ -69,11 +88,11 @@ function OrderSingle() {
           >
             <IconWrapper iconSize="medium" className="icon-Arrow-Right-16" />
           </button>
-          شماره سفارش: {orderData?.data.data._id}
+          شماره سفارش: {orderData?.data.data.invoiceId}
         </h2>
         <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4 bg-white">
           <h2 className="font-semibold text-lg lg:text-xl flex items-center gap-2">
-            <span className="p-2 rounded-lg bg-secondary">
+            <span className="rounded-lg bg-secondary inline-flex items-center justify-center w-9 min-w-9 aspect-square">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="#FFFFFF"
@@ -106,7 +125,40 @@ function OrderSingle() {
         </div>
         <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4 bg-white">
           <h2 className="font-semibold text-lg lg:text-xl flex items-center gap-2">
-            <span className="p-2 rounded-lg bg-secondary">
+            <span className="rounded-lg bg-secondary inline-flex items-center justify-center w-9 min-w-9 aspect-square">
+              <IconWrapper
+                className="icon-Bill-List-16 text-white"
+                iconSize="medium"
+              />
+            </span>
+            جزئیات پرداخت
+          </h2>
+          <div className="flex flex-col gap-4">
+            <ul className="flex flex-col divide-y divide-gray-200 text-sm">
+              <li className="flex items-center justify-between py-2">
+                <strong>قیمت کل: </strong>
+                <span className="text-gray-600">
+                  {orderData?.data.data.totalPrice.toLocaleString()}
+                </span>
+              </li>
+              <li className="flex items-center justify-between py-2">
+                <strong>سهم بیمه: </strong>
+                <span className="text-gray-600">
+                  {orderData?.data.data.insurancePrice.toLocaleString()}
+                </span>
+              </li>
+              <li className="flex items-center justify-between py-2">
+                <strong>قیمت نهایی: </strong>
+                <span className="text-gray-600">
+                  {orderData?.data.data.price.toLocaleString()}
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4 bg-white">
+          <h2 className="font-semibold text-lg lg:text-xl flex items-center gap-2">
+            <span className="rounded-lg bg-secondary inline-flex items-center justify-center w-9 min-w-9 aspect-square">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="#FFFFFF"
@@ -136,12 +188,20 @@ function OrderSingle() {
                   }
                 </span>
               </li>
+              <li className="flex items-center justify-between py-2">
+                <strong>زمان تحویل: </strong>
+                <span className="text-gray-600">
+                  {new Intl.DateTimeFormat("fa-IR", {
+                    timeStyle: "short",
+                  }).format(new Date(orderData?.data.data.deliveryTime || ""))}
+                </span>
+              </li>
             </ul>
           </div>
         </div>
         <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4 bg-white">
           <h2 className="font-semibold text-lg lg:text-xl flex items-center gap-2">
-            <span className="p-2 rounded-lg bg-secondary">
+            <span className="rounded-lg bg-secondary inline-flex items-center justify-center w-9 min-w-9 aspect-square">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="#FFFFFF"
@@ -166,18 +226,23 @@ function OrderSingle() {
                   key={el._id}
                   className="flex items-center justify-between py-2"
                 >
-                  {el.drugName ? (
-                    <Fragment>
+                  <div className="flex flex-col gap-1">
+                    <span>
                       <strong>
-                        نام: {el.drugName || "-"} نوع: {TYPE_LABEL[el.type]}
+                        نام: {el.drugName || "-"} نوع: {TYPE_LABEL[el.type]}/{" "}
                       </strong>
                       <span className="text-gray-600">
                         {el.count} {TYPE_STEP[el.type]}
                       </span>
-                    </Fragment>
-                  ) : null}
+                    </span>
+                    <span>
+                      <strong>
+                        قیمت کل: {el.price.toLocaleString() || "-"} تومان
+                      </strong>
+                    </span>
+                  </div>
                   {el.image ? (
-                    <Fragment>
+                    <div className="flex items-center gap-1">
                       <strong>تصویر نسخه:</strong>
                       <button
                         type="button"
@@ -190,11 +255,11 @@ function OrderSingle() {
                       >
                         <img
                           src={import.meta.env.VITE_BASEURL + el.image}
-                          className="w-10 h-10 min-w-10 object-contain"
+                          className="w-10 aspect-square min-w-10 lg:w-40 lg:min-w-40 object-contain"
                           alt="perc"
                         />
                       </button>
-                    </Fragment>
+                    </div>
                   ) : null}
                 </li>
               ))}
@@ -203,12 +268,27 @@ function OrderSingle() {
                   key={`${el.trackingCode}${index}`}
                   className="flex items-center justify-between py-2"
                 >
-                  <strong>
-                    نوع بیمه: {INSURANCE_LABEL[el.typeOfInsurance]}
-                  </strong>
-                  <span className="text-gray-600">
-                    کد رهگیری: {el.trackingCode}
-                  </span>
+                  <div className="flex flex-col gap-1">
+                    <span>
+                      <strong>
+                        نوع بیمه: {INSURANCE_LABEL[el.typeOfInsurance]}/{" "}
+                      </strong>
+                      <span className="text-gray-600">
+                        کد رهگیری: {el.trackingCode}
+                      </span>
+                    </span>
+                    <span>
+                      <strong>
+                        قیمت کل: {el.price.toLocaleString() || "-"}/{" "}
+                      </strong>
+                      <span>
+                        سهم بیمه: {el.insurance.toLocaleString()} تومان/{" "}
+                      </span>
+                      <span>
+                        قیمت تمام شده: {el.total.toLocaleString()} تومان
+                      </span>
+                    </span>
+                  </div>
                 </li>
               ))}
               {orderData?.data.data.uploadPrescription.map((el, index) => (
@@ -216,7 +296,22 @@ function OrderSingle() {
                   key={`${el.image}${index}`}
                   className="flex items-center justify-between py-2"
                 >
-                  <strong>تصویر نسخه:</strong>
+                  <div className="flex flex-col gap-1">
+                    <span>
+                      <strong>تصویر نسخه:</strong>
+                    </span>
+                    <span>
+                      <strong>
+                        قیمت کل: {el.price.toLocaleString() || "-"}/{" "}
+                      </strong>
+                      <span>
+                        سهم بیمه: {el.insurance.toLocaleString()} تومان/{" "}
+                      </span>
+                      <span>
+                        قیمت تمام شده: {el.total.toLocaleString()} تومان
+                      </span>
+                    </span>
+                  </div>
                   <button
                     type="button"
                     className="border border-gray-200 rounded-md p-2 text-gray-600"
@@ -228,7 +323,7 @@ function OrderSingle() {
                   >
                     <img
                       src={import.meta.env.VITE_BASEURL + el.image}
-                      className="w-10 h-10 min-w-10 object-contain"
+                      className="w-10 aspect-square min-w-10 lg:w-40 lg:min-w-40 object-contain"
                       alt="perc"
                     />
                   </button>
@@ -237,28 +332,24 @@ function OrderSingle() {
             </ul>
           </div>
         </div>
-        {searchParams.get("status") === "PENDING" ? (
-          <div className="flex items-center justify-end border-t border-t-gray-100 pt-4 gap-3 w-full">
-            <button
-              className="btn btn-link btn-custom text-gray-800"
-              onClick={() => navigate("..")}
-            >
-              انصراف
-            </button>
-            <button
-              className="btn btn-primary btn-custom btn-wide"
-              onClick={handleAcceptNotPrice}
-              disabled={acceptNotPrice.isLoading}
-            >
-              تایید سفارش
-            </button>
-          </div>
-        ) : null}
-        {searchParams.get("status") === "WAITING" ? (
-          <div className="flex items-center justify-end border-t border-t-gray-100 pt-4 gap-3 w-full">
-            <Link to="price" className="btn btn-primary btn-custom btn-wide">
-              ثبت قیمت
-            </Link>
+        {orderData?.data.data.status === "PAID" ? (
+          <div className="flex flex-wrap mt-auto items-center justify-end border-t border-t-gray-100 p-4 gap-3 w-full fixed bg-[#F9F9FA] bottom-0 end-0 lg:max-w-[83%]">
+            {orderData?.data.data.deliveryType === "COURIER" ? (
+              <button
+                className="btn btn-primary btn-custom btn-wide basis-full lg:basis-auto"
+                onClick={handleDeliverCourier}
+              >
+                تایید ارسال
+              </button>
+            ) : null}
+            {orderData?.data.data.deliveryType === "PERSON" ? (
+              <button
+                className="btn btn-primary btn-custom btn-wide basis-full lg:basis-auto"
+                onClick={handleDeliverPerson}
+              >
+                تایید تحویل
+              </button>
+            ) : null}
           </div>
         ) : null}
       </div>
