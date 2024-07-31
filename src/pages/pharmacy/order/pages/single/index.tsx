@@ -59,14 +59,14 @@ function OrderSingle() {
   const handleDeliverCourier = () =>
     deliverCourier.mutate({
       body: {
-        invoiceId: orderData?.data.data.invoiceId,
+        factorId: orderData?.data.data._id,
       },
     });
 
   const handleDeliverPerson = () =>
     deliverPerson.mutate({
       body: {
-        invoiceId: orderData?.data.data.invoiceId,
+        factorId: orderData?.data.data._id,
       },
     });
 
