@@ -3,26 +3,36 @@ import { useMediaQuery } from "usehooks-ts";
 import { MobileDashboardTable } from "./partials/mobileTable";
 import { DesktopDashboardTable } from "./partials/desktopTable";
 import { useQueries } from "react-query";
-import { getPharmacyDashboard } from "@/api/pharmacy";
+import {
+  getPharmacyDashboard,
+  getPharmacyFactorNewOrderList,
+} from "@/api/pharmacy";
 import Skeleton from "react-loading-skeleton";
+import { _new_order_list, IResponsiveGatewayProps } from "@/model";
 
-function DashboardTable() {
+function DashboardTable(props: IResponsiveGatewayProps<_new_order_list>) {
   const matches = useMediaQuery("(max-width: 1024px)");
 
-  if (matches) return <MobileDashboardTable />;
+  if (matches) return <MobileDashboardTable {...props} />;
 
-  return <DesktopDashboardTable />;
+  return <DesktopDashboardTable {...props} />;
 }
 
 function Dashboard() {
-  const [dashboardKpi] = useQueries([
+  const [dashboardKpi, dashboardNewOrder] = useQueries([
     {
       queryKey: ["pharmacy-dashboard"],
       queryFn: () => getPharmacyDashboard(),
     },
+    {
+      queryKey: ["new-order"],
+      queryFn: () => getPharmacyFactorNewOrderList({}),
+    },
   ]);
 
-  if (dashboardKpi.isLoading)
+  console.log(dashboardNewOrder);
+
+  if (dashboardKpi.isLoading || dashboardNewOrder.isLoading)
     return (
       <Skeleton
         className="block h-full"
@@ -155,14 +165,17 @@ function Dashboard() {
           <h2 className="p-4 bg-secondary bg-opacity-5 text-secondary-700 flex items-center gap-2 font-semibold text-sm lg:text-base">
             لیست سفارشات تایید نشده
             <Link
-              to="/"
+              to="new-order"
               className="ms-auto btn btn-link text-gray-800 h-fit min-h-fit px-0"
             >
               مشاهده همه
               <span className="icon-Arrow-Left-16 text-lg"></span>
             </Link>
           </h2>
-          <DashboardTable />
+          <DashboardTable
+            fields={dashboardNewOrder.data?.data.result.data}
+            isLoading={dashboardNewOrder.isLoading}
+          />
         </div>
         <div className="flex w-full lg:w-5/12 flex-col border border-gray-200 divide-y divide-gray-200 rounded-lg overflow-hidden">
           <h2 className="p-4 bg-gray-50 flex items-center gap-2 font-semibold text-sm lg:text-base">
