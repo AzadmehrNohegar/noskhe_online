@@ -138,7 +138,7 @@ function OrderSingle() {
               <li className="flex items-center justify-between py-2">
                 <strong>قیمت کل: </strong>
                 <span className="text-gray-600">
-                  {orderData?.data.data.totalPrice.toLocaleString()}
+                  {orderData?.data.data.price.toLocaleString()}
                 </span>
               </li>
               <li className="flex items-center justify-between py-2">
@@ -150,7 +150,7 @@ function OrderSingle() {
               <li className="flex items-center justify-between py-2">
                 <strong>قیمت نهایی: </strong>
                 <span className="text-gray-600">
-                  {orderData?.data.data.price.toLocaleString()}
+                  {orderData?.data.data.totalPrice.toLocaleString()}
                 </span>
               </li>
             </ul>
@@ -237,7 +237,7 @@ function OrderSingle() {
                     </span>
                     <span>
                       <strong>
-                        قیمت کل: {el.price.toLocaleString() || "-"} تومان
+                        قیمت کل: {el.price.toLocaleString() || "-"} ریال
                       </strong>
                     </span>
                   </div>
@@ -282,10 +282,10 @@ function OrderSingle() {
                         قیمت کل: {el.price.toLocaleString() || "-"}/{" "}
                       </strong>
                       <span>
-                        سهم بیمه: {el.insurance.toLocaleString()} تومان/{" "}
+                        سهم بیمه: {el.insurance.toLocaleString()} ریال/{" "}
                       </span>
                       <span>
-                        قیمت تمام شده: {el.total.toLocaleString()} تومان
+                        قیمت تمام شده: {el.total.toLocaleString()} ریال
                       </span>
                     </span>
                   </div>
@@ -305,10 +305,10 @@ function OrderSingle() {
                         قیمت کل: {el.price.toLocaleString() || "-"}/{" "}
                       </strong>
                       <span>
-                        سهم بیمه: {el.insurance.toLocaleString()} تومان/{" "}
+                        سهم بیمه: {el.insurance.toLocaleString()} ریال/{" "}
                       </span>
                       <span>
-                        قیمت تمام شده: {el.total.toLocaleString()} تومان
+                        قیمت تمام شده: {el.total.toLocaleString()} ریال
                       </span>
                     </span>
                   </div>

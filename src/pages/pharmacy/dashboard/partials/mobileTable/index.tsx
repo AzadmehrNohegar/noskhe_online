@@ -1,6 +1,7 @@
 import { Chip } from "@/components/chip";
 import {
   _new_order_list,
+  DELIVERY_TYPE,
   GENERAL_STATUS,
   IResponsiveGatewayProps,
 } from "@/model";
@@ -18,7 +19,7 @@ function MobileDashboardTable({
               <span className="inline-flex w-7 min-w-7 h-7 items-center justify-center bg-gray-200 text-xs text-gray-600 rounded-lg">
                 {index + 1}
               </span>{" "}
-              {item.refId || "-"}
+              {item.fullName}
             </span>
             <Link
               to="./order/1"
@@ -26,6 +27,12 @@ function MobileDashboardTable({
             >
               مشاهده جزئیات
             </Link>
+          </li>
+          <li className="flex items-center justify-between">
+            <span className="text-xs text-gray-500">نوع ارسال</span>
+            <span className="text-sm text-gray-700 plaintext">
+              {DELIVERY_TYPE[item.deliveryType]}
+            </span>
           </li>
           <li className="flex items-center justify-between">
             <span className="text-xs text-gray-500">تاریخ سفارش</span>

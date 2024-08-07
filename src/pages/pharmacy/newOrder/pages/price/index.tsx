@@ -408,7 +408,7 @@ function NewOrderPrice() {
             <span className="font-light text-gray-600 text-sm">قیمت کل</span>
             <strong className="text-success">
               {orderTotal.toLocaleString()}{" "}
-              <span className="text-xs font-light text-gray-600">تومان</span>
+              <span className="text-xs font-light text-gray-600">ریال</span>
             </strong>
           </div>
           <button

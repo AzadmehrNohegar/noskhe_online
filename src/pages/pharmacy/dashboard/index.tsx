@@ -30,8 +30,6 @@ function Dashboard() {
     },
   ]);
 
-  console.log(dashboardNewOrder);
-
   if (dashboardKpi.isLoading || dashboardNewOrder.isLoading)
     return (
       <Skeleton
@@ -55,7 +53,7 @@ function Dashboard() {
               </span>
             </strong>
             <Link
-              to="/"
+              to="new-order"
               className="btn btn-outline text-secondary hover:bg-secondary hover:border-secondary text-xs"
             >
               مشاهده سفارشات
@@ -74,7 +72,7 @@ function Dashboard() {
               </span>
             </strong>
             <Link
-              to="/"
+              to="order?list=WFP"
               className="btn btn-outline text-secondary hover:bg-secondary hover:border-secondary text-xs"
             >
               مشاهده سفارشات
@@ -93,7 +91,7 @@ function Dashboard() {
               </span>
             </strong>
             <Link
-              to="/"
+              to="order?list=COURIER"
               className="btn btn-outline text-secondary hover:bg-secondary hover:border-secondary text-xs"
             >
               مشاهده سفارشات
@@ -114,7 +112,7 @@ function Dashboard() {
               </span>
             </strong>
             <Link
-              to="/"
+              to="order?list=PERSON"
               className="btn btn-outline text-secondary hover:bg-secondary hover:border-secondary text-xs"
             >
               مشاهده سفارشات
@@ -133,7 +131,7 @@ function Dashboard() {
               </span>
             </strong>
             <Link
-              to="/"
+              to="order?list=WFC"
               className="btn btn-outline text-secondary hover:bg-secondary hover:border-secondary text-xs"
             >
               مشاهده سفارشات
@@ -152,7 +150,7 @@ function Dashboard() {
               </span>
             </strong>
             <Link
-              to="/"
+              to="order?list=ALL"
               className="btn btn-outline text-secondary hover:bg-secondary hover:border-secondary text-xs"
             >
               مشاهده سفارشات

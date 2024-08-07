@@ -396,6 +396,8 @@ export type _new_order_list = {
   orderId: string;
   status: _order_status;
   createdAt: string;
+  deliveryType: _delivery_type;
+  fullName: string;
 };
 
 export type dashboard_kpi = {
@@ -497,6 +499,19 @@ export type invoice_price = {
   obj?: invoice_price_type;
 };
 
+export type pharmacy_wallet<T> = {
+  shebaNum: string;
+  shebaName: string;
+  result: T;
+};
+
+export type iban_response = {
+  name: string;
+  IBAN: string;
+  bankName: string;
+  cardNumber: string;
+};
+
 export const ICON_SIZE: IDictionary<string> = {
   small: "text-base",
   medium: "text-xl",
@@ -579,4 +594,33 @@ export const ORDER_TYPE: ITypedDictionary<_order_type, string> = {
   WFC: "سفارشات در انتظار پیک",
   WFP: "سفارشات در انتظار پرداخت",
   CONFIRMED: "سفارشات تایید شده",
+};
+
+export const BANKS: IDictionary<string> = {
+  melli: "ملی",
+  sepah: "سسپه",
+  sanatmadan: "صنعت و معدن",
+  keshavarsi: "کشاورزی",
+  maskan: "مسکن",
+  postbank: "پست بانک",
+  tosehe: "توسعه",
+  eghtesad: "اقتصاد نوین",
+  parsian: "پارسیان",
+  pasargad: "پاسارگاد",
+  karafarin: "کارآفرین",
+  saman: "سامان",
+  sina: "سینا",
+  sarmaye: "سرمایه",
+  shahr: "شهر",
+  day: "دی",
+  saderat: "صادرات",
+  mellat: "ملت",
+  tejarat: "تجارت",
+  refah: "رفاه",
+  ansar: "انصار",
+  mehreqtesad: "مهراقتصاد",
+  ghavamin: "قوامین",
+  resalat: "رسالت",
+  ayandeh: "آینده",
+  khavarmianeh: "خاورمیانه",
 };

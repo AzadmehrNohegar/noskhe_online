@@ -1,6 +1,7 @@
 import { Chip } from "@/components/chip";
 import {
   _new_order_list,
+  DELIVERY_TYPE,
   GENERAL_STATUS,
   IResponsiveGatewayProps,
 } from "@/model";
@@ -24,7 +25,7 @@ function NewOrderMobileTable({
                   index +
                   1}
               </span>{" "}
-              {item.refId || "-"}
+              {item.fullName || "-"}
             </span>
             <Link
               to={`./${item.orderId}?status=${item.status}`}
@@ -32,6 +33,18 @@ function NewOrderMobileTable({
             >
               مشاهده جزئیات
             </Link>
+          </li>
+          <li className="flex items-center justify-between">
+            <span className="text-xs text-gray-500">شناسه سفارش</span>
+            <span className="text-sm text-gray-700 plaintext">
+              {item.refId || "-"}
+            </span>
+          </li>
+          <li className="flex items-center justify-between">
+            <span className="text-xs text-gray-500">نوع ارسال</span>
+            <span className="text-sm text-gray-700 plaintext">
+              {DELIVERY_TYPE[item.deliveryType]}
+            </span>
           </li>
           <li className="flex items-center justify-between">
             <span className="text-xs text-gray-500">تاریخ سفارش</span>

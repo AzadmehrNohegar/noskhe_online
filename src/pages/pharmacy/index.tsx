@@ -9,6 +9,7 @@ const DashboardPage = lazy(() => import("./dashboard"));
 const NewOrderPage = lazy(() => import("./newOrder"));
 const OrderPage = lazy(() => import("./order"));
 const ProfilePage = lazy(() => import("./profile"));
+const WalletPage = lazy(() => import("./wallet"));
 
 function PharmacyBasePage() {
   return (
@@ -19,6 +20,7 @@ function PharmacyBasePage() {
           <Route path="new-order/*" element={<NewOrderPage />} />
           <Route path="order/*" element={<OrderPage />} />
           <Route path="profile" element={<ProfilePage />} />
+          <Route path="wallet" element={<WalletPage />} />
         </Route>
       </Route>
       <Route path="auth/*" element={<AuthPage />} />

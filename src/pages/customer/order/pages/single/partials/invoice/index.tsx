@@ -131,7 +131,7 @@ function OrderSingleInvoice() {
                     </span>
                     <span>
                       <strong>
-                        قیمت کل: {el.price.toLocaleString() || "-"} تومان
+                        قیمت کل: {el.price.toLocaleString() || "-"} ریال
                       </strong>
                     </span>
                   </div>
@@ -176,10 +176,10 @@ function OrderSingleInvoice() {
                         قیمت کل: {el.price.toLocaleString() || "-"}/{" "}
                       </strong>
                       <span>
-                        سهم بیمه: {el.insurance.toLocaleString()} تومان/{" "}
+                        سهم بیمه: {el.insurance.toLocaleString()} ریال/{" "}
                       </span>
                       <span>
-                        قیمت تمام شده: {el.total.toLocaleString()} تومان
+                        قیمت تمام شده: {el.total.toLocaleString()} ریال
                       </span>
                     </span>
                   </div>
@@ -200,10 +200,10 @@ function OrderSingleInvoice() {
                           قیمت کل: {el.price.toLocaleString() || "-"}/{" "}
                         </strong>
                         <span>
-                          سهم بیمه: {el.insurance.toLocaleString()} تومان/{" "}
+                          سهم بیمه: {el.insurance.toLocaleString()} ریال/{" "}
                         </span>
                         <span>
-                          قیمت تمام شده: {el.total.toLocaleString()} تومان
+                          قیمت تمام شده: {el.total.toLocaleString()} ریال
                         </span>
                       </span>
                     </div>

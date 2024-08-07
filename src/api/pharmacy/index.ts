@@ -5,7 +5,9 @@ import {
   _pharmacy_order_list,
   apiCustomResponse,
   dashboard_kpi,
+  iban_response,
   login_success_response,
+  pharmacy_wallet,
   pharmacyUser,
 } from "@/model";
 import { AxiosCustomRequestConfig, http } from "@/services/axios";
@@ -44,6 +46,10 @@ export const getPharmacyFactorNewOrderSingleById = async ({
   id,
 }: AxiosCustomRequestConfig) => {
   return await http.get<_new_order>(`/pharmacy/factor/neworder/single/${id}`);
+};
+
+export const getPharmacyWallet = async () => {
+  return await http.get<pharmacy_wallet<unknown>>("/pharmacy/wallet");
 };
 
 export const postPharmacyAuthLogin = async ({
@@ -89,6 +95,21 @@ export const postPharmacyFactorDeliveryPerson = async ({
   body,
 }: AxiosCustomRequestConfig) => {
   return await http.post("/pharmacy/factor/delivery/person", body);
+};
+
+export const postPharmacyWalletCardToIban = async ({
+  body,
+}: AxiosCustomRequestConfig) => {
+  return await http.post<unknown, apiCustomResponse<iban_response>>(
+    "/pharmacy/wallet/card_to_iban",
+    body
+  );
+};
+
+export const patchPharmacyWalletEditIban = async ({
+  body,
+}: AxiosCustomRequestConfig) => {
+  return await http.patch("/pharmacy/wallet/edit_iban", body);
 };
 
 export const patchPharmacyFactorOrderAcceptPrice = async ({
