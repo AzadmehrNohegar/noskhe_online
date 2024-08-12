@@ -8,8 +8,8 @@ interface IPaginationProps {
   page: string;
   count: number;
   setPage: (val: string) => void;
-  next: string | null;
-  prev: string | null;
+  next: string | boolean | null;
+  prev: string | boolean | null;
   isFixed?: boolean;
   containerClassName?: string;
 }

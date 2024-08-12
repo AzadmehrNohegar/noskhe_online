@@ -36,7 +36,8 @@ function OrderSingleInvoice() {
   const handlePayment = () =>
     createPayment.mutate({
       body: {
-        invoiceId: orderData?.data.data.detail.invoiceId,
+        invoiceId: `${orderData?.data.data.detail.invoiceId}`,
+        callback: window.location.href,
       },
     });
 

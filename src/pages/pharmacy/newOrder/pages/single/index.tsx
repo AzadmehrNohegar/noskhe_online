@@ -1,5 +1,6 @@
 import {
   getPharmacyFactorNewOrderSingleById,
+  getPharmacyFactorOrderNotAccept,
   postPharmacyFactorOrderAcceptNotPrice,
 } from "@/api/pharmacy";
 import Skeleton from "react-loading-skeleton";
@@ -31,6 +32,19 @@ function NewOrderSingle() {
     () => getPharmacyFactorNewOrderSingleById({ id: orderId })
   );
 
+  const notAccept = useMutation(getPharmacyFactorOrderNotAccept, {
+    onSuccess: () => {
+      stackToast({
+        title: "سفارش رد شد.",
+        options: {
+          type: "info",
+        },
+      });
+      queryClient.invalidateQueries();
+      navigate("..");
+    },
+  });
+
   const acceptNotPrice = useMutation(postPharmacyFactorOrderAcceptNotPrice, {
     onSuccess: () => {
       stackToast({
@@ -49,6 +63,11 @@ function NewOrderSingle() {
       body: {
         orderId,
       },
+    });
+
+  const handleNotAccept = () =>
+    notAccept.mutate({
+      id: orderId,
     });
 
   if (isLoading)
@@ -240,9 +259,9 @@ function NewOrderSingle() {
           <div className="flex items-center justify-end border-t border-t-gray-100 pt-4 gap-3 w-full">
             <button
               className="btn btn-link btn-custom text-gray-800"
-              onClick={() => navigate("..")}
+              onClick={handleNotAccept}
             >
-              انصراف
+              رد سفارش
             </button>
             <button
               className="btn btn-primary btn-custom btn-wide"

@@ -446,7 +446,7 @@ export type _pharmacy_order = {
   price: number;
   insurancePrice: number;
   totalPrice: number;
-  deliveryTime: string;
+  deliveryDate: string;
   deliveryType: _delivery_type;
   shippingCost: number;
   paymentStatus: boolean;
@@ -500,9 +500,20 @@ export type invoice_price = {
 };
 
 export type pharmacy_wallet<T> = {
-  shebaNum: string;
-  shebaName: string;
+  IBAN: string;
+  name: string;
+  bankName: string;
+  cardNumber: string;
   result: T;
+};
+
+export type wallet_transaction = {
+  RefNo: number;
+  amount: number;
+  state: "INCREMENT" | "DECREMENT";
+  description: string;
+  status: boolean;
+  createdAt: string;
 };
 
 export type iban_response = {

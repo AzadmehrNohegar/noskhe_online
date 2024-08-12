@@ -23,6 +23,7 @@ function CustomerAuthOtpCredentials({
     register,
     setValue,
     handleSubmit,
+    getValues,
     formState: { isValid, isDirty, errors },
   } = useFormContext<authRegisterForm>();
 
@@ -53,6 +54,7 @@ function CustomerAuthOtpCredentials({
     generateToken.mutate({
       body: {
         mobile: convertPersian2English(values.mobile),
+        nationalCode: convertPersian2English(getValues("nationalCode")),
       },
     });
 

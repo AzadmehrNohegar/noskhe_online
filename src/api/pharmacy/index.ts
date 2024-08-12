@@ -9,6 +9,7 @@ import {
   login_success_response,
   pharmacy_wallet,
   pharmacyUser,
+  wallet_transaction,
 } from "@/model";
 import { AxiosCustomRequestConfig, http } from "@/services/axios";
 
@@ -49,7 +50,20 @@ export const getPharmacyFactorNewOrderSingleById = async ({
 };
 
 export const getPharmacyWallet = async () => {
-  return await http.get<pharmacy_wallet<unknown>>("/pharmacy/wallet");
+  return await http.get<
+    pharmacy_wallet<{
+      next: boolean;
+      previous: boolean;
+      count: number;
+      data: wallet_transaction[];
+    }>
+  >("/pharmacy/wallet");
+};
+
+export const getPharmacyFactorOrderNotAccept = async ({
+  id,
+}: AxiosCustomRequestConfig) => {
+  return await http.get(`/pharmacy/factor/order/notAccept/${id}`);
 };
 
 export const postPharmacyAuthLogin = async ({

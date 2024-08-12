@@ -90,7 +90,7 @@
   }
 
   .chip-danger {
-    @apply bg-error text-error-content;
+    @apply bg-error text-white;
   }
 
   .chip-accent {

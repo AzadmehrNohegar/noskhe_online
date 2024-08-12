@@ -8,6 +8,7 @@ import { useFormContext } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useOrderRequestGenerator } from "@/utils/useOrderRequestGenerator";
+import { IconWrapper } from "@/shared/iconWrapper";
 
 interface IDashboardVerifyProps {
   prevStep: () => void;
@@ -110,6 +111,44 @@ function DashboardVerify({ prevStep }: IDashboardVerifyProps) {
           </button>
         </div>
       </div>
+      {!getValues().isPerson ? (
+        <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4">
+          <h2 className="font-semibold text-lg lg:text-xl">زمان ارسال</h2>
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <h3 className="text-primary text-sm lg:text-base flex items-center gap-2">
+                <IconWrapper
+                  className="icon-clock-square16 text-gray-500"
+                  iconSize="medium"
+                />
+                سریع‌ترین زمان ممکن
+                <strong className="text-gray-700 text-xs ms-auto">
+                  200000 <span className="font-light">ریال</span>
+                </strong>
+              </h3>
+            </div>
+          </div>
+        </div>
+      ) : null}
+      {getValues().isPerson ? (
+        <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4">
+          <h2 className="font-semibold text-lg lg:text-xl">جزییات داروخانه</h2>
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <h3 className="text-primary text-sm lg:text-base flex items-center gap-2">
+                <IconWrapper
+                  className="icon-clock-square16 text-gray-500"
+                  iconSize="medium"
+                />
+                {getValues().pharmacy?.pharmacyName}
+                <strong className="text-gray-700 text-xs ms-auto">
+                  {getValues().pharmacy?.address}
+                </strong>
+              </h3>
+            </div>
+          </div>
+        </div>
+      ) : null}
       <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4">
         <h2 className="flex items-center justify-between font-semibold text-lg lg:text-xl">
           <span>لیست سفارشات</span>
