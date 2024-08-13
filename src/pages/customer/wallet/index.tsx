@@ -201,7 +201,7 @@ function Wallet() {
             {userWallet?.data.data.result.data.map((item) => (
               <ul className="flex flex-col gap-3 p-4">
                 <li className="inline-flex items-center gap-4 justify-between">
-                  <span className="text-grey-500 line-clamp-1">
+                  <span className="text-grey-500 line-clamp-1 font-bold">
                     {item.description}
                   </span>
                 </li>
@@ -237,11 +237,13 @@ function Wallet() {
                     className={clsx(
                       "font-normal line-clamp-1",
                       item.state === "INCREMENT" && "text-success",
+                      item.state === "BUY" && "text-success",
                       item.state === "DECREMENT" && "text-error"
                     )}
                   >
                     {item.state === "INCREMENT" ? "واریز" : null}
                     {item.state === "DECREMENT" ? "برداشت" : null}
+                    {item.state === "BUY" ? "خرید" : null}
                   </strong>
                 </li>
                 <li className="inline-flex items-center gap-4 justify-between">

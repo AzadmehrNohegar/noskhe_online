@@ -449,6 +449,7 @@ export type _pharmacy_order = {
   totalPrice: number;
   deliveryDate: string;
   deliveryType: _delivery_type;
+  deliveryTime: string;
   shippingCost: number;
   paymentStatus: boolean;
   sendStatus: boolean;
@@ -467,9 +468,13 @@ export type _user_invoice = {
 };
 
 export type _user_invoice_payment = {
-  trackingCode: number;
+  price: number;
+  insurancePrice: number;
+  totalPrice: number;
+  serviceFee: number;
+  finalPrice: number;
   amount: number;
-  createdAt: string;
+  shippingCost: number;
 };
 
 export type _user_invoice_detail = {
@@ -512,7 +517,7 @@ export type pharmacy_wallet<T> = {
 export type wallet_transaction = {
   RefNo: number;
   amount: number;
-  state: "INCREMENT" | "DECREMENT";
+  state: "INCREMENT" | "DECREMENT" | "BUY";
   description: string;
   status: boolean;
   createdAt: string;

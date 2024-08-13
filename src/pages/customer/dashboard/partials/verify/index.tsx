@@ -138,7 +138,7 @@ function DashboardVerify({ prevStep }: IDashboardVerifyProps) {
             <div className="flex flex-col gap-2">
               <h3 className="text-primary text-sm lg:text-base flex items-center gap-2">
                 <IconWrapper
-                  className="icon-clock-square16 text-gray-500"
+                  className="icon-Home-16 text-gray-500"
                   iconSize="medium"
                 />
                 {getValues().pharmacy?.pharmacyName}
@@ -148,7 +148,7 @@ function DashboardVerify({ prevStep }: IDashboardVerifyProps) {
               </h3>
               <h3 className="text-primary text-sm lg:text-base flex items-center gap-2">
                 <IconWrapper
-                  className="icon-clock-square16 text-gray-500"
+                  className="icon-Bill-List-16 text-gray-500"
                   iconSize="medium"
                 />
                 هزینه خدمات

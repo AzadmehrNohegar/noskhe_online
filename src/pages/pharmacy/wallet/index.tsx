@@ -29,7 +29,7 @@ function Wallet() {
             {pharmacyWallet?.data.data.result.data.map((item) => (
               <ul className="flex flex-col gap-3 p-4">
                 <li className="inline-flex items-center gap-4 justify-between">
-                  <span className="text-grey-500 line-clamp-1">
+                  <span className="text-grey-500 line-clamp-1 font-bold">
                     {item.description}
                   </span>
                 </li>

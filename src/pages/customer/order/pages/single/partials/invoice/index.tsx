@@ -274,7 +274,12 @@ function OrderSingleInvoice() {
               <li className="flex items-center justify-between py-2">
                 <strong>زمان تحویل: </strong>
                 <span className="text-gray-600 text-justify">
-                  {orderData?.data.data.delivery?.deliveryTime}
+                  {new Intl.DateTimeFormat("fa-IR", {
+                    dateStyle: "full",
+                    timeStyle: "short",
+                  }).format(
+                    new Date(orderData?.data.data.delivery?.deliveryTime || "")
+                  )}
                 </span>
               </li>
               <li className="flex items-center justify-between py-2">
@@ -330,30 +335,49 @@ function OrderSingleInvoice() {
                 <li className="flex items-center justify-between py-2">
                   <strong>قیمت: </strong>
                   <strong className="text-gray600 plaintext">
-                    {orderData?.data.data.payment?.amount?.toLocaleString()}{" "}
+                    {orderData?.data.data.payment?.price?.toLocaleString()}{" "}
                     <span className="font-light">ریال</span>
                   </strong>
                 </li>
-                {orderData?.data.data.payment?.createdAt ? (
-                  <li className="flex items-center justify-between py-2">
-                    <strong>زمان پرداخت: </strong>
-                    <span className="text-gray-600 font-normal text-sm plaintext">
-                      {new Intl.DateTimeFormat("fa-IR", {
-                        dateStyle: "long",
-                        timeStyle: "short",
-                      }).format(
-                        new Date(orderData?.data.data.payment?.createdAt || "")
-                      )}
-                    </span>
-                  </li>
-                ) : null}
-
                 <li className="flex items-center justify-between py-2">
-                  <strong>کد رهگیری: </strong>
-                  <span className="text-gray-600 text-justify">
-                    {orderData?.data.data.payment?.trackingCode}
-                  </span>
+                  <strong>هزینه خدمات: </strong>
+                  <strong className="text-gray600 plaintext">
+                    {orderData?.data.data.payment?.serviceFee?.toLocaleString()}{" "}
+                    <span className="font-light">ریال</span>
+                  </strong>
                 </li>
+                <li className="flex items-center justify-between py-2">
+                  <strong>قیمت تمام شده: </strong>
+                  <strong className="text-gray600 plaintext">
+                    {orderData?.data.data.payment?.finalPrice?.toLocaleString()}{" "}
+                    <span className="font-light">ریال</span>
+                  </strong>
+                </li>
+                {orderData?.data.data.payment.amount ? (
+                  <Fragment>
+                    <li className="flex items-center justify-between py-2">
+                      <strong>مبلغ پرداخت شده: </strong>
+                      <strong className="text-gray600 plaintext">
+                        {orderData?.data.data.payment?.amount?.toLocaleString()}{" "}
+                        <span className="font-light">ریال</span>
+                      </strong>
+                    </li>
+                    <li className="flex items-center justify-between py-2">
+                      <strong>هزینه خدمات: </strong>
+                      <strong className="text-gray600 plaintext">
+                        {orderData?.data.data.payment?.serviceFee?.toLocaleString()}{" "}
+                        <span className="font-light">ریال</span>
+                      </strong>
+                    </li>
+                    <li className="flex items-center justify-between py-2">
+                      <strong>قیمت تمام شده: </strong>
+                      <strong className="text-gray600 plaintext">
+                        {orderData?.data.data.payment?.finalPrice?.toLocaleString()}{" "}
+                        <span className="font-light">ریال</span>
+                      </strong>
+                    </li>
+                  </Fragment>
+                ) : null}
               </ul>
             </div>
           </div>

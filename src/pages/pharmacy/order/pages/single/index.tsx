@@ -190,8 +190,12 @@ function OrderSingle() {
               </li>
               <li className="flex items-center justify-between py-2">
                 <strong>زمان تحویل: </strong>
-                <span className="text-gray-600">
-                  {orderData?.data.data.deliveryDate}
+                <span className="text-gray-600 plaintext">
+                  {orderData?.data.data.deliveryDate}{" "}
+                  {new Intl.DateTimeFormat("fa-IR", {
+                    dateStyle: "full",
+                    timeStyle: "short",
+                  }).format(new Date(orderData?.data.data.deliveryTime || ""))}
                 </span>
               </li>
             </ul>

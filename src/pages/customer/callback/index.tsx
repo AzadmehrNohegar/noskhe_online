@@ -1,7 +1,5 @@
 import { getUserOrderSingleInvoiceById, postUserPayment } from "@/api/user";
 import { useDebouncedSearchParams } from "@/utils/useDebouncedSearchParams";
-import { useEffect } from "react";
-import { Timeout } from "react-number-format/types/types";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 
@@ -11,10 +9,23 @@ function Callback() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { data: invoiceData } = useQuery("order-callback", () =>
-    getUserOrderSingleInvoiceById({
-      id: searchParams.get("invoiceId") || "",
-    })
+  const { data: invoiceData } = useQuery(
+    "order-callback",
+    () =>
+      getUserOrderSingleInvoiceById({
+        id: searchParams.get("invoiceId") || "",
+      }),
+    {
+      onSuccess: (res) => {
+        setTimeout(() => {
+          if (res?.data)
+            handleRedirect(
+              res.data.data.detail.orderId,
+              res.data.data.detail.status
+            );
+        }, 5000);
+      },
+    }
   );
 
   const createPayment = useMutation(postUserPayment, {
@@ -37,24 +48,14 @@ function Callback() {
       },
     });
 
-  const handleRedirect = () => {
+  const handleRedirect = (orderId?: number, status?: string) => {
     queryClient.invalidateQueries();
     navigate(
-      `/order/${invoiceData?.data.data.detail.orderId}?status=${invoiceData?.data.data.detail.status}`
+      `/order/${orderId || invoiceData?.data.data.detail.orderId}?status=${
+        status || invoiceData?.data.data.detail.status
+      }`
     );
   };
-
-  useEffect(() => {
-    let timeout: Timeout;
-    if (searchParams.get("status") === "true")
-      timeout = setTimeout(() => {
-        if (invoiceData?.data) handleRedirect();
-      }, 5000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, []);
 
   return (
     <div className="flex items-center h-lvh relative">
@@ -77,7 +78,7 @@ function Callback() {
               <li className="flex items-center justify-between py-2">
                 <strong>شماره فاکتور</strong>
                 <span className="text-gray-600">
-                  {Number(searchParams.get("invoiceId")).toLocaleString()} ریال
+                  {Number(searchParams.get("invoiceId")).toLocaleString()}
                 </span>
               </li>
               <li className="flex items-center justify-between py-2">
@@ -121,7 +122,7 @@ function Callback() {
               <li className="flex items-center justify-between py-2">
                 <strong>شماره فاکتور</strong>
                 <span className="text-gray-600">
-                  {Number(searchParams.get("invoiceId")).toLocaleString()} ریال
+                  {Number(searchParams.get("invoiceId")).toLocaleString()}
                 </span>
               </li>
               <li className="flex items-center justify-between py-2">
