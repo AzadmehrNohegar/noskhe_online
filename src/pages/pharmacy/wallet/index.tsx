@@ -29,6 +29,11 @@ function Wallet() {
             {pharmacyWallet?.data.data.result.data.map((item) => (
               <ul className="flex flex-col gap-3 p-4">
                 <li className="inline-flex items-center gap-4 justify-between">
+                  <span className="text-grey-500 line-clamp-1">
+                    {item.description}
+                  </span>
+                </li>
+                <li className="inline-flex items-center gap-4 justify-between">
                   <span className="text-grey-500 line-clamp-1">کد پیگیری:</span>
                   <strong className="text-grey-700 font-normal line-clamp-1">
                     {item.RefNo}
@@ -47,7 +52,7 @@ function Wallet() {
                   <span className="text-grey-500 line-clamp-1">
                     تاریخ تراکنش:
                   </span>
-                  <strong className="text-grey-700 font-normal line-clamp-1">
+                  <strong className="text-grey-700 font-normal line-clamp-1 plaintext">
                     {new Intl.DateTimeFormat("fa-IR", {
                       dateStyle: "short",
                       timeStyle: "short",

@@ -123,7 +123,8 @@ function DashboardVerify({ prevStep }: IDashboardVerifyProps) {
                 />
                 سریع‌ترین زمان ممکن
                 <strong className="text-gray-700 text-xs ms-auto">
-                  200000 <span className="font-light">ریال</span>
+                  {(200000).toLocaleString()}{" "}
+                  <span className="font-light">ریال</span>
                 </strong>
               </h3>
             </div>
@@ -143,6 +144,17 @@ function DashboardVerify({ prevStep }: IDashboardVerifyProps) {
                 {getValues().pharmacy?.pharmacyName}
                 <strong className="text-gray-700 text-xs ms-auto">
                   {getValues().pharmacy?.address}
+                </strong>
+              </h3>
+              <h3 className="text-primary text-sm lg:text-base flex items-center gap-2">
+                <IconWrapper
+                  className="icon-clock-square16 text-gray-500"
+                  iconSize="medium"
+                />
+                هزینه خدمات
+                <strong className="text-gray-700 text-xs ms-auto">
+                  {(50000).toLocaleString()}{" "}
+                  <span className="font-light">ریال</span>
                 </strong>
               </h3>
             </div>
