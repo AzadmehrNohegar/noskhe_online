@@ -9,7 +9,7 @@ function Callback() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { data: invoiceData } = useQuery(
+  const { data: invoiceData, isLoading } = useQuery(
     "order-callback",
     () =>
       getUserOrderSingleInvoiceById({
@@ -48,13 +48,9 @@ function Callback() {
       },
     });
 
-  const handleRedirect = (orderId?: number, status?: string) => {
+  const handleRedirect = (orderId: number, status: string) => {
     queryClient.invalidateQueries();
-    navigate(
-      `/order/${orderId || invoiceData?.data.data.detail.orderId}?status=${
-        status || invoiceData?.data.data.detail.status
-      }`
-    );
+    navigate(`/order/${orderId}?status=${status}`);
   };
 
   return (
@@ -102,7 +98,13 @@ function Callback() {
             </span>
             <button
               className="btn btn-success btn-block text-white"
-              onClick={() => handleRedirect()}
+              onClick={() =>
+                handleRedirect(
+                  invoiceData?.data.data.detail.orderId || 0,
+                  invoiceData?.data.data.detail.status || ""
+                )
+              }
+              disabled={isLoading}
             >
               بازگشت به صفحه فاکتور
             </button>
@@ -142,7 +144,13 @@ function Callback() {
               </button>
               <button
                 className="btn btn-success basis-modified2 btn-block text-white"
-                onClick={() => handleRedirect()}
+                onClick={() =>
+                  handleRedirect(
+                    invoiceData?.data.data.detail.orderId || 0,
+                    invoiceData?.data.data.detail.status || ""
+                  )
+                }
+                disabled={isLoading}
               >
                 بازگشت به صفحه فاکتور
               </button>
