@@ -102,7 +102,7 @@ function Callback() {
             </span>
             <button
               className="btn btn-success btn-block text-white"
-              onClick={handleRedirect}
+              onClick={() => handleRedirect()}
             >
               بازگشت به صفحه فاکتور
             </button>
@@ -142,7 +142,7 @@ function Callback() {
               </button>
               <button
                 className="btn btn-success basis-modified2 btn-block text-white"
-                onClick={handleRedirect}
+                onClick={() => handleRedirect()}
               >
                 بازگشت به صفحه فاکتور
               </button>
