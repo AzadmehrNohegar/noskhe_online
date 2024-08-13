@@ -1,4 +1,4 @@
-import { patchPharmacyWalletEditIban } from "@/api/pharmacy";
+import { patchuserWalletEditIban } from "@/api/user";
 import { Dialog } from "@/components/dialog";
 import { iban_response, IExtendedDialogProps } from "@/model";
 import { IconWrapper } from "@/shared/iconWrapper";
@@ -21,7 +21,7 @@ function WalletAddShebaDialogConfirmStep({
 
   const { watch, handleSubmit } = useFormContext<iban_response>();
 
-  const editIban = useMutation(patchPharmacyWalletEditIban, {
+  const editIban = useMutation(patchuserWalletEditIban, {
     onSuccess: () => {
       stackToast({
         title: "شماره شبا با موفقیت ثبت شد.",

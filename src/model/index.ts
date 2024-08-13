@@ -428,6 +428,7 @@ export type _pharmacy_order_list = {
   insurancePrice: number;
   totalPrice: number;
   deliveryTime: number;
+  deliveryDate: string;
   deliveryType: _delivery_type;
   shippingCost: number;
   paymentStatus: boolean;
@@ -473,6 +474,7 @@ export type _user_invoice_payment = {
 
 export type _user_invoice_detail = {
   invoiceId: number;
+  orderId: number;
   fullName: string;
   price: number;
   insurancePrice: number;

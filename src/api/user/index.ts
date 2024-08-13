@@ -8,6 +8,9 @@ import {
   _order_list,
   pharmacy_list,
   _user_invoice,
+  pharmacy_wallet,
+  wallet_transaction,
+  iban_response,
 } from "@/model";
 import { AxiosCustomRequestConfig, http } from "@/services/axios";
 
@@ -43,6 +46,23 @@ export const getUserDocumentInvoice = async ({
   params,
 }: AxiosCustomRequestConfig) => {
   return await http.get<unknown>("/user/document/invoice", { params });
+};
+
+export const getUserOrderSingleInvoiceById = async ({
+  id,
+}: AxiosCustomRequestConfig) => {
+  return await http.get<_user_invoice>(`/user/order/singleInvoice/${id}`);
+};
+
+export const getUserWallet = async () => {
+  return await http.get<
+    pharmacy_wallet<{
+      next: boolean;
+      previous: boolean;
+      count: number;
+      data: wallet_transaction[];
+    }>
+  >("/user/wallet");
 };
 
 export const postUserAddressAdd = async ({
@@ -144,5 +164,23 @@ export const postUserOrderElecPrescription = async ({
 };
 
 export const postUserPayment = async ({ body }: AxiosCustomRequestConfig) => {
-  return await http.post("/user/payment", body);
+  return await http.post<unknown, apiCustomResponse<{ GateWayUrl: string }>>(
+    "/user/payment",
+    body
+  );
+};
+
+export const postUserWalletCardToIban = async ({
+  body,
+}: AxiosCustomRequestConfig) => {
+  return await http.post<unknown, apiCustomResponse<iban_response>>(
+    "/user/wallet/card_to_iban",
+    body
+  );
+};
+
+export const patchuserWalletEditIban = async ({
+  body,
+}: AxiosCustomRequestConfig) => {
+  return await http.patch("/user/wallet/edit_iban", body);
 };

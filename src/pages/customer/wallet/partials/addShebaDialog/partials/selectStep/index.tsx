@@ -1,4 +1,4 @@
-import { postPharmacyWalletCardToIban } from "@/api/pharmacy";
+import { postUserWalletCardToIban } from "@/api/user";
 import { Dialog } from "@/components/dialog";
 import { Input } from "@/components/input";
 import { BANKS, iban_response, IExtendedDialogProps } from "@/model";
@@ -35,7 +35,7 @@ function WalletAddShebaDialogSelectStep({
     },
   });
 
-  const postCard = useMutation(postPharmacyWalletCardToIban, {
+  const postCard = useMutation(postUserWalletCardToIban, {
     onSuccess: (res) => {
       const { IBAN, bankName, cardNumber, name } = res.data.data;
       setValue("IBAN", IBAN);

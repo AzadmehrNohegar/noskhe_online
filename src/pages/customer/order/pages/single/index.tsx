@@ -8,7 +8,8 @@ function OrderSingle() {
   if (
     searchParams.get("status") === "SUCCESS" ||
     searchParams.get("status") === "WFP" ||
-    searchParams.get("status") === "DELIVERED"
+    searchParams.get("status") === "DELIVERED" ||
+    searchParams.get("status") === "PAID"
   )
     return <OrderSingleInvoice />;
 

@@ -31,13 +31,23 @@ function OrderSingleInvoice() {
     }
   );
 
-  const createPayment = useMutation(postUserPayment);
+  const createPayment = useMutation(postUserPayment, {
+    onSuccess: (res) => {
+      if (res?.data) {
+        const link = document.createElement("a");
+        link.href = res.data.data.GateWayUrl;
+        document.body.append(link);
+        link.click();
+        link.parentElement?.removeChild(link);
+      }
+    },
+  });
 
   const handlePayment = () =>
     createPayment.mutate({
       body: {
         invoiceId: `${orderData?.data.data.detail.invoiceId}`,
-        callback: window.location.href,
+        callback: `${window.location.origin}/callback`,
       },
     });
 
@@ -59,7 +69,7 @@ function OrderSingleInvoice() {
           >
             <IconWrapper iconSize="medium" className="icon-Arrow-Right-16" />
           </button>
-          فاکتور سفارش: {orderId}
+          فاکتور سفارش: {orderData?.data.data.detail.invoiceId}
         </h2>
         <div className="border border-gray-200 p-4 rounded-md flex flex-col gap-4 bg-white">
           <h2 className="font-semibold text-lg lg:text-xl flex items-center gap-2">

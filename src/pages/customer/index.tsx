@@ -10,6 +10,7 @@ const OrderPage = lazy(() => import("./order"));
 const DashboardPage = lazy(() => import("./dashboard"));
 const ProfilePage = lazy(() => import("./profile"));
 const InvoicePage = lazy(() => import("./invoice"));
+const CallbackPage = lazy(() => import("./callback"));
 
 function CustomerBasePage() {
   return (
@@ -23,6 +24,7 @@ function CustomerBasePage() {
           <Route path="profile" element={<ProfilePage />} />
         </Route>
       </Route>
+      <Route path="callback" element={<CallbackPage />} />
       <Route path="auth/*" element={<AuthPage />} />
       <Route path="*" element={<>not found</>} />
     </Routes>

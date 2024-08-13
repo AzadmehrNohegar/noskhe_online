@@ -1,4 +1,3 @@
-import { getPharmacyProfile, getPharmacyWallet } from "@/api/pharmacy";
 import { Input } from "@/components/input";
 import { Controller, useForm } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
@@ -8,6 +7,10 @@ import WalletAddShebaDialog from "./partials/addShebaDialog";
 import { useState } from "react";
 import { useBankHelpers } from "@/utils/useBankHelpers";
 import { BANKS } from "@/model";
+import { getUserProfile, getUserWallet } from "@/api/user";
+import clsx from "clsx";
+import { useDebouncedSearchParams } from "@/utils/useDebouncedSearchParams";
+import { Pagination } from "@/shared/pagination";
 
 interface IWalletForm {
   total: string;
@@ -16,6 +19,8 @@ interface IWalletForm {
 function Wallet() {
   const [isWalletAddShebaDialogOpen, setIsWalletAddShebaDialogOpen] =
     useState(false);
+
+  const [searchParams, setSearchParams] = useDebouncedSearchParams(0);
 
   const { bankCardHelper } = useBankHelpers();
 
@@ -36,18 +41,61 @@ function Wallet() {
   };
 
   const { data: userData, isLoading: isUserLoading } = useQuery(
-    "pharmacy-profile",
-    () => getPharmacyProfile()
+    "user-profile",
+    () => getUserProfile()
   );
 
-  const { data: pharmacyWallet } = useQuery("pharmacy-wallet", () =>
-    getPharmacyWallet()
-  );
+  const { data: userWallet } = useQuery("user-wallet", () => getUserWallet());
 
   return (
     <Fragment>
       <div className="flex flex-col lg:flex-row items-start min-h-full gap-4">
         <div className="w-full flex flex-col gap-4 lg:w-5/12 pb-4">
+          <div className="flex flex-col h-fit border bordr-gray-200 rounded-md overflow-hidden">
+            <div className="flex bg-slate-100 items-center justify-between p-4">
+              <div className="flex flex-col gap-4 w-full">
+                <h2 className="font-semibold">شماره شبا</h2>
+                {!userWallet?.data.data.IBAN ? (
+                  <div className="flex items-center justify-between w-full">
+                    <span>شماره شبایی ثبت نشده است.</span>
+                    <button
+                      className="btn btn-link text-primary px-0"
+                      onClick={() => setIsWalletAddShebaDialogOpen(true)}
+                    >
+                      افزودن شماره شبا
+                    </button>
+                  </div>
+                ) : null}
+                {userWallet?.data.data.IBAN ? (
+                  <strong className="text-lg text-primary-500 font-bold inline-flex items-center">
+                    {userWallet?.data.data.IBAN}{" "}
+                    <span className="text-base text-gray-400 font-light ms-auto">
+                      <span
+                        tabIndex={-1}
+                        className="inline-flex items-center gap-1"
+                      >
+                        <img
+                          src={`/images/banks/${bankCardHelper(
+                            userWallet?.data.data.cardNumber.trim()
+                          )}.svg`}
+                          width={24}
+                          height={24}
+                          alt=""
+                        />
+                        {
+                          BANKS[
+                            bankCardHelper(
+                              userWallet?.data.data.cardNumber.trim()
+                            ) || ""
+                          ]
+                        }
+                      </span>
+                    </span>
+                  </strong>
+                ) : null}
+              </div>
+            </div>
+          </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col h-fit border bordr-gray-200 rounded-md overflow-hidden"
@@ -141,51 +189,73 @@ function Wallet() {
           </form>
         </div>
         <div className="flex lg:min-h-full flex-col gap-4 w-full lg:w-7/12">
-          <div className="flex flex-col h-fit border bordr-gray-200 rounded-md overflow-hidden">
-            <div className="flex bg-slate-100 items-center justify-between p-4">
-              <div className="flex flex-col gap-4 w-full">
-                <h2 className="font-semibold">شماره شبا</h2>
-                {!pharmacyWallet?.data.data.IBAN ? (
-                  <div className="flex items-center justify-between w-full">
-                    <span>شماره شبایی ثبت نشده است.</span>
-                    <button
-                      className="btn btn-link text-primary px-0"
-                      onClick={() => setIsWalletAddShebaDialogOpen(true)}
-                    >
-                      افزودن شماره شبا
-                    </button>
-                  </div>
-                ) : null}
-                {pharmacyWallet?.data.data.IBAN ? (
-                  <strong className="text-lg text-primary-500 font-bold inline-flex items-center">
-                    {pharmacyWallet?.data.data.IBAN}{" "}
-                    <span className="text-base text-gray-400 font-light ms-auto">
-                      <span
-                        tabIndex={-1}
-                        className="inline-flex items-center gap-1"
-                      >
-                        <img
-                          src={`/images/banks/${bankCardHelper(
-                            pharmacyWallet?.data.data.cardNumber.trim()
-                          )}.svg`}
-                          width={24}
-                          height={24}
-                          alt=""
-                        />
-                        {
-                          BANKS[
-                            bankCardHelper(
-                              pharmacyWallet?.data.data.cardNumber.trim()
-                            ) || ""
-                          ]
-                        }
-                      </span>
-                    </span>
+          <div className="flex flex-col gap-2 border bordr-gray-200 rounded-md divide-y divide-gray-200">
+            {userWallet?.data.data.result.data.map((item) => (
+              <ul className="flex flex-col gap-3 p-4">
+                <li className="inline-flex items-center gap-4 justify-between">
+                  <span className="text-grey-500 line-clamp-1">کد پیگیری:</span>
+                  <strong className="text-grey-700 font-normal line-clamp-1">
+                    {item.RefNo}
                   </strong>
-                ) : null}
-              </div>
-            </div>
+                </li>
+                <li className="inline-flex items-center gap-4 justify-between">
+                  <span className="text-grey-500 line-clamp-1">
+                    مقدار تراکنش:
+                  </span>
+                  <strong className="text-grey-700 font-normal line-clamp-1">
+                    {item.amount.toLocaleString()}{" "}
+                    <span className="font-light">ریال</span>
+                  </strong>
+                </li>
+                <li className="inline-flex items-center gap-4 justify-between">
+                  <span className="text-grey-500 line-clamp-1">
+                    تاریخ تراکنش:
+                  </span>
+                  <strong className="text-grey-700 font-normal line-clamp-1">
+                    {new Intl.DateTimeFormat("fa-IR", {
+                      dateStyle: "short",
+                      timeStyle: "short",
+                    }).format(new Date(item.createdAt))}
+                  </strong>
+                </li>
+                <li className="inline-flex items-center gap-4 justify-between">
+                  <span className="text-grey-500 line-clamp-1">عملیات:</span>
+                  <strong
+                    className={clsx(
+                      "font-normal line-clamp-1",
+                      item.state === "INCREMENT" && "text-success",
+                      item.state === "DECREMENT" && "text-error"
+                    )}
+                  >
+                    {item.state === "INCREMENT" ? "واریز" : null}
+                    {item.state === "DECREMENT" ? "برداشت" : null}
+                  </strong>
+                </li>
+                <li className="inline-flex items-center gap-4 justify-between">
+                  <span className="text-grey-500 line-clamp-1">وضعیت:</span>
+                  <strong
+                    className={clsx(
+                      "font-normal line-clamp-1",
+                      item.status && "text-success",
+                      !item.status && "text-error"
+                    )}
+                  >
+                    {item.status ? "موفق" : "ناموفق"}
+                  </strong>
+                </li>
+              </ul>
+            ))}
           </div>
+          <Pagination
+            count={userWallet?.data.data.result.count || 0}
+            next={userWallet?.data.data.result.next || false}
+            prev={userWallet?.data.data.result.previous || false}
+            page={searchParams.get("page") || "1"}
+            setPage={(p) => {
+              searchParams.set("page", p);
+              setSearchParams(searchParams);
+            }}
+          />
         </div>
       </div>
       <WalletAddShebaDialog
