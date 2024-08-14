@@ -138,7 +138,7 @@ function OrderSinglePending() {
               <li className="flex flex-col items-start justify-between py-2">
                 <strong>آدرس کامل: </strong>
                 <span className="text-gray-600 text-justify">
-                  {orderData?.data.data.address?.address || "-"}
+                  {orderData?.data.data.order.address?.address || "-"}
                 </span>
               </li>
             </ul>

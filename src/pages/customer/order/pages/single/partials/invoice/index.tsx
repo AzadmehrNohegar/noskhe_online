@@ -274,12 +274,13 @@ function OrderSingleInvoice() {
               <li className="flex items-center justify-between py-2">
                 <strong>زمان تحویل: </strong>
                 <span className="text-gray-600 text-justify">
-                  {new Intl.DateTimeFormat("fa-IR", {
+                  {orderData?.data.data.delivery?.deliveryTime}
+                  {/* {new Intl.DateTimeFormat("fa-IR", {
                     dateStyle: "full",
                     timeStyle: "short",
                   }).format(
                     new Date(orderData?.data.data.delivery?.deliveryTime || "")
-                  )}
+                  )} */}
                 </span>
               </li>
               <li className="flex items-center justify-between py-2">
@@ -347,6 +348,13 @@ function OrderSingleInvoice() {
                   </strong>
                 </li>
                 <li className="flex items-center justify-between py-2">
+                  <strong>سهم بیمه: </strong>
+                  <strong className="text-gray600 plaintext">
+                    {orderData?.data.data.payment?.insurancePrice?.toLocaleString()}{" "}
+                    <span className="font-light">ریال</span>
+                  </strong>
+                </li>
+                <li className="flex items-center justify-between py-2">
                   <strong>قیمت تمام شده: </strong>
                   <strong className="text-gray600 plaintext">
                     {orderData?.data.data.payment?.finalPrice?.toLocaleString()}{" "}
@@ -354,29 +362,13 @@ function OrderSingleInvoice() {
                   </strong>
                 </li>
                 {orderData?.data.data.payment.amount ? (
-                  <Fragment>
-                    <li className="flex items-center justify-between py-2">
-                      <strong>مبلغ پرداخت شده: </strong>
-                      <strong className="text-gray600 plaintext">
-                        {orderData?.data.data.payment?.amount?.toLocaleString()}{" "}
-                        <span className="font-light">ریال</span>
-                      </strong>
-                    </li>
-                    <li className="flex items-center justify-between py-2">
-                      <strong>هزینه خدمات: </strong>
-                      <strong className="text-gray600 plaintext">
-                        {orderData?.data.data.payment?.serviceFee?.toLocaleString()}{" "}
-                        <span className="font-light">ریال</span>
-                      </strong>
-                    </li>
-                    <li className="flex items-center justify-between py-2">
-                      <strong>قیمت تمام شده: </strong>
-                      <strong className="text-gray600 plaintext">
-                        {orderData?.data.data.payment?.finalPrice?.toLocaleString()}{" "}
-                        <span className="font-light">ریال</span>
-                      </strong>
-                    </li>
-                  </Fragment>
+                  <li className="flex items-center justify-between py-2">
+                    <strong>مبلغ پرداخت شده: </strong>
+                    <strong className="text-gray600 plaintext">
+                      {orderData?.data.data.payment?.amount?.toLocaleString()}{" "}
+                      <span className="font-light">ریال</span>
+                    </strong>
+                  </li>
                 ) : null}
               </ul>
             </div>

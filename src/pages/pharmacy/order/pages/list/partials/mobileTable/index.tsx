@@ -44,10 +44,11 @@ function OrderMobileTable({
             <span className="text-xs text-gray-500">زمان ارسال</span>
             {item.deliveryType === "PERSON" ? (
               <strong className="text-sm text-gray-700 plaintext">
-                {new Intl.DateTimeFormat("fa-IR", {
+                {item.deliveryTime}
+                {/* {new Intl.DateTimeFormat("fa-IR", {
                   dateStyle: "full",
                   timeStyle: "short",
-                }).format(new Date(item.deliveryTime || ""))}
+                }).format(new Date(item.deliveryTime || ""))} */}
               </strong>
             ) : (
               "-"

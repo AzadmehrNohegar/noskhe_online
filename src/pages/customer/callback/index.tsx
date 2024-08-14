@@ -23,7 +23,7 @@ function Callback() {
               res.data.data.detail.orderId,
               res.data.data.detail.status
             );
-        }, 5000);
+        }, 3000);
       },
     }
   );
@@ -50,7 +50,9 @@ function Callback() {
 
   const handleRedirect = (orderId: number, status: string) => {
     queryClient.invalidateQueries();
-    navigate(`/order/${orderId}?status=${status}`);
+    navigate(`/order/${orderId}?status=${status}`, {
+      replace: true,
+    });
   };
 
   return (

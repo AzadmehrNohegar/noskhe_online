@@ -58,12 +58,13 @@ function OrderDesktopTable({
             <td align="right">
               {item.deliveryType === "PERSON" ? (
                 <strong className="plaintext line-clamp-1">
-                  {item.deliveryTime
+                  {item.deliveryTime}
+                  {/* {item.deliveryTime
                     ? new Intl.DateTimeFormat("fa-IR", {
                         dateStyle: "full",
                         timeStyle: "short",
                       }).format(new Date(item.deliveryTime || ""))
-                    : "-"}
+                    : "-"} */}
                 </strong>
               ) : (
                 "-"

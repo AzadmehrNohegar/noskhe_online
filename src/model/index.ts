@@ -291,6 +291,7 @@ export type _order = {
     _id: string;
     userId: string;
     mobile: string;
+    address: address;
     fullName: string;
     addressId: string;
     description: string;
@@ -304,7 +305,6 @@ export type _order = {
     createdAt: string;
     updatedAt: string;
   };
-  address: address;
 };
 
 export type _new_order = {

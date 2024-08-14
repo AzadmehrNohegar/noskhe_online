@@ -192,10 +192,11 @@ function OrderSingle() {
                 <strong>زمان تحویل: </strong>
                 <span className="text-gray-600 plaintext">
                   {orderData?.data.data.deliveryDate}{" "}
-                  {new Intl.DateTimeFormat("fa-IR", {
+                  {orderData?.data.data.deliveryTime}
+                  {/* {new Intl.DateTimeFormat("fa-IR", {
                     dateStyle: "full",
                     timeStyle: "short",
-                  }).format(new Date(orderData?.data.data.deliveryTime || ""))}
+                  }).format(new Date(orderData?.data.data.deliveryTime || ""))} */}
                 </span>
               </li>
             </ul>
